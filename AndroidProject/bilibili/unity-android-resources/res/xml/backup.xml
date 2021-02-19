@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<full-backup-content xmlns:android="http://schemas.android.com/apk/res/android">
+	<include domain="file" path="data"/>
+	<exclude domain="file" path="data/bfaa"/>
+	<exclude domain="file" path="data/d713"/>
+	<exclude domain="file" path="data/a77d"/>
+	<include domain="external" path="data"/>
+	<exclude domain="external" path="data/bfaa"/>
+	<exclude domain="external" path="data/d713"/>
+	<exclude domain="external" path="data/a77d"/>
+</full-backup-content>

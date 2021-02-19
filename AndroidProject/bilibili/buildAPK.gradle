@@ -1,0 +1,131 @@
+apply plugin: 'com.android.application'
+apply plugin: 'bugly'
+apply from: file(project.getProjectDir().path + "/../../build.gradle")
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "28.0.2"
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
+    aaptOptions {
+        noCompress = ['.bin', '.unity3d', '.ress', '.resource', '.obb', 'fgo.acf', 'fgo_old.acf', 'resourcesound.acb.bytes', 'resourcesound.awb.bytes', 'fgoaudioinfo.bytes', 'footer@3x.png', 'index.html']
+    }
+
+    packagingOptions {
+        doNotStrip '*/armeabi-v7a/*.so'
+        doNotStrip '*/x86/*.so'
+
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/MANIFEST.MF'
+        exclude 'META-INF/*.SF'
+        exclude 'META-INF/*.RSA'
+    }
+
+    defaultConfig {
+        resValue "string", "build_time", this.buildTime
+        resValue "string", "commit_id", this.commitId
+        resValue "string", "app_name", this.appName
+
+        versionName this.appVersionNum
+        versionCode this.appVersionCode
+
+        minSdkVersion 21
+        targetSdkVersion 26
+        multiDexEnabled false
+
+        flavorDimensions "default"
+
+        ndk {
+            abiFilters 'armeabi-v7a', 'x86'
+        }
+    }
+
+    productFlavors {
+        bili {
+            dimension "default"
+            applicationId this.applicationId ?: (this.applicationId = "com.bilibili.fatego")
+        }
+        shareJoy {
+            dimension "default"
+            applicationId "com.bilibili.fatego.sharejoy"
+        }
+        uo {
+            dimension "default"
+            applicationId "com.bilibili.fatego"
+        }
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs += ['src/fgo-unity-plugin/java']
+        }
+        bili {
+        }
+        shareJoy {
+            jniLibs.srcDirs = ['src/bili/jniLibs']
+        }
+        uo {
+
+        }
+    }
+
+    //签名配置
+    signingConfigs {
+        debugConfig {
+            keyAlias "bibi"
+            keyPassword "JDGhjftn54yhufut"
+            storeFile file("user.keystore")
+            storePassword "JDGhjftn54yhufut"
+        }
+        releaseConfig {
+            keyAlias "bibi"
+            keyPassword "JDGhjftn54yhufut"
+            storeFile file("user.keystore")
+            storePassword "JDGhjftn54yhufut"
+        }
+    }
+
+    //打包配置
+    buildTypes {
+        debug {
+            jniDebuggable true
+            signingConfig signingConfigs.debugConfig
+        }
+        release {
+            signingConfig signingConfigs.releaseConfig
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt', 'proguard-unity.txt'
+            shrinkResources false //屏蔽不使用的资源
+        }
+    }
+
+    bundle {
+        language {
+            enableSplit = false
+        }
+        density {
+            enableSplit = false
+        }
+        abi {
+            enableSplit = true
+        }
+    }
+
+    //自定义apk安装包名
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            variant.getPackageApplication().outputDirectory = new File(project.rootDir.absolutePath + "/build/outputs/apk")
+            outputFileName = variant.baseName + ".apk".toLowerCase()
+        }
+    }
+}

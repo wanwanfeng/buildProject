@@ -1,0 +1,133 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        google()
+        //jcenter()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath 'com.tencent.bugly:symtabfileuploader:latest.release'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        //jcenter()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+apply from: file("buildAPK.gradle")
+//apply from: file("buildBundle.gradle")
+
+dependencies {
+    implementation project(':unity-android-resources')
+    implementation 'com.android.support:support-v4:25.1.0'
+    implementation(name: 'UniWebView', ext: 'aar')
+
+    implementation 'com.android.support:multidex:1.0.0'
+    implementation files('libs/Game_Analytics_SDK_Android_V3.2.15.jar')
+    implementation files('libs/WebViewPlugin.jar')
+    implementation files('libs/activeandroid-3.1.0-20141007.143731-1.jar')
+    implementation files('libs/bugly.jar')
+    implementation files('libs/buglyagent.jar')
+    implementation files('libs/jg_filter_sdk_1.1.jar')
+    implementation files('libs/square-otto-1.3.2.jar')
+
+    implementation files('libs/unity_wrapper_analytics_sdk_v1_5_1.jar')
+    implementation files('libs/wup-1.0.0.E-SNAPSHOT.jar')
+    implementation files('libs/nethtprotect.jar')
+    implementation files('libs/libcri_file_system_android.jar')
+
+    biliImplementation(name: 'bsgamesdk_android_library-3.4.2', ext: 'aar')
+
+    shareJoyImplementation(name: 'bsgamesdk_android_library-s2.9.0', ext: 'aar')
+    shareJoyImplementation files('libs/Xg_sdk_v2.47_20161026_0936.jar')
+
+    uoImplementation 'com.android.support:appcompat-v7:26.0.1'
+    uoImplementation(name: 'bsgamesdk_bilibili_release_2.4.1', ext: 'aar')
+    uoImplementation files('libs/Xg_sdk_v2.47_20161026_0936.jar')
+
+    implementation(name: 'unity-classes', ext: 'jar')
+}
+
+def getConfig(flag = "Release") {
+    def temp = System.getenv("server");
+    if (temp == "") temp = null;
+
+    def servers = (temp ?: flag).split(',')
+    println "---------select servers---------- : " + servers
+
+    def jsonFile = file(project.getProjectDir().path + "/../../../Config.json").getText()
+    def json = new groovy.json.JsonSlurper().parseText(jsonFile)
+    json = json.findAll { it.Flag in servers }
+
+    //追加信息
+    json.forEach{
+        it.RandomCode =  System.getenv("productName".toLowerCase())
+        it.BuildTime =  System.getenv("time".toLowerCase())
+        it.ProductName =  System.getenv("productName".toLowerCase())
+        it.ApplicationId =  System.getenv("applicationId".toLowerCase())
+        it.VersionCode =  System.getenv("versionCode".toLowerCase())
+        it.VersionName =  System.getenv("versionName".toLowerCase())
+        it.GrayPackage =  System.getenv("grayPackage".toLowerCase())
+    }
+
+    def res = groovy.json.JsonOutput.toJson(json)
+    res = java.util.Base64.getEncoder().encodeToString(res.getBytes())
+
+    println flag
+    println res
+
+    def content = "package com.unity3d.player;\npublic final class Config {\n\tpublic static final String  gameConfig = \"${res}\";\n}"
+    def javaFile = file("src/main/java/com/unity3d/player/Config.java")
+    if (file(javaFile.parent).exists().equals(false)) file(javaFile.parent).mkdirs()
+    javaFile.write(content)
+
+    return res
+}
+
+def getSdkConfig(res = "0") {
+    def content = "package com.unity3d.player;\npublic final class SdkConfig {\n\tpublic static final String  gameConfig = \"${res}\";\n}"
+    def javaFile = file("src/main/java/com/unity3d/player/SdkConfig.java")
+    if (file(javaFile.parent).exists().equals(false)) file(javaFile.parent).mkdirs()
+    javaFile.write(content)
+
+    println res
+
+    return res
+}
+
+def preBiliBuild() {
+    getConfig("Release")
+    getSdkConfig("1")
+    println("=================preBiliBuild doFirst=================")
+}
+
+def preShareJoyBuild() {
+    getConfig("Release")
+    getSdkConfig("2")
+    println("=================preShareJoyBuild doFirst=================")
+}
+
+def preUoBuild() {
+    getConfig("Release-UO")
+    getSdkConfig("3")
+    println("=================preUoBuild doFirst=================")
+}
+
+afterEvaluate {
+    preBiliDebugBuild.doFirst { preBiliBuild() }
+    preBiliReleaseBuild.doFirst { preBiliBuild() }
+    preShareJoyDebugBuild.doFirst { preShareJoyBuild() }
+    preShareJoyReleaseBuild.doFirst { preShareJoyBuild() }
+    preUoDebugBuild.doFirst { preUoBuild() }
+    preUoReleaseBuild.doFirst { preUoBuild() }
+}

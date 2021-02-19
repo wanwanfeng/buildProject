@@ -1,0 +1,53 @@
+apply plugin: 'com.android.library'
+apply plugin: 'bugly'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "28.0.2"
+
+    defaultConfig {
+
+        minSdkVersion 16
+        targetSdkVersion 26
+        multiDexEnabled false
+
+        flavorDimensions "default"
+
+        ndk {
+            abiFilters 'armeabi-v7a', 'x86'
+        }
+    }
+
+    productFlavors {
+        bili {
+            dimension "default"
+        }
+        shareJoy {
+            dimension "default"
+        }
+        uo {
+            dimension "default"
+        }
+    }
+
+    sourceSets {
+        main {
+            assets.srcDirs = ["ooo"]//排除assets
+            jniLibs.srcDirs = ["ooo"]//排除so
+            java {
+                srcDirs += ['src/fgo-unity-plugin/java']
+                exclude 'com/unity3d/player/Config.java'
+                exclude 'com/unity3d/player/SdkConfig.java'
+            }
+        }
+        bili {
+        }
+        shareJoy {
+            jniLibs.srcDirs = ['src/bili/jniLibs']
+        }
+        uo {
+        }
+    }
+    //不生成BuildConfig.class
+    packageBuildConfig(false)
+}
