@@ -67,7 +67,7 @@ android {
 
     sourceSets {
         main {
-            java.srcDirs += ['src/fgo-unity-plugin/java']
+//            java.srcDirs += ['src/fgo-unity-plugin/java']
         }
         bili {
         }

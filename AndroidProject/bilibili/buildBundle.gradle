@@ -35,7 +35,7 @@ android {
             assets.srcDirs = ["ooo"]//排除assets
             jniLibs.srcDirs = ["ooo"]//排除so
             java {
-                srcDirs += ['src/fgo-unity-plugin/java']
+//                srcDirs += ['src/fgo-unity-plugin/java']
                 exclude 'com/unity3d/player/Config.java'
                 exclude 'com/unity3d/player/SdkConfig.java'
             }

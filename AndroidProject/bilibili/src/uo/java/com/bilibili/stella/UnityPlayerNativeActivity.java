@@ -136,14 +136,14 @@ public class UnityPlayerNativeActivity extends com.unity3d.player.UnityPlayerNat
                             jobj.put("code", 10010);
                             jobj.put("data", dat.toString());
                             UnityPlayerNativeActivity.unity3dSendMessage(jobj.toString());
-                            Log.d("###", "UoPay success ");
+                            LogUtils.d("###", "UoPay success ");
                         } catch (Throwable e) {
                             e.printStackTrace();
                         }
                     }
 
                     public void onFailed(BSGameSdkError arg0) {
-                        Log.d("###", "UoPay fail");
+                        LogUtils.d("###", "UoPay fail");
                         try {
                             JSONObject dat = new JSONObject();
                             dat.put("out_trade_no", "");
@@ -204,7 +204,7 @@ public class UnityPlayerNativeActivity extends com.unity3d.player.UnityPlayerNat
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("###", "YYBlogin!!!!!");
+                    LogUtils.d("###", "YYBlogin!!!!!");
                     gameSdkProxy.login(UnityPlayer.currentActivity, type);
                 }
             });
@@ -217,7 +217,7 @@ public class UnityPlayerNativeActivity extends com.unity3d.player.UnityPlayerNat
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("###", "UoLogin!!!!!");
+                    LogUtils.d("###", "UoLogin!!!!!");
                     gameSdkProxy.login(UnityPlayer.currentActivity);
                 }
             });

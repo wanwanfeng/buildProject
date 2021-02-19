@@ -113,7 +113,7 @@ public class AndroidNotificator extends BroadcastReceiver {
         builder.setContentText((String)bundle.get("content"));//消息内容
         builder.setContentTitle((String)bundle.get("title"));//设置标题
 //        builder.setSmallIcon(applicationInfo.icon); //设置图标
-        builder.setSmallIcon(R.drawable.notification_icon); //设置图标
+        builder.setSmallIcon(R.mipmap.ic_launcher); //设置图标
         builder.setWhen(System.currentTimeMillis());//发送时间
         builder.setAutoCancel(true);//打开程序后图标消失
         builder.setDefaults(Notification.DEFAULT_ALL); //设置默认的提示音，振动方式，灯光
