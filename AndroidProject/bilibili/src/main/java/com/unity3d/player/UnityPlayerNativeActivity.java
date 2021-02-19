@@ -6,7 +6,7 @@ import android.util.Log;
 
 import static android.content.ContentValues.TAG;
 
-public class UnityPlayerNativeActivity extends UnityPlayerActivity
+public class UnityPlayerNativeActivity extends com.sega.sgn.sgnfw.common.unityactivity.SgnfwUnityActivity
 {
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
