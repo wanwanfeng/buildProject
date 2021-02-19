@@ -1,6 +1,6 @@
 
 ext {
-    appName = project.findProperty("APPLICATION_NAME") ?: "命运-冠位指定"
+    appName = project.findProperty("APPLICATION_NAME") ?: "RE0"
     buildTime = project.findProperty("BUILD_TIME") ?: "BUILD_TIME"
     commitId = project.findProperty("COMMIT_ID") ?: "COMMIT_ID"
     gameConfig = project.findProperty("GAME_CONFIG") ?: "GAME_CONFIG"
@@ -16,6 +16,9 @@ bugly {
 }
 
 task afterbuild {
+
+}
+task afterbuild2 {
 
     doFirst {
         println appName
