@@ -1,4 +1,4 @@
-package com.bilibili.fatego;
+package com.bilibili.stella;
 
 import org.json.JSONException;
 import org.json.JSONObject;

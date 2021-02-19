@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bilibili.fatego">
+    package="com.bilibili.stella">
 
     <application
         android:allowBackup="true"
@@ -10,7 +10,7 @@
         android:theme="@android:style/Theme.Holo.Light.DarkActionBar">
 
         <activity
-            android:name="com.bilibili.fatego.UnityPlayerNativeActivity"
+            android:name="com.bilibili.stella.UnityPlayerNativeActivity"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:launchMode="singleTask"
             android:screenOrientation="landscape">
@@ -104,7 +104,7 @@
             android:name="com.tencent.android.tpush.rpc.XGRemoteService"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.bilibili.fatego.sharejoy.PUSH_ACTION" />
+                <action android:name="com.bilibili.stella.sharejoy.PUSH_ACTION" />
             </intent-filter>
         </service>
     </application>
@@ -139,9 +139,9 @@
     <uses-feature
         android:name="android.hardware.touchscreen.multitouch"
         android:required="false" />
-    <!--<permission android:name="com.bilibili.fatego.permission.C2D_MESSAGE" android:protectionLevel="signature" />-->
-    <!--<uses-permission android:name="com.bilibili.fatego.permission.C2D_MESSAGE"/>-->
-    <!--<uses-permission android:name="com.bilibili.fatego.permission.RECEIVE"/>-->
+    <!--<permission android:name="com.bilibili.stella.permission.C2D_MESSAGE" android:protectionLevel="signature" />-->
+    <!--<uses-permission android:name="com.bilibili.stella.permission.C2D_MESSAGE"/>-->
+    <!--<uses-permission android:name="com.bilibili.stella.permission.RECEIVE"/>-->
     <uses-feature
         android:name="android.hardware.touchscreen.multitouch.distinct"
         android:required="false" />

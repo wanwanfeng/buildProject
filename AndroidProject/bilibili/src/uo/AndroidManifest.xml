@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bilibili.fatego"
+    package="com.bilibili.stella"
     android:installLocation="auto">
 
     <application
@@ -24,7 +24,7 @@
                 android:value="true" />
         </activity>
         <activity
-            android:name="com.bilibili.fatego.UnityPlayerNativeActivity"
+            android:name="com.bilibili.stella.UnityPlayerNativeActivity"
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|uiMode|touchscreen|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="landscape">
@@ -48,7 +48,7 @@
             android:label="@string/app_name"
             android:screenOrientation="landscape"></activity>
         <activity
-            android:name="com.bilibili.fatego.PermissionActivity"
+            android:name="com.bilibili.stella.PermissionActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
@@ -60,7 +60,7 @@
 
         </activity>
         <activity
-            android:name="com.bilibili.fatego.SplashActivity"
+            android:name="com.bilibili.stella.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -153,7 +153,7 @@
             android:name="com.tencent.android.tpush.rpc.XGRemoteService"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.bilibili.fatego.PUSH_ACTION" />
+                <action android:name="com.bilibili.stella.PUSH_ACTION" />
             </intent-filter>
         </service>
     </application>
@@ -197,8 +197,8 @@
         android:name="android.hardware.touchscreen.multitouch"
         android:required="false" />
     <!--         -->
-    <!--<uses-permission android:name="com.bilibili.fatego.permission.C2D_MESSAGE" />-->
-    <!--<uses-permission android:name="com.bilibili.fatego.permission.RECEIVE" />-->
+    <!--<uses-permission android:name="com.bilibili.stella.permission.C2D_MESSAGE" />-->
+    <!--<uses-permission android:name="com.bilibili.stella.permission.RECEIVE" />-->
     <uses-feature
         android:name="android.hardware.touchscreen.multitouch.distinct"
         android:required="false" />

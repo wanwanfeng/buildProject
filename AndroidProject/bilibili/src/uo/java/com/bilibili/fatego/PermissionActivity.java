@@ -1,4 +1,4 @@
-package com.bilibili.fatego;
+package com.bilibili.stella;
 
 import com.unity3d.player.*;
 
@@ -94,7 +94,7 @@ public class PermissionActivity extends Activity implements ActivityCompat.OnReq
      * 不再提示权限时的展示对话框
      */
     AlertDialog mPermissionDialog;
-    String mPackName = "com.bilibili.fatego";
+    String mPackName = "com.bilibili.stella";
 
     private void showPermissionDialog() {
         if (mPermissionDialog == null) {

@@ -1,4 +1,4 @@
-package com.bilibili.fatego.wxapi;
+package com.bilibili.stella.wxapi;
 
 import com.bsgamesdk.android.activity.BaseWXEntryActivity;
 

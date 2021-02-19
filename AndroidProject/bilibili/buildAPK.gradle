@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'bugly'
-apply from: file(project.getProjectDir().path + "/../../build.gradle")
+apply from: file(project.getProjectDir().path + "/../build.gradle")
 
 android {
     compileSdkVersion 26
@@ -53,15 +53,15 @@ android {
     productFlavors {
         bili {
             dimension "default"
-            applicationId this.applicationId ?: (this.applicationId = "com.bilibili.fatego")
+            applicationId this.applicationId ?: (this.applicationId = "com.bilibili.stella")
         }
         shareJoy {
             dimension "default"
-            applicationId "com.bilibili.fatego.sharejoy"
+            applicationId "com.bilibili.stella.sharejoy"
         }
         uo {
             dimension "default"
-            applicationId "com.bilibili.fatego"
+            applicationId "com.bilibili.stella"
         }
     }
 

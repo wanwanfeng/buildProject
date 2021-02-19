@@ -1,4 +1,4 @@
-package com.bilibili.fatego;
+package com.bilibili.stella;
 
 import android.Manifest;
 import android.app.Activity;

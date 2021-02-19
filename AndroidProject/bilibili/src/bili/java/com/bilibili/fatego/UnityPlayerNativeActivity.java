@@ -1,4 +1,4 @@
-package com.bilibili.fatego;
+package com.bilibili.stella;
 
 import com.bsgamesdk.android.BSGameSdk;
 import com.unity3d.player.*;
