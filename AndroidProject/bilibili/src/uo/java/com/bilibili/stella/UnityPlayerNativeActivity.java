@@ -3,7 +3,6 @@ package com.bilibili.stella;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.activeandroid.util.Log;
 import com.bsgamesdk.android.uo.BSGameSdkError;
 import com.bsgamesdk.android.uo.callback.CallbackListener;
 import com.bsgamesdk.android.uo.callback.ExiterListener;
@@ -22,9 +21,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
-import jp.delightworks.Fgo.player.AndroidPlugin;
-
-public class UnityPlayerNativeActivity extends AndroidPlugin implements UserListener {
+public class UnityPlayerNativeActivity extends com.unity3d.player.UnityPlayerNativeActivity implements UserListener {
     private GameSdkProxy gameSdkProxy = null;
     private OrderInfo orderInfo = null;
     private User userInfo = null;

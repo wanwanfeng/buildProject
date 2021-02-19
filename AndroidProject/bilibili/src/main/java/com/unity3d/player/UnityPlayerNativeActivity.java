@@ -2,18 +2,7 @@ package com.unity3d.player;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
-import android.os.Looper;
-import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.WindowManager;
-
-import java.io.File;
 
 import static android.content.ContentValues.TAG;
 
@@ -43,57 +32,5 @@ public class UnityPlayerNativeActivity extends UnityPlayerActivity
             Log.i("GetLocalPath ::::", " Error");
         }
         return path;
-    }
-
-
-    public static boolean checkDeviceRoot() {
-        boolean bool = false;
-        try {
-            if ((!new File("/system/bin/su").exists()) && (!new File("/system/xbin/su").exists())) {
-                //Log.d("Root", "is not root~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                bool = false;
-            } else {
-                //Log.d("Root", "is root~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                bool = true;
-            }
-            Log.d(TAG, "bool = " + bool);
-        } catch (Exception e) {
-        }
-        return bool;
-    }
-
-    public static boolean checkSimulator() {
-        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-        Intent batteryStatusIntent = UnityPlayer.currentActivity.registerReceiver(null, intentFilter);
-        int voltage = batteryStatusIntent.getIntExtra("voltage", 99999);
-        int temperature = batteryStatusIntent.getIntExtra("temperature", 99999);
-        if (((voltage == 0) && (temperature == 0)) || ((voltage == 10000) && (temperature == 0))) {
-            //这是通过电池的伏数和温度来判断是真机还是模拟器
-            //Log.d("Root", "is simulator~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            return true;
-        } else {
-            //Log.d("Root", "is not simulator~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            return false;
-        }
-    }
-
-    //unity调用手机剪切板
-    public static void copyTextToClipboard(Activity activity, String str) {
-        if (Looper.myLooper() == null) {
-            Looper.prepare();
-        }
-        try {
-            ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Activity.CLIPBOARD_SERVICE);
-            ClipData textCd = ClipData.newPlainText("data", str);
-            clipboard.setPrimaryClip(textCd);
-        } catch (Error error) {
-            com.activeandroid.util.Log.i("activity.getSystemService ::::", " Error");
-        }
-    }
-
-    public static String getIMEI() {
-        TelephonyManager tm = (TelephonyManager) UnityPlayer.currentActivity.getSystemService(Context.TELEPHONY_SERVICE);
-        String deviceId = tm.getDeviceId();
-        return deviceId;
     }
 }

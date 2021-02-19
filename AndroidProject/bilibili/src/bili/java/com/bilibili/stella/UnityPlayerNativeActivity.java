@@ -3,9 +3,7 @@ package com.bilibili.stella;
 import com.bsgamesdk.android.BSGameSdk;
 import com.unity3d.player.*;
 
-import jp.delightworks.Fgo.player.AndroidPlugin;
-
-public class UnityPlayerNativeActivity extends AndroidPlugin
+public class UnityPlayerNativeActivity extends com.unity3d.player.UnityPlayerNativeActivity
 {
     @Override
     public void onResume() {
