@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+  <string name="firebase_database_url" translatable="false">https://stella-dev-fa107.firebaseio.com</string>
+  <string name="gcm_defaultSenderId" translatable="false">569606094877</string>
+  <string name="google_storage_bucket" translatable="false">stella-dev-fa107.appspot.com</string>
+  <string name="project_id" translatable="false">stella-dev-fa107</string>
+  <string name="google_api_key" translatable="false">AIzaSyAPX1n0-sFBkE5X_HPY5rb13lCNzLjLFsk</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAPX1n0-sFBkE5X_HPY5rb13lCNzLjLFsk</string>
+  <string name="google_app_id" translatable="false">1:569606094877:android:7fbf2d5fead06aa47206f4</string>
+  <string name="default_web_client_id" translatable="false">569606094877-2c9v9qs6e2ml6l8839o4v39cbbgv7sh4.apps.googleusercontent.com</string>
+</resources>
