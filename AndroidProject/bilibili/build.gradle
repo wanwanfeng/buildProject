@@ -30,32 +30,47 @@ apply from: file("buildAPK.gradle")
 dependencies {
     implementation project(':unity-android-resources')
     implementation 'com.android.support:support-v4:25.1.0'
-    implementation(name: 'UniWebView', ext: 'aar')
-
     implementation 'com.android.support:multidex:1.0.0'
-    //implementation files('libs/Game_Analytics_SDK_Android_V3.2.15.jar')
-    implementation files('libs/WebViewPlugin.jar')
-    //implementation files('libs/activeandroid-3.1.0-20141007.143731-1.jar')
-    implementation files('libs/bugly.jar')
-    implementation files('libs/buglyagent.jar')
-    //implementation files('libs/jg_filter_sdk_1.1.jar')
-    //implementation files('libs/square-otto-1.3.2.jar')
-
-    //implementation files('libs/unity_wrapper_analytics_sdk_v1_5_1.jar')
-    //implementation files('libs/wup-1.0.0.E-SNAPSHOT.jar')
-    implementation files('libs/nethtprotect.jar')
-    implementation files('libs/libcri_file_system_android.jar')
 
     biliImplementation(name: 'bsgamesdk_android_library-3.4.2', ext: 'aar')
 
     shareJoyImplementation(name: 'bsgamesdk_android_library-s2.9.0', ext: 'aar')
-    //shareJoyImplementation files('libs/Xg_sdk_v2.47_20161026_0936.jar')
 
     uoImplementation 'com.android.support:appcompat-v7:26.0.1'
     uoImplementation(name: 'bsgamesdk_bilibili_release_2.4.1', ext: 'aar')
-    //uoImplementation files('libs/Xg_sdk_v2.47_20161026_0936.jar')
+
+
+
+    implementation(name: 'SgnfwCommonPlugins-release', ext: 'aar')
+    implementation(name: 'SgnfwInAppPurchasePlugins-release', ext: 'aar')
+    implementation(name: 'SgnfwNoSSLv3Support-release', ext: 'aar')
+    implementation(name: 'SgnfwSecurityPlugins-release', ext: 'aar')
+    implementation(name: 'SgnfwUnityActivity-release', ext: 'aar')
+    implementation(name: 'tweet-composer-3.1.1', ext: 'aar')
+
+    implementation(name: 'UniWebView', ext: 'aar')
 
     implementation(name: 'unity-classes', ext: 'jar')
+
+    implementation files('libs/bugly.jar')
+    implementation files('libs/buglyagent.jar')
+    implementation files('libs/WebViewPlugin.jar')
+    implementation files('libs/nethtprotect.jar')
+    implementation files('libs/libcri_file_system_android.jar')
+    implementation files('libs/converter-gson-2.1.0.jar')
+    implementation files('libs/gson-2.7.jar')
+    implementation files('libs/libcri_file_system_android.jar')
+//    implementation files('libs/okhttp-3.4.2.jar')
+//    implementation files('libs/okio-1.9.0.jar')
+    implementation files('libs/picasso-2.5.2.jar')
+    implementation files('libs/retrofit-2.1.0.jar')
+}
+
+configurations {
+    all*.exclude group: 'com.google.code.gson'
+    all*.exclude group: 'com.squareup.okhttp3'
+    all*.exclude group: 'com.squareup.okio'
+    all*.exclude group: 'com.android.support',module:'support-v13'
 }
 
 def getConfig(flag = "Release") {
