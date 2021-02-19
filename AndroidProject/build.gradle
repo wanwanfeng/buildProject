@@ -1,0 +1,100 @@
+
+ext {
+    appName = project.findProperty("APPLICATION_NAME") ?: "命运-冠位指定"
+    buildTime = project.findProperty("BUILD_TIME") ?: "BUILD_TIME"
+    commitId = project.findProperty("COMMIT_ID") ?: "COMMIT_ID"
+    gameConfig = project.findProperty("GAME_CONFIG") ?: "GAME_CONFIG"
+    applicationId = project.findProperty("APPLICATION_ID")
+    appVersionNum = project.findProperty("VERSION_NAME") ?: "2.6.0"
+    appVersionCode = Integer.parseInt(project.findProperty("VERSION_CODE") ?: "1")
+    debug = (System.getenv("isdebug") ?: "false").toUpperCase().equals(true)
+}
+
+bugly {
+    appId = "900019571"
+    appKey = "ydwf3M1VxORDopvf"
+}
+
+task afterbuild {
+
+    doFirst {
+        println appName
+        println buildTime
+        println commitId
+        println gameConfig
+        println applicationId
+        println appVersionNum
+        println appVersionCode
+        println debug
+
+        println "---------------------------"
+
+        println bugly.appId
+        println bugly.appKey
+        println bugly.debug
+        println bugly.appPackage
+        println bugly.appVersion
+        println bugly.appChannel
+        println bugly.outputDir
+    }
+
+    doLast {
+        
+        buglySymbolAndroid()
+
+        def isAfterBuild = (System.getenv("afterbuild") ?: "true").toLowerCase()
+        println "isAfterBuild:" + isAfterBuild
+        if (isAfterBuild.equals("false"))
+            return
+
+        NHPProtect()
+    }
+}
+
+def NHPProtect() {
+    def dir = file("/Users/NHPProtect/")
+    dir = dir.exists() ? dir : file(project.getProjectDir().path + "/../Apk-Protect-4.3/")
+    println dir
+
+    fileTree("build/outputs/apk") {
+        include("*.apk")
+        exclude("*_encrypted.apk")
+    }.each { file ->
+        //def cmdstr =  "java -jar NHPProtect.jar -yunconfig -antirepack -zipalign -input " + file
+        def cmdstr = "java -jar NHPProtect.jar -yunconfig -apksign -zipalign -input " + file
+        println cmdstr
+        def result = cmdstr.execute([], dir).text.trim()
+        println result
+        if (result.contains("Success! The new apk path is")) {
+            println("NHPProtect sucess !")
+        } else {
+            throw ("NHPProtect failed : check error in logs ! \n" + result)
+        }
+    }
+}
+
+def buglySymbolAndroid() {
+    def dir = file("/Users/buglySymbolAndroid/")
+    dir = dir.exists() ? dir : file(project.getProjectDir().path + "/../../buglySymbolAndroid/")
+    println dir
+
+    def jniLibspath = file(project.getProjectDir().path + "/src/main/jniLibs/").absolutePath
+
+    //def cmdstr = "java -jar buglySymbolAndroid.jar -i ${jniLibspath} -u -id ${bugly.appId} -key ${bugly.appKey} -package ${applicationId} -version ${appVersionNum}(${appVersionCode})"
+    def cmdstr = "java -jar buglySymbolAndroid.jar -i ${jniLibspath} -u -id ${bugly.appId} -key ${bugly.appKey} -package ${applicationId} -version ${appVersionNum}"
+    println cmdstr
+    def result = cmdstr.execute([], dir).text.trim()
+    println result
+}
+
+preBuild.doFirst {
+    def arr = ['src/main/assets/Config.json','src/main/assets/SdkConfig.json']
+    arr.each {
+        def del = file(it)
+        println del.absolutePath
+        if (del.exists()) {
+            println "del:" + del.absolutePath
+            del.delete()
+        }
+    }
+}
