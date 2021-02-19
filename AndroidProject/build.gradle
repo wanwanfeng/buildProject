@@ -75,7 +75,7 @@ def NHPProtect() {
 
 def buglySymbolAndroid() {
     def dir = file("/Users/buglySymbolAndroid/")
-    dir = dir.exists() ? dir : file(project.getProjectDir().path + "/../../buglySymbolAndroid/")
+    dir = dir.exists() ? dir : file(project.getProjectDir().path + "/../buglySymbolAndroid/")
     println dir
 
     def jniLibspath = file(project.getProjectDir().path + "/src/main/jniLibs/").absolutePath
