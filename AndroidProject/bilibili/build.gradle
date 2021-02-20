@@ -29,6 +29,7 @@ apply from: file("buildAPK.gradle")
 //apply from: file("buildBundle.gradle")
 
 dependencies {
+    implementation project(':MainLibProj')
     implementation project(':unity-android-resources')
     implementation 'com.android.support:support-v4:25.1.0'
     implementation 'com.android.support:multidex:1.0.0'

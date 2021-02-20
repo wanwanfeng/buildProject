@@ -33,3 +33,4 @@ iosProject/bilibili/Data
 
 *.backup
 
+/AndroidProject/bilibili/MainLibProj/build
