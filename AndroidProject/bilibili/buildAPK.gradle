@@ -3,7 +3,7 @@ apply plugin: 'bugly'
 apply from: file(project.getProjectDir().path + "/../build.gradle")
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
     buildToolsVersion "28.0.2"
 
     lintOptions {

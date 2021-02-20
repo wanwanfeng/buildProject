@@ -32,7 +32,7 @@ dependencies {
     implementation project(':MainLibProj')
     implementation project(':unity-android-resources')
     implementation 'com.android.support:support-v4:25.1.0'
-    implementation 'com.android.support:multidex:1.0.0'
+    implementation 'com.android.support:multidex:1.0.3'
 
     biliImplementation(name: 'bsgamesdk_android_library-3.4.2', ext: 'aar')
 
@@ -68,8 +68,13 @@ dependencies {
     implementation files('libs/retrofit-2.1.0.jar')
 
 
-    implementation 'com.google.android.gms:play-services-location:15.0.1'
-    implementation 'com.google.android.gms:play-services-places:15.0.1'
+    implementation 'com.google.android.gms:play-services-maps:12.0.1'
+    implementation 'com.google.android.gms:play-services-auth:12.0.1'
+    implementation 'com.google.android.gms:play-services-ads:12.0.1'
+    implementation 'com.google.android.gms:play-services-location:12.0.1'
+    implementation 'com.google.android.gms:play-services-places:12.0.1'
+    implementation 'com.google.android.gms:play-services-location:12.0.1'
+//    implementation 'com.google.android.gms:play-services:12.0.1'
 
     implementation(name: 'com.google.firebase.firebase-common-12.0.1', ext:'aar')
     implementation(name: 'com.google.firebase.firebase-common-license-12.0.1', ext:'aar')
@@ -79,12 +84,12 @@ dependencies {
     implementation(name: 'com.google.firebase.firebase-messaging-license-12.0.1', ext:'aar')
 }
 
-configurations {
-    all*.exclude group: 'com.google.code.gson'
-    all*.exclude group: 'com.squareup.okhttp3'
-    all*.exclude group: 'com.squareup.okio'
-    all*.exclude group: 'com.android.support',module:'support-v13'
-}
+//configurations {
+//    all*.exclude group: 'com.google.code.gson'
+//    all*.exclude group: 'com.squareup.okhttp3'
+//    all*.exclude group: 'com.squareup.okio'
+//    all*.exclude group: 'com.android.support',module:'support-v13'
+//}
 
 def getConfig(flag = "Release") {
     def temp = System.getenv("server");
