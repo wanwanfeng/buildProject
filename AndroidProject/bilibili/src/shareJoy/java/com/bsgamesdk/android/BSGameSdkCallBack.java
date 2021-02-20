@@ -15,10 +15,10 @@ public class BSGameSdkCallBack implements CallbackListener {
     private static final String TAG = "Unity3DCallback";
 
     // Target GameObject来接收消息
-    public static final String Target_Camera = "Management";
+    public static final String Target_Camera = "SdkManager";
 
     // Target GameObject的监听方法
-    public static final String OnBSGameSdkCallback = "OnBSGameSdkCallback";
+    public static final String OnReviceCallback = "OnReviceCallback";
 
     public static final String CALLBACKTYPE_IsLogin = "IsLogin";
     public static final String CALLBACKTYPE_Login = "Login";
@@ -36,7 +36,7 @@ public class BSGameSdkCallBack implements CallbackListener {
 
     public static void unity3dSendMessage(String json) {
         Log.d(TAG, "send message to Unity3D, message data =" + json.toString());
-        UnityPlayer.UnitySendMessage(Target_Camera, OnBSGameSdkCallback, json);
+        UnityPlayer.UnitySendMessage(Target_Camera, OnReviceCallback, json);
     }
 
     public static void callback(String callbackType, int code, Object data) {

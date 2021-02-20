@@ -37,7 +37,7 @@ public class UnityPlayerNativeActivity extends com.unity3d.player.UnityPlayerNat
     }
 
     public static void unity3dSendMessage(String json) {
-        UnityPlayer.UnitySendMessage("Management", "OnBSGameSdkCallback", json);
+        UnityPlayer.UnitySendMessage("SdkManager", "OnReviceCallback", json);
     }
 
     public void UoInit() {
