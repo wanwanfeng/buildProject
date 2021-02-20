@@ -1,4 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.bilibili.stella"
-    android:installLocation="auto"></manifest>
+    android:installLocation="auto"
+    tools:ignore="MissingLeanbackSupport">
+
+    <!-- パーミッション定義 -->
+    <application>
+
+<!--    </application>-->
+<!--    <application-->
+<!--        android:allowBackup="false"-->
+<!--        android:icon="@mipmap/app_icon"-->
+<!--        android:isGame="true"-->
+<!--        android:label="@string/app_name"-->
+<!--        android:resizeableActivity="false"-->
+<!--        android:roundIcon="@mipmap/app_icon_round"-->
+<!--        android:theme="@style/UnityThemeSelector"-->
+<!--        tools:replace="android:allowBackup,android:icon"-->
+<!--        tools:ignore="MissingTvBanner">-->
+        <!-- フレームワーク使用定義 -->
+        <!-- #if SGNFW_DEBUG_LOG -->
+        <activity
+            android:name="com.sega.sgn.sgnfw.common.unityactivity.SgnfwUnityActivity"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="fullSensor">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />-->
+<!--            </intent-filter>-->
+            <!-- #if APPMODULEKIT_ATOM -->
+            <!-- Atom custom scheme 起動設定 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="stella.atom" />
+            </intent-filter>
+            <!-- #endif APPMODULEKIT_ATOM -->
+            <meta-data
+                android:name="unityplayer.ForwardNativeEventsToDalvik"
+                android:value="true" />
+        </activity>
+        <!-- #endif SGNFW_DEBUG_LOG -->
+        <!-- #if APPMODULEKIT_IAP -->
+<!--        <activity-->
+<!--            android:name="com.appsflyer.GetDeepLinkingActivity"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+
+<!--                <data android:scheme="stella.af" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+        <!-- #if APPMODULEKIT_PNOTE -->
+<!--        <activity-->
+<!--            android:name="com.facebook.unity.FBUnityLoginActivity"-->
+<!--            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"-->
+<!--            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />-->
+<!--        <activity-->
+<!--            android:name="com.facebook.unity.FBUnityDialogsActivity"-->
+<!--            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"-->
+<!--            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />-->
+<!--        <activity-->
+<!--            android:name="com.facebook.unity.FBUnityAppLinkActivity"-->
+<!--            android:exported="true" />-->
+<!--        &lt;!&ndash; #endif APPMODULEKIT_PNOTE &ndash;&gt;-->
+<!--        <activity-->
+<!--            android:name="com.facebook.unity.FBUnityDeepLinkingActivity"-->
+<!--            android:exported="true" />-->
+<!--        <activity android:name="com.facebook.unity.FBUnityGameRequestActivity" />-->
+<!--        <activity android:name="com.facebook.unity.FBUnityCreateGameGroupActivity" />-->
+<!--        <activity android:name="com.facebook.unity.FBUnityJoinGameGroupActivity" />-->
+<!--        &lt;!&ndash; Activity設定 ここから &ndash;&gt;-->
+<!--        <activity android:name="com.facebook.unity.AppInviteDialogActivity" />-->
+        <!-- Activity設定 ここまで -->
+        <meta-data
+            android:name="jp.co.sega.sgn.common.enable_debug_log"
+            android:value="true" />
+        <!-- #if APPMODULEKIT_NOAH -->
+        <!-- Noah SDK -->
+        <!-- #endif APPMODULEKIT_NOAH -->
+        <!-- #if APPMODULEKIT_PNOTE -->
+        <!-- Pnote関連 -->
+        <meta-data
+            android:name="jp.co.sega.sgn.common.actplugin.iap"
+            android:value="com.sega.sgn.appmodulekit.iap.IAPHandler" />
+        <!-- #endif APPMODULEKIT_PNOTE -->
+        <!-- AppsFlyer関連 -->
+        <meta-data
+            android:name="jp.co.sega.sgn.common.actplugin.pnote"
+            android:value="com.sega.sgn.appmodulekit.pnote.PnoteHandler" />
+        <!-- APPS FLYER ACTIVITY-->
+        <meta-data
+            android:name="com.sega.pnote.launch_activity"
+            android:value="com.sega.sgn.sgnfw.common.unityactivity.SgnfwUnityActivity" />
+<!--        <meta-data-->
+<!--            android:name="com.sega.pnote.small_icon"-->
+<!--            android:resource="@drawable/push_icon" />-->
+        <meta-data
+            android:name="jp.co.sega.sgn.common.actplugin.customscheme"
+            android:value="com.sega.sgn.sgnfw.common.CustomSchemeHandler" />
+        <meta-data
+            android:name="jp.co.sega.sgn.common.actplugin.screen_metrics"
+            android:value="com.sega.sgn.sgnfw.common.ScreenMetrics" />
+        <meta-data
+            android:name="jp.co.sega.sgn.common.local_push.launch_activity"
+            android:value="com.sega.sgn.sgnfw.common.unityactivity.SgnfwUnityActivity" />
+<!--        <meta-data-->
+<!--            android:name="jp.co.sega.sgn.common.local_push.small_icon"-->
+<!--            android:resource="@drawable/push_icon" />-->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="fb924708487696583" />
+        <meta-data
+            android:name="unity.build-id"
+            android:value="b185a95d-5f34-481c-b1f6-f0be4da851a4" />
+        <meta-data
+            android:name="unity.splash-mode"
+            android:value="2" />
+
+        <meta-data
+            android:name="unity.splash-enable"
+            android:value="True" />
+        <meta-data
+            android:name="unity.builder"
+            android:value="\anonymous" />
+
+<!--        <provider-->
+<!--            android:name="com.facebook.FacebookContentProvider"-->
+<!--            android:authorities="com.facebook.app.FacebookContentProvider924708487696583"-->
+<!--            android:exported="true" />-->
+<!--        <receiver-->
+<!--            android:name="com.sega.sgn.sgnfw.common.LocalPushReceiver"-->
+<!--            android:process=":remote" />-->
+<!--        <receiver-->
+<!--            android:name="com.appsflyer.MultipleInstallBroadcastReceiver"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.android.vending.INSTALL_REFERRER" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
+<!--        <service-->
+<!--            android:name="com.google.firebase.messaging.MessageForwardingService"-->
+<!--            android:exported="false" />-->
+    </application>
+    <uses-feature android:glEsVersion="0x00020000" />
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.touchscreen.multitouch"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.touchscreen.multitouch.distinct"
+        android:required="false" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- #if APPMODULEKIT_IAP -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- #endif APPMODULEKIT_IAP -->
+    <!-- #if APPMODULEKIT_NOAH -->
+    <!-- #endif APPMODULEKIT_NOAH -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission
+        android:name="android.permission.READ_PHONE_STATE"
+        tools:node="remove" />
+</manifest>

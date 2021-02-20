@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bilibili.stella">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.bilibili.stella"
+    tools:ignore="MissingLeanbackSupport">
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:isGame="true"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo.Light.DarkActionBar">
+        android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
+        tools:ignore="MissingTvBanner">
         <!--         游戏是否为付费游戏,true/false -->
         <!--<meta-data android:name="unityplayer.SkipPermissionsDialog" android:value="true" />-->
         <activity
@@ -44,9 +47,6 @@
         <meta-data
             android:name="sdk_log_type"
             android:value="1" />
-        <meta-data
-            android:name="unityplayer.ForwardNativeEventsToDalvik"
-            android:value="true" />
         <meta-data
             android:name="unityplayer.ForwardNativeEventsToDalvik"
             android:value="true" />
@@ -95,7 +95,11 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission
+        android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 </manifest>
