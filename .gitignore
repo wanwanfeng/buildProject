@@ -34,3 +34,4 @@ iosProject/bilibili/Data
 *.backup
 
 /AndroidProject/bilibili/MainLibProj/build
+/AndroidProject/bilibili/bugly

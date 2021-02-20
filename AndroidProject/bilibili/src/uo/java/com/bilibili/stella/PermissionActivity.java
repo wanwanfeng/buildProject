@@ -11,7 +11,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.LinearLayout;
@@ -63,8 +62,8 @@ public class PermissionActivity extends Activity implements ActivityCompat.OnReq
     };
 
     @Override
-    public void onRequestPermissionsResult(final int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(final int requestCode, String[] permissions,
+                                           int[] grantResults) {
         Log.d("Permissions", "Permissions result");
 
         //PermissionUtils.requestPermissionsResult(this, requestCode, permissions, grantResults, mPermissionGrant);

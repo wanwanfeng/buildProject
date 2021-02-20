@@ -31,14 +31,14 @@ apply from: file("buildAPK.gradle")
 dependencies {
     implementation project(':MainLibProj')
     implementation project(':unity-android-resources')
-    implementation 'com.android.support:support-v4:25.1.0'
+//    implementation 'com.android.support:support-v4:25.1.0'
     implementation 'com.android.support:multidex:1.0.3'
 
     biliImplementation(name: 'bsgamesdk_android_library-3.4.2', ext: 'aar')
 
     shareJoyImplementation(name: 'bsgamesdk_android_library-s2.9.0', ext: 'aar')
 
-    uoImplementation 'com.android.support:appcompat-v7:26.0.1'
+//    uoImplementation 'com.android.support:appcompat-v7:26.0.1'
     uoImplementation(name: 'bsgamesdk_bilibili_release_2.4.1', ext: 'aar')
 
 

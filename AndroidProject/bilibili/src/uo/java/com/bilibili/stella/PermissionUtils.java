@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -245,8 +244,8 @@ public class PermissionUtils {
      * @param permissions
      * @param grantResults
      */
-    public static void requestPermissionsResult(final Activity activity, final int requestCode, @NonNull String[] permissions,
-                                                @NonNull int[] grantResults, PermissionGrant permissionGrant) {
+    public static void requestPermissionsResult(final Activity activity, final int requestCode, String[] permissions,
+                                                int[] grantResults, PermissionGrant permissionGrant) {
 
         if (activity == null) {
             return;
