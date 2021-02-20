@@ -138,6 +138,12 @@ def getSdkConfig(res = "0") {
     return res
 }
 
+def preNoBuild() {
+    getConfig("Release")
+    getSdkConfig("0")
+    println("=================preNoBuild doFirst=================")
+}
+
 def preBiliBuild() {
     getConfig("Release")
     getSdkConfig("1")
@@ -157,6 +163,8 @@ def preUoBuild() {
 }
 
 afterEvaluate {
+    preNoDebugBuild.doFirst { preNoBuild() }
+    preNoReleaseBuild.doFirst { preNoBuild() }
     preBiliDebugBuild.doFirst { preBiliBuild() }
     preBiliReleaseBuild.doFirst { preBiliBuild() }
     preShareJoyDebugBuild.doFirst { preShareJoyBuild() }
