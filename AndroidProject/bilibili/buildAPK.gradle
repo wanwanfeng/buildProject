@@ -71,15 +71,18 @@ android {
 
     sourceSets {
         main {
-//            java.srcDirs += ['src/fgo-unity-plugin/java']
+//            java.srcDirs += ['src/common/java']
+        }
+        no {
         }
         bili {
+            jniLibs.srcDirs = ['src/no/jniLibs']
         }
         shareJoy {
-            jniLibs.srcDirs = ['src/bili/jniLibs']
+            jniLibs.srcDirs = ['src/no/jniLibs']
         }
         uo {
-
+            jniLibs.srcDirs = ['src/no/jniLibs']
         }
     }
 

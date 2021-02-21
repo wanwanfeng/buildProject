@@ -44,12 +44,17 @@ android {
                 exclude 'com/unity3d/player/SdkConfig.java'
             }
         }
+        no {
+
+        }
         bili {
+            jniLibs.srcDirs = ['src/no/jniLibs']
         }
         shareJoy {
-            jniLibs.srcDirs = ['src/bili/jniLibs']
+            jniLibs.srcDirs = ['src/no/jniLibs']
         }
         uo {
+            jniLibs.srcDirs = ['src/no/jniLibs']
         }
     }
     //不生成BuildConfig.class
