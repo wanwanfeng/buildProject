@@ -20,7 +20,7 @@ allprojects {
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
         flatDir {
-            dirs 'libs'
+            dirs 'libs', 'libs/common', 'libs/bili', 'libs/shareJoy', 'libs/uo'
         }
     }
 }
@@ -31,91 +31,25 @@ apply from: file("buildAPK.gradle")
 dependencies {
     implementation project(':MainLibProj')
     implementation project(':unity-android-resources')
-//    implementation 'com.android.support:support-v4:25.1.0'
-    implementation 'com.android.support:multidex:1.0.3'
 
-    biliImplementation(name: 'bsgamesdk_android_library-3.4.2', ext: 'aar')
-
-    shareJoyImplementation(name: 'bsgamesdk_android_library-s2.9.0', ext: 'aar')
-
-//    uoImplementation 'com.android.support:appcompat-v7:26.0.1'
-    uoImplementation(name: 'bsgamesdk_bilibili_release_2.4.1', ext: 'aar')
-
-
-
-    implementation(name: 'SgnfwCommonPlugins-release', ext: 'aar')
-    implementation(name: 'SgnfwInAppPurchasePlugins-release', ext: 'aar')
-    implementation(name: 'SgnfwNoSSLv3Support-release', ext: 'aar')
-    implementation(name: 'SgnfwSecurityPlugins-release', ext: 'aar')
-    implementation(name: 'SgnfwUnityActivity-release', ext: 'aar')
-
-    implementation(name: 'UniWebView', ext: 'aar')
+    implementation fileTree(include: ['*.jar'], dir: 'libs', excludes: ['okhttp-3.4.2.jar', 'okio-1.9.0.jar', 'unity-classes.jar'])
+    implementation fileTree(include: ['*.aar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs/common')
+    implementation fileTree(include: ['*.aar'], dir: 'libs/common')
 
     implementation(name: 'unity-classes', ext: 'jar')
-
-    implementation files('libs/bugly.jar')
-    implementation files('libs/buglyagent.jar')
-    implementation files('libs/WebViewPlugin.jar')
-    implementation files('libs/nethtprotect.jar')
-    implementation files('libs/libcri_file_system_android.jar')
-    implementation files('libs/converter-gson-2.1.0.jar')
-    implementation files('libs/gson-2.7.jar')
-    implementation files('libs/libcri_file_system_android.jar')
-//    implementation files('libs/okhttp-3.4.2.jar')
-//    implementation files('libs/okio-1.9.0.jar')
-    implementation files('libs/picasso-2.5.2.jar')
-    implementation files('libs/retrofit-2.1.0.jar')
+    implementation 'com.android.support:multidex:1.0.3'
 
 
-//    implementation 'com.google.android.gms:play-services-maps:12.0.1'
-//    implementation 'com.google.android.gms:play-services-auth:12.0.1'
-//    implementation 'com.google.android.gms:play-services-ads:12.0.1'
-//    implementation 'com.google.android.gms:play-services-location:12.0.1'
-//    implementation 'com.google.android.gms:play-services-places:12.0.1'
-//    implementation 'com.google.android.gms:play-services-location:12.0.1'
-//    implementation 'com.google.android.gms:play-services:12.0.1'
+    biliImplementation fileTree(include: ['*.jar'], dir: 'libs/bili')
+    biliImplementation fileTree(include: ['*.aar'], dir: 'libs/bili')
 
-    implementation(name: 'com.google.firebase.firebase-common-12.0.1', ext:'aar')
-    implementation(name: 'com.google.firebase.firebase-common-license-12.0.1', ext:'aar')
-    implementation(name: 'com.google.firebase.firebase-iid-12.0.1', ext:'aar')
-    implementation(name: 'com.google.firebase.firebase-iid-license-12.0.1', ext:'aar')
-    implementation(name: 'com.google.firebase.firebase-messaging-12.0.1', ext:'aar')
-    implementation(name: 'com.google.firebase.firebase-messaging-license-12.0.1', ext:'aar')
+    shareJoyImplementation fileTree(include: ['*.jar'], dir: 'libs/shareJoy')
+    shareJoyImplementation fileTree(include: ['*.aar'], dir: 'libs/shareJoy')
 
-
-    implementation(name: 'com.google.android.gms.play-services-base-12.0.1', ext:'aar')
-    implementation(name: 'com.google.android.gms.play-services-base-license-12.0.1', ext:'aar')
-    implementation(name: 'com.google.android.gms.play-services-basement-12.0.1', ext:'aar')
-    implementation(name: 'com.google.android.gms.play-services-basement-license-12.0.1', ext:'aar')
-    implementation(name: 'com.google.android.gms.play-services-safetynet-12.0.1', ext:'aar')
-    implementation(name: 'com.google.android.gms.play-services-safetynet-license-12.0.1', ext:'aar')
-    implementation(name: 'com.google.android.gms.play-services-tasks-12.0.1', ext:'aar')
-    implementation(name: 'com.google.android.gms.play-services-tasks-license-12.0.1', ext:'aar')
-
-    implementation(name: 'com.android.support.animated-vector-drawable-26.1.0', ext:'aar')
-    implementation(name: 'com.android.support.appcompat-v7-26.1.0', ext:'aar')
-    implementation(name: 'com.android.support.cardview-v7-26.1.0', ext:'aar')
-    implementation(name: 'com.android.support.customtabs-26.1.0', ext:'aar')
-    implementation(name: 'com.android.support.support-compat-26.1.0', ext:'aar')
-    implementation(name: 'com.android.support.support-core-ui-26.1.0', ext:'aar')
-    implementation(name: 'com.android.support.support-core-utils-26.1.0', ext:'aar')
-    implementation(name: 'com.android.support.support-fragment-26.1.0', ext:'aar')
-    implementation(name: 'com.android.support.support-media-compat-26.1.0', ext:'aar')
-    implementation(name: 'com.android.support.support-v4-26.1.0', ext:'aar')
-    implementation(name: 'com.android.support.support-vector-drawable-26.1.0', ext:'aar')
-
-    implementation(name: 'GooglePlayBilling', ext:'aar')
-    implementation(name: 'android.arch.lifecycle.runtime-1.0.0', ext:'aar')
-    implementation(name: 'playcore', ext:'aar')
-    implementation(name: 'tweet-composer-3.1.1', ext:'aar')
+    uoImplementation fileTree(include: ['*.jar'], dir: 'libs/uo')
+    uoImplementation fileTree(include: ['*.aar'], dir: 'libs/uo')
 }
-
-//configurations {
-//    all*.exclude group: 'com.google.code.gson'
-//    all*.exclude group: 'com.squareup.okhttp3'
-//    all*.exclude group: 'com.squareup.okio'
-//    all*.exclude group: 'com.android.support',module:'support-v13'
-//}
 
 def getConfig(flag = "Release") {
     def temp = System.getenv("server");
@@ -129,14 +63,14 @@ def getConfig(flag = "Release") {
     json = json.findAll { it.Flag in servers }
 
     //追加信息
-    json.forEach{
-        it.RandomCode =  System.getenv("productName".toLowerCase())
-        it.BuildTime =  System.getenv("time".toLowerCase())
-        it.ProductName =  System.getenv("productName".toLowerCase())
-        it.ApplicationId =  System.getenv("applicationId".toLowerCase())
-        it.VersionCode =  System.getenv("versionCode".toLowerCase())
-        it.VersionName =  System.getenv("versionName".toLowerCase())
-        it.GrayPackage =  System.getenv("grayPackage".toLowerCase())
+    json.forEach {
+        it.RandomCode = System.getenv("productName".toLowerCase())
+        it.BuildTime = System.getenv("time".toLowerCase())
+        it.ProductName = System.getenv("productName".toLowerCase())
+        it.ApplicationId = System.getenv("applicationId".toLowerCase())
+        it.VersionCode = System.getenv("versionCode".toLowerCase())
+        it.VersionName = System.getenv("versionName".toLowerCase())
+        it.GrayPackage = System.getenv("grayPackage".toLowerCase())
     }
 
     def res = groovy.json.JsonOutput.toJson(json)
