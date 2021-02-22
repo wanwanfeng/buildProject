@@ -20,7 +20,7 @@ allprojects {
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
         flatDir {
-            dirs 'libs', 'libs/common', 'libs/bili', 'libs/shareJoy', 'libs/uo'
+            dirs 'libs', 'libs/google', 'libs/bili', 'libs/shareJoy', 'libs/uo'
         }
     }
 }
@@ -34,8 +34,8 @@ dependencies {
 
     implementation fileTree(include: ['*.jar'], dir: 'libs', excludes: ['okhttp-3.4.2.jar', 'okio-1.9.0.jar', 'unity-classes.jar'])
     implementation fileTree(include: ['*.aar'], dir: 'libs')
-    implementation fileTree(include: ['*.jar'], dir: 'libs/common')
-    implementation fileTree(include: ['*.aar'], dir: 'libs/common')
+    implementation fileTree(include: ['*.jar'], dir: 'libs/google')
+    implementation fileTree(include: ['*.aar'], dir: 'libs/google')
 
     implementation(name: 'unity-classes', ext: 'jar')
     implementation 'com.android.support:multidex:1.0.3'
