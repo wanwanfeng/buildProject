@@ -20,7 +20,7 @@ allprojects {
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
         flatDir {
-            dirs 'libs', 'libs/google', 'libs/bili', 'libs/shareJoy', 'libs/uo'
+            dirs 'libs', 'libs/google', 'libs/bugly', 'libs/bili', 'libs/shareJoy', 'libs/uo'
         }
     }
 }
@@ -32,23 +32,16 @@ dependencies {
     implementation project(':MainLibProj')
     implementation project(':unity-android-resources')
 
-    implementation fileTree(include: ['*.jar'], dir: 'libs', excludes: ['okhttp-3.4.2.jar', 'okio-1.9.0.jar', 'unity-classes.jar'])
-    implementation fileTree(include: ['*.aar'], dir: 'libs')
-    implementation fileTree(include: ['*.jar'], dir: 'libs/google')
-    implementation fileTree(include: ['*.aar'], dir: 'libs/google')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs', excludes: ['okhttp-3.4.2.jar', 'okio-1.9.0.jar', 'unity-classes.jar'])
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/google')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/bugly')
 
     implementation(name: 'unity-classes', ext: 'jar')
     implementation 'com.android.support:multidex:1.0.3'
 
-
-    biliImplementation fileTree(include: ['*.jar'], dir: 'libs/bili')
-    biliImplementation fileTree(include: ['*.aar'], dir: 'libs/bili')
-
-    shareJoyImplementation fileTree(include: ['*.jar'], dir: 'libs/shareJoy')
-    shareJoyImplementation fileTree(include: ['*.aar'], dir: 'libs/shareJoy')
-
-    uoImplementation fileTree(include: ['*.jar'], dir: 'libs/uo')
-    uoImplementation fileTree(include: ['*.aar'], dir: 'libs/uo')
+    biliImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/bili')
+    shareJoyImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/shareJoy')
+    uoImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/uo')
 }
 
 def getConfig(flag = "Release") {
