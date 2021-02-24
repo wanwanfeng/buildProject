@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'bugly'
-apply from: file(project.getProjectDir().path + "/../build.gradle")
+apply from: file("common.gradle")
 
 android {
     compileSdkVersion 28
