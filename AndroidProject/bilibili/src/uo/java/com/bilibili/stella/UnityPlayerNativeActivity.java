@@ -1,18 +1,14 @@
 package com.bilibili.stella;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.bsgamesdk.android.uo.BSGameSdkError;
 import com.bsgamesdk.android.uo.callback.CallbackListener;
 import com.bsgamesdk.android.uo.callback.ExiterListener;
-import com.bsgamesdk.android.uo.callback.UserListener;
 import com.bsgamesdk.android.uo.imp.GameSdkProxy;
 import com.bsgamesdk.android.uo.model.OrderInfo;
-import com.bsgamesdk.android.uo.model.User;
 import com.bsgamesdk.android.uo.model.UserExtData;
 import com.bsgamesdk.android.uo.utils.LogUtils;
-import com.bsgamesdk.android.uo.utils.ToastUtil;
 import com.unity3d.player.*;
 
 import android.app.AlertDialog;
@@ -21,11 +17,9 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
-public class UnityPlayerNativeActivity extends com.unity3d.player.UnityPlayerNativeActivity implements UserListener {
-    private GameSdkProxy gameSdkProxy = null;
+public class UnityPlayerNativeActivity extends GameSdkCallback {
+
     private OrderInfo orderInfo = null;
-    private User userInfo = null;
-    private boolean status = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +28,6 @@ public class UnityPlayerNativeActivity extends com.unity3d.player.UnityPlayerNat
         this.gameSdkProxy.setUserListener(this);
         UoInit();
         this.gameSdkProxy.onCreate(UnityPlayer.currentActivity, savedInstanceState);
-    }
-
-    public static void unity3dSendMessage(String json) {
-        UnityPlayer.UnitySendMessage("SdkManager", "OnReviceCallback", json);
     }
 
     public void UoInit() {
@@ -50,10 +40,7 @@ public class UnityPlayerNativeActivity extends com.unity3d.player.UnityPlayerNat
                     String cid = Integer.toString(UnityPlayerNativeActivity.this.gameSdkProxy.channelid());
                     dat.put("channelId", cid);
                     JSONObject jobj = new JSONObject();
-                    jobj.put("callbackType", "Init");
-                    jobj.put("code", 10010);
-                    jobj.put("data", dat.toString());
-                    UnityPlayerNativeActivity.unity3dSendMessage(jobj.toString());
+                    unity3dSendMessage("Init", StatusCode_Success, dat.toString());
                 } catch (Throwable e) {
                     e.printStackTrace();
                 }
@@ -132,10 +119,7 @@ public class UnityPlayerNativeActivity extends com.unity3d.player.UnityPlayerNat
                             dat.put("out_trade_no", payOutTradeNo);
                             dat.put("bs_trade_no", payBsTradeNo);
                             JSONObject jobj = new JSONObject();
-                            jobj.put("callbackType", "Pay");
-                            jobj.put("code", 10010);
-                            jobj.put("data", dat.toString());
-                            UnityPlayerNativeActivity.unity3dSendMessage(jobj.toString());
+                            unity3dSendMessage("Pay", StatusCode_Success, dat.toString());
                             LogUtils.d("###", "UoPay success ");
                         } catch (Throwable e) {
                             e.printStackTrace();
@@ -148,11 +132,7 @@ public class UnityPlayerNativeActivity extends com.unity3d.player.UnityPlayerNat
                             JSONObject dat = new JSONObject();
                             dat.put("out_trade_no", "");
                             dat.put("message", arg0.getErrorCode() + arg0.getErrorMessage());
-                            JSONObject jobj = new JSONObject();
-                            jobj.put("callbackType", "Pay");
-                            jobj.put("code", 200);
-                            jobj.put("data", dat.toString());
-                            UnityPlayerNativeActivity.unity3dSendMessage(jobj.toString());
+                            unity3dSendMessage("Pay", StatusCode_Fail, dat.toString());
                         } catch (Throwable e) {
                             e.printStackTrace();
                         }
@@ -196,6 +176,15 @@ public class UnityPlayerNativeActivity extends com.unity3d.player.UnityPlayerNat
                 });
             }
         });
+    }
+
+    public boolean CheckIsLogin() {
+        if (userInfo != null) {
+            SendLoginMessage(10010);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void YYBlogin(final int type) {
@@ -294,94 +283,5 @@ public class UnityPlayerNativeActivity extends com.unity3d.player.UnityPlayerNat
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         this.gameSdkProxy.onConfigurationChanged(UnityPlayer.currentActivity, newConfig);
-    }
-
-    public boolean CheckIsLogin() {
-        if (userInfo != null) {
-            SendLoginMessage(10010);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void SendLoginMessage(int code) {
-        LogUtils.d("###", "public SendLoginMessage getChannelId :" + getChannelId());
-        try {
-            JSONObject dat = new JSONObject();
-            if (userInfo.channelUName == null || userInfo.channelUName == "") {
-                dat.put("username", userInfo.userID);
-                dat.put("nickname", userInfo.userID);
-            } else {
-                dat.put("username", userInfo.channelUName);
-                dat.put("nickname", userInfo.channelUName);
-            }
-            dat.put("uid", userInfo.userID);
-            dat.put("access_token", userInfo.channelToken);
-            dat.put("session_id", userInfo.sessionid);
-            JSONObject jobj = new JSONObject();
-            jobj.put("callbackType", "Login");
-            jobj.put("code", code);
-            jobj.put("data", dat.toString());
-            unity3dSendMessage(jobj.toString());
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onLoginSuccess(User user) {
-        if (status) {
-            userInfo = user;
-            return;
-        }
-        if (userInfo == null) {
-            userInfo = user;
-            SendLoginMessage(10010);
-        } else {
-            if (user.userID.equalsIgnoreCase(userInfo.userID)) {
-                return;
-            } else {
-                userInfo = user;
-                SendLoginMessage(10011);
-            }
-        }
-    }
-
-    @Override
-    public void onLoginFailed(BSGameSdkError error) {
-        try {
-            JSONObject jobj = new JSONObject();
-            jobj.put("callbackType", "Login");
-            jobj.put("code", 10012);
-            jobj.put("data", "");
-            userInfo = null;
-            UnityPlayerNativeActivity.unity3dSendMessage(jobj.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        LogUtils.d("###", " \"public void onLoginFailed(BSGameSdkError error)");
-        LogUtils.d("###", "登陆失败：" + error.getErrorMessage() + " error code:" + error.getErrorCode());
-        ToastUtil.showToast(UnityPlayer.currentActivity, "登陆失败，请重试。" + "error code：" + error.getErrorCode());
-    }
-
-    @Override
-    public void onLogout() {
-        LogUtils.d("###", "public void onLogout() getChannelId :" + getChannelId());
-        try {
-            LogUtils.d("###", "public void onLogout(),uid:" + this.userInfo.userID);
-            JSONObject jobj = new JSONObject();
-            jobj.put("callbackType", "Logout");
-            jobj.put("code", 10010);
-            jobj.put("data", "");
-            UnityPlayerNativeActivity.unity3dSendMessage(jobj.toString());
-            userInfo = null;
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String getChannelId() {
-        return Integer.toString(gameSdkProxy.channelid());
     }
 }
