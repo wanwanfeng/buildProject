@@ -23,7 +23,7 @@
             android:hardwareAccelerated="true"
             android:label="@string/app_name"
             android:launchMode="singleTask"
-            android:screenOrientation="landscape"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,7 +39,7 @@
             android:name="com.bilibili.stella.EmptyClass"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:launchMode="singleTask"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="portrait"></activity>
 
         <meta-data
             android:name="BSGameSdk_PaidGame"

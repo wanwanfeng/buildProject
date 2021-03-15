@@ -13,7 +13,7 @@
             android:name="com.bilibili.stella.UnityPlayerNativeActivity"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale"
             android:launchMode="singleTask"
-            android:screenOrientation="landscape">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,7 +41,7 @@
         <activity
             android:name="jp.delightworks.unityplugin.webview.WebViewActivity"
             android:label="@string/app_name"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name="com.tencent.android.tpush.XGPushActivity"
             android:exported="false">

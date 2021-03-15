@@ -14,7 +14,7 @@
             android:name="com.bilibili.stella.UnityPlayerNativeActivity"
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|uiMode|touchscreen|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="landscape">
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="unityplayer.ForwardNativeEventsToDalvik"
                 android:value="true" />
@@ -22,13 +22,13 @@
         <activity
             android:name="com.bilibili.stella.PermissionActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="landscape"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
         </activity>
         <activity
             android:name="com.bilibili.stella.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="landscape">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
