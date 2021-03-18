@@ -96,6 +96,19 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
         });
     }
 
+    public void showGameTerms() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                GameSDK.getInstance().showGameTerms();
+            }
+        });
+    }
+
+    public String getUDID() {
+        return GameSDK.getInstance().getUDID();
+    }
+
     // Quit Unity
     @Override
     public void onDestroy() {

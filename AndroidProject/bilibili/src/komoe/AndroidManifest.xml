@@ -5,6 +5,8 @@
     tools:ignore="MissingLeanbackSupport">
 
     <application
+        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:isGame="true"
@@ -36,6 +38,35 @@
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />
+
+        <!--如果需要接入AppsFlyer请添加以下配置-->
+        <meta-data android:name="appsflyer_dev_key" android:value="@string/appsflyer_dev_key"/>
+
+        <!--facebook start-->
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider[此处连同中括号替换为分配的facebook_app_id]"
+            android:exported="true" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="fb[此处连同中括号替换为分配的facebook_app_id]" />
+            </intent-filter>
+        </activity>
+        <!--facebook end-->
 
         <receiver android:name="com.guyastudio.unityplugins.AndroidNotificator">
             <intent-filter>

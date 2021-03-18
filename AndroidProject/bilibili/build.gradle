@@ -42,7 +42,22 @@ dependencies {
     biliImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/bili')
     shareJoyImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/shareJoy')
     uoImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/uo')
+
+    //komoeImplementation
+
     komoeImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/komoe')
+    //google支付sdk
+    komoeImplementation 'com.android.billingclient:billing:3.0.0'
+    //google授权登录sdk
+    komoeImplementation 'com.google.android.gms:play-services-auth:17.0.0'
+
+    //接入appsflyer时需要installreferrer，否则不需要
+    komoeImplementation 'com.android.installreferrer:installreferrer:1.0'
+
+    //以下是分享相关sdk
+    komoeImplementation'com.facebook.android:facebook-share:5.15.3'
+    komoeImplementation 'com.twitter.sdk.android:twitter-core:3.1.1'
+    komoeImplementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
 }
 
 def getConfig(flag = "Release") {

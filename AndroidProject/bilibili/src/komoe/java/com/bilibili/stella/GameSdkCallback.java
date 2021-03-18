@@ -117,13 +117,16 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
 
     @Override
     public void onLoginFailure(int code, String message) {
+        LogUtils.d("###", "登陆失败：" + code + " error code:" + message);
         try {
-            unity3dSendMessage("Login", StatusCode_Fail, "");
+            JSONObject dat = new JSONObject();
+            dat.put("code", code);
+            dat.put("message", message);
+            unity3dSendMessage("Login", StatusCode_Fail, dat.toString());
             userInfo = null;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        LogUtils.d("###", "登陆失败：" + code + " error code:" + message);
     }
 
     @Override
@@ -165,13 +168,37 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
     }
 
     @Override
-    public void onGetUserInfoSuccess(Bundle bundle) {
+    public void onGetUserInfoSuccess(Bundle arg0) {
+        UnityPlayerNativeActivity.User userInfo = new UnityPlayerNativeActivity.User();
+        userInfo.userID = arg0.getString("uid");
+        userInfo.userName = arg0.getString("username");
+        userInfo.access_token = arg0.getString("access_token");
+        userInfo.login_type = arg0.getString("login_type");
 
+        try {
+            JSONObject dat = new JSONObject();
+            dat.put("username", userInfo.userName);
+            dat.put("nickname", userInfo.userName);
+            dat.put("uid", userInfo.userID);
+            dat.put("access_token", userInfo.access_token);
+            dat.put("login_type", userInfo.login_type);
+            unity3dSendMessage("GetUserInfo", 10010, dat.toString());
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void onGetUserInfoFailure(int i, String s) {
-
+    public void onGetUserInfoFailure(int code, String message) {
+        try {
+            userInfo = null;
+            JSONObject dat = new JSONObject();
+            dat.put("code", code);
+            dat.put("message", message);
+            unity3dSendMessage("GetUserInfo", 10011, dat.toString());
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -225,18 +252,40 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
     }
 
     @Override
-    public void onGameTermsSuccess(boolean b) {
-
+    public void onGameTermsSuccess(boolean enable_nighttime_push) {
+        LogUtils.d("###", "public void onGameTermsSuccess() :");
+        try {
+            JSONObject dat = new JSONObject();
+            dat.put("code", 0);
+            dat.put("enable_nighttime_push", enable_nighttime_push);
+            unity3dSendMessage("ShowGameTerms", StatusCode_Fail, dat.toString());
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onGameTermsRefuse() {
-
+        LogUtils.d("###", "public void onGameTermsRefuse() :");
+        try {
+            JSONObject dat = new JSONObject();
+            dat.put("code", 1);
+            unity3dSendMessage("ShowGameTerms", StatusCode_Fail, dat.toString());
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onGameTermsIgnore() {
-
+        LogUtils.d("###", "public void onGameTermsIgnore() :");
+        try {
+            JSONObject dat = new JSONObject();
+            dat.put("code", 2);
+            unity3dSendMessage("ShowGameTerms", StatusCode_Fail, dat.toString());
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
