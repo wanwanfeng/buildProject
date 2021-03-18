@@ -54,6 +54,7 @@ android {
         no {
             dimension "default"
             applicationId this.applicationId ?: (this.applicationId = "com.bilibili.stella")
+            resValue "string", "app_name", this.appName
         }
         bili {
             dimension "default"
@@ -69,7 +70,8 @@ android {
         }
         komoe{
             dimension "default"
-            applicationId this.applicationId ?: (this.applicationId = "com.bilibili.stella")
+            applicationId this.applicationId ?: (this.applicationId = "com.komoe.re0gp")
+            resValue "string", "app_name", "RE：從零開始的異世界生活 Lost in memories"
         }
     }
 

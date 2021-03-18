@@ -45,7 +45,7 @@
         <!--facebook start-->
         <provider
             android:name="com.facebook.FacebookContentProvider"
-            android:authorities="com.facebook.app.FacebookContentProvider[此处连同中括号替换为分配的facebook_app_id]"
+            android:authorities="com.facebook.app.FacebookContentProvider448386926364898"
             android:exported="true" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -63,7 +63,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="fb[此处连同中括号替换为分配的facebook_app_id]" />
+                <data android:scheme="fb448386926364898" />
             </intent-filter>
         </activity>
         <!--facebook end-->

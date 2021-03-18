@@ -43,8 +43,6 @@ dependencies {
     shareJoyImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/shareJoy')
     uoImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/uo')
 
-    //komoeImplementation
-
     komoeImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/komoe')
     //google支付sdk
     komoeImplementation 'com.android.billingclient:billing:3.0.0'
