@@ -22,4 +22,9 @@ public class UnityPlayerNativeActivity extends com.unity3d.player.UnityPlayerNat
         BSGameSdk.appDestroy(UnityPlayer.currentActivity);
         super.onDestroy();
     }
+
+    @Override
+    public int getSdkType() {
+        return 1;
+    }
 }
