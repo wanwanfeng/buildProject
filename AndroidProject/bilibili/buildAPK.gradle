@@ -34,7 +34,7 @@ android {
     defaultConfig {
         resValue "string", "build_time", this.buildTime
         resValue "string", "commit_id", this.commitId
-        resValue "string", "app_name", this.appName
+        resValue "string", "app_name", "RE0"
 
         versionName this.appVersionNum
         versionCode this.appVersionCode
@@ -54,7 +54,6 @@ android {
         no {
             dimension "default"
             applicationId this.applicationId ?: (this.applicationId = "com.bilibili.stella")
-            resValue "string", "app_name", this.appName
         }
         bili {
             dimension "default"
