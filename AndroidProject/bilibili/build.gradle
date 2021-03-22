@@ -45,17 +45,22 @@ dependencies {
 
     komoeImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/komoe')
     //google支付sdk
-    komoeImplementation 'com.android.billingclient:billing:3.0.0'
+    //komoeImplementation 'com.android.billingclient:billing:3.0.0'
     //google授权登录sdk
-    komoeImplementation 'com.google.android.gms:play-services-auth:17.0.0'
+    //komoeImplementation 'com.google.android.gms:play-services-auth:17.0.0'
 
     //接入appsflyer时需要installreferrer，否则不需要
     komoeImplementation 'com.android.installreferrer:installreferrer:1.0'
 
     //以下是分享相关sdk
-    komoeImplementation'com.facebook.android:facebook-share:5.15.3'
-    komoeImplementation 'com.twitter.sdk.android:twitter-core:3.1.1'
-    komoeImplementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
+    komoeImplementation ('com.facebook.android:facebook-share:5.15.3'){
+        exclude group: 'com.android.support'
+//        exclude group: 'com.android.support', module: 'appcompat-v7'
+//        exclude group: 'com.android.support', module: 'support-v4'
+//        exclude group: 'com.android.support', module: 'support-core-utils'
+    }
+    //komoeImplementation 'com.twitter.sdk.android:twitter-core:3.1.1'
+    //komoeImplementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
 }
 
 def getConfig(flag = "Release") {
