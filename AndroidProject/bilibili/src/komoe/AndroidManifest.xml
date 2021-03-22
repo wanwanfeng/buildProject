@@ -6,7 +6,7 @@
 
     <application
         android:usesCleartextTraffic="true"
-        android:requestLegacyExternalStorage="true"
+   
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:isGame="true"
@@ -48,6 +48,7 @@
             android:authorities="com.facebook.app.FacebookContentProvider448386926364898"
             android:exported="true" />
         <meta-data
+            tools:replace="android:value"
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
