@@ -43,6 +43,8 @@ dependencies {
     shareJoyImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/shareJoy')
     uoImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/uo')
 
+    komoeImplementation(name: 'okhttp-3.4.2', ext: 'jar')
+    komoeImplementation(name: 'okio-1.9.0', ext: 'jar')
     komoeImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/komoe')
     //google支付sdk
     //komoeImplementation 'com.android.billingclient:billing:3.0.0'
@@ -55,9 +57,6 @@ dependencies {
     //以下是分享相关sdk
     komoeImplementation ('com.facebook.android:facebook-share:5.15.3'){
         exclude group: 'com.android.support'
-//        exclude group: 'com.android.support', module: 'appcompat-v7'
-//        exclude group: 'com.android.support', module: 'support-v4'
-//        exclude group: 'com.android.support', module: 'support-core-utils'
     }
     //komoeImplementation 'com.twitter.sdk.android:twitter-core:3.1.1'
     //komoeImplementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
@@ -137,7 +136,7 @@ def preUoBuild() {
 def preKomoeBuild() {
     getConfig("Release")
     getSdkConfig("100")
-    println("=================preNoBuild doFirst=================")
+    println("=================preKomoeBuild doFirst=================")
 }
 
 afterEvaluate {
