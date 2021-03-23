@@ -55,7 +55,7 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
         public String userID;
         public String userName;
         public String access_token;
-        public String login_type;
+        public int login_type;
     }
 
     public static class OrderInfo {
@@ -96,7 +96,7 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
         user.userID = arg0.getString("uid");
         user.userName = arg0.getString("username");
         user.access_token = arg0.getString("access_token");
-        user.login_type = arg0.getString("login_type");
+        user.login_type = arg0.getInt("login_type");
 
         if (status) {
             userInfo = user;
@@ -173,7 +173,7 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
         userInfo.userID = arg0.getString("uid");
         userInfo.userName = arg0.getString("username");
         userInfo.access_token = arg0.getString("access_token");
-        userInfo.login_type = arg0.getString("login_type");
+        userInfo.login_type = arg0.getInt("login_type");
 
         try {
             JSONObject dat = new JSONObject();
