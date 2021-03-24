@@ -5,4 +5,9 @@ public class UnityPlayerNativeActivity extends com.unity3d.player.UnityPlayerNat
     public int getSdkType() {
         return 0;
     }
+
+    @Override
+    public int getLanguageType() {
+        return 3;
+    }
 }

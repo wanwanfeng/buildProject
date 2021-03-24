@@ -289,4 +289,9 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
     public int getSdkType() {
         return 3;
     }
+
+    @Override
+    public int getLanguageType() {
+        return 2;
+    }
 }

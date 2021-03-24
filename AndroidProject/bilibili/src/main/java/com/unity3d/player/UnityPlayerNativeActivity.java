@@ -33,8 +33,11 @@ public class UnityPlayerNativeActivity extends com.sega.sgn.sgnfw.common.unityac
         return path;
     }
 
-
     public int getSdkType() {
         return 0;
+    }
+
+    public int getLanguageType() {
+        return 3;
     }
 }
