@@ -53,11 +53,11 @@ android {
     productFlavors {
         no {
             dimension "default"
-            applicationId this.applicationId ?: (this.applicationId = "com.bilibili.stella.no")
+            applicationId this.applicationId = "com.bilibili.stella.no"
         }
         bili {
             dimension "default"
-            applicationId this.applicationId ?: (this.applicationId = "com.bilibili.stella.bili")
+            applicationId  this.applicationId = "com.bilibili.stella.bili"
         }
         shareJoy {
             dimension "default"
@@ -65,7 +65,7 @@ android {
         }
         uo {
             dimension "default"
-            applicationId this.applicationId ?: (this.applicationId = "com.bilibili.stella.uo")
+            applicationId this.applicationId = "com.bilibili.stella.uo"
         }
         komoe{
             dimension "default"
