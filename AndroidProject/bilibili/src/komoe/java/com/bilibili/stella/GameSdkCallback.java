@@ -270,6 +270,7 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
         try {
             JSONObject dat = new JSONObject();
             dat.put("code", 1);
+            dat.put("messagge", "onGameTermsRefuse");
             unity3dSendMessage("ShowGameTerms", StatusCode_Fail, dat.toString());
         } catch (Throwable e) {
             e.printStackTrace();
@@ -282,6 +283,7 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
         try {
             JSONObject dat = new JSONObject();
             dat.put("code", 2);
+            dat.put("message", "onGameTermsIgnore");
             unity3dSendMessage("ShowGameTerms", StatusCode_Fail, dat.toString());
         } catch (Throwable e) {
             e.printStackTrace();
