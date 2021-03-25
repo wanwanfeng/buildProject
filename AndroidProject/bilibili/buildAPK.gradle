@@ -39,7 +39,7 @@ android {
         versionName this.appVersionNum
         versionCode this.appVersionCode
 
-        minSdkVersion 21
+        minSdkVersion 21 //uniwebview最低支持到21
         targetSdkVersion 26
         multiDexEnabled false
 
@@ -71,6 +71,21 @@ android {
             dimension "default"
             applicationId this.applicationId = "com.komoe.re0gp"
             resValue "string", "app_name", "RE：從零開始的異世界生活 Lost in memories"
+
+            compileSdkVersion 29
+            buildToolsVersion "29.0.2"
+            minSdkVersion 21
+            targetSdkVersion 29
+        }
+        korea{
+            dimension "default"
+            applicationId this.applicationId = "com.komoegame.rezerokr"
+            resValue "string", "app_name", "RE：從零開始的異世界生活 Lost in memories"
+
+            compileSdkVersion 29
+            buildToolsVersion "29.0.2"
+            minSdkVersion 21
+            targetSdkVersion 29
         }
     }
 
@@ -93,6 +108,10 @@ android {
             res.srcDirs += ['res']
         }
         komoe {
+            jniLibs.srcDirs = ['src/no/jniLibs']
+            res.srcDirs += ['res']
+        }
+        korea {
             jniLibs.srcDirs = ['src/no/jniLibs']
             res.srcDirs += ['res']
         }

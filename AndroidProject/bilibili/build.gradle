@@ -19,8 +19,9 @@ allprojects {
         //jcenter()
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
         flatDir {
-            dirs 'libs', 'libs/bugly','libs/no', 'libs/bili', 'libs/shareJoy', 'libs/uo','libs/komoe'
+            dirs 'libs', 'libs/bugly', 'libs/no', 'libs/bili', 'libs/shareJoy', 'libs/uo', 'libs/komoe', 'libs/korea'
         }
     }
 }
@@ -39,18 +40,20 @@ dependencies {
 
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/bugly')
 
-
+////---------------------------------------------------------------------------
     noImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/no')
+////---------------------------------------------------------------------------
     biliImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/bili')
+////---------------------------------------------------------------------------
     shareJoyImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/shareJoy')
+////---------------------------------------------------------------------------
     uoImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/uo')
-
+////---------------------------------------------------------------------------
     komoeImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/komoe')
     //google支付sdk
     //komoeImplementation 'com.android.billingclient:billing:3.0.0'
     //google授权登录sdk
     //komoeImplementation 'com.google.android.gms:play-services-auth:17.0.0'
-
     //接入appsflyer时需要installreferrer，否则不需要
     komoeImplementation 'com.android.installreferrer:installreferrer:1.0'
 
@@ -58,13 +61,32 @@ dependencies {
     komoeImplementation 'com.facebook.android:facebook-share:5.15.3'
     komoeImplementation 'com.twitter.sdk.android:twitter-core:3.1.1'
     komoeImplementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
+////---------------------------------------------------------------------------
+    koreaImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/korea')
+    //google支付sdk
+    //koreaImplementation 'com.android.billingclient:billing:3.0.0'
+    //google授权登录sdk
+    //koreaImplementation 'com.google.android.gms:play-services-auth:17.0.0'
+    //接入appsflyer时需要installreferrer，否则不需要
+    koreaImplementation 'com.android.installreferrer:installreferrer:1.0'
 
+    //以下是分享相关sdk
+    koreaImplementation 'com.facebook.android:facebook-share:5.15.3'
+    koreaImplementation 'com.twitter.sdk.android:twitter-core:3.1.1'
+    koreaImplementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
+    //koreaImplementation 'com.kakao.sdk:kakaostory:1.30.2'
+////---------------------------------------------------------------------------
     configurations {
         all*.exclude group: 'com.android.support'
         komoeImplementation.exclude group: 'com.squareup.retrofit2'
         komoeImplementation.exclude group: 'com.google.code.gson'
         komoeImplementation.exclude group: 'com.squareup.okhttp3'
         komoeImplementation.exclude group: 'com.squareup.picasso'
+
+        koreaImplementation.exclude group: 'com.squareup.retrofit2'
+        koreaImplementation.exclude group: 'com.google.code.gson'
+        koreaImplementation.exclude group: 'com.squareup.okhttp3'
+        koreaImplementation.exclude group: 'com.squareup.picasso'
     }
 }
 
