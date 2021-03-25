@@ -53,11 +53,11 @@ android {
     productFlavors {
         no {
             dimension "default"
-            applicationId this.applicationId ?: (this.applicationId = "com.bilibili.stella")
+            applicationId this.applicationId ?: (this.applicationId = "com.bilibili.stella.no")
         }
         bili {
             dimension "default"
-            applicationId this.applicationId ?: (this.applicationId = "com.bilibili.stella")
+            applicationId this.applicationId ?: (this.applicationId = "com.bilibili.stella.bili")
         }
         shareJoy {
             dimension "default"
@@ -65,7 +65,7 @@ android {
         }
         uo {
             dimension "default"
-            applicationId this.applicationId = "com.bilibili.stella"
+            applicationId this.applicationId ?: (this.applicationId = "com.bilibili.stella.uo")
         }
         komoe{
             dimension "default"
@@ -79,18 +79,22 @@ android {
 //            java.srcDirs += ['src/common/java']
         }
         no {
+            res.srcDirs += ['res']
         }
         bili {
             jniLibs.srcDirs = ['src/no/jniLibs']
         }
         shareJoy {
             jniLibs.srcDirs = ['src/no/jniLibs']
+            res.srcDirs += ['res']
         }
         uo {
             jniLibs.srcDirs = ['src/no/jniLibs']
+            res.srcDirs += ['res']
         }
         komoe {
             jniLibs.srcDirs = ['src/no/jniLibs']
+            res.srcDirs += ['res']
         }
     }
 
