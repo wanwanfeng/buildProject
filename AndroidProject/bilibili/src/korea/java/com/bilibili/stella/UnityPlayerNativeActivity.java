@@ -7,6 +7,7 @@ import com.unity3d.player.*;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 
 public class UnityPlayerNativeActivity extends GameSdkCallback {
 
@@ -23,6 +24,9 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
         sharedInstance.server_id = server_id;
         sharedInstance.app_key = app_key;
         sharedInstance.debug = debug;
+
+        Log.i("init ::::", sharedInstance.toString());
+
         GameSDK.getInstance().init(UnityPlayer.currentActivity, merchant_id, app_id, server_id, app_key, this);
     }
 

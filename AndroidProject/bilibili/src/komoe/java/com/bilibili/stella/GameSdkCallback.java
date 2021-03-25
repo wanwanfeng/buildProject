@@ -49,6 +49,17 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
         public String server_id;
         public String app_key;
         public boolean debug;
+
+        @Override
+        public String toString() {
+            return "BaseData{" +
+                    "merchant_id='" + merchant_id + '\'' +
+                    ", app_id='" + app_id + '\'' +
+                    ", server_id='" + server_id + '\'' +
+                    ", app_key='" + app_key + '\'' +
+                    ", debug=" + debug +
+                    '}';
+        }
     }
 
     public static class User {
@@ -56,6 +67,16 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
         public String userName;
         public String access_token;
         public int login_type;
+
+        @Override
+        public String toString() {
+            return "User{" +
+                    "userID='" + userID + '\'' +
+                    ", userName='" + userName + '\'' +
+                    ", access_token='" + access_token + '\'' +
+                    ", login_type=" + login_type +
+                    '}';
+        }
     }
 
     public static class OrderInfo {
@@ -67,6 +88,20 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
         public String tradeNo;
         public String subject;
         public String extInfo;
+
+        @Override
+        public String toString() {
+            return "OrderInfo{" +
+                    "moneyAmount=" + moneyAmount +
+                    ", productName='" + productName + '\'' +
+                    ", order_sign='" + order_sign + '\'' +
+                    ", notify_url='" + notify_url + '\'' +
+                    ", productCount=" + productCount +
+                    ", tradeNo='" + tradeNo + '\'' +
+                    ", subject='" + subject + '\'' +
+                    ", extInfo='" + extInfo + '\'' +
+                    '}';
+        }
     }
 
     protected static BaseData sharedInstance = null;
