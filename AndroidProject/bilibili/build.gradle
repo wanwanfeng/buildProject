@@ -20,7 +20,7 @@ allprojects {
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
         flatDir {
-            dirs 'libs', 'libs/google', 'libs/bugly', 'libs/bili', 'libs/shareJoy', 'libs/uo','libs/komoe'
+            dirs 'libs', 'libs/bugly','libs/no', 'libs/bili', 'libs/shareJoy', 'libs/uo','libs/komoe'
         }
     }
 }
@@ -32,19 +32,19 @@ dependencies {
     implementation project(':MainLibProj')
     implementation project(':unity-android-resources')
 
-    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs', excludes: ['okhttp-3.4.2.jar', 'okio-1.9.0.jar', 'unity-classes.jar'])
-    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/google')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs', excludes: [
+            'unity-classes.jar'
+    ])
+    implementation(name: 'unity-classes', ext: 'jar')
+
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/bugly')
 
-    implementation(name: 'unity-classes', ext: 'jar')
-    implementation 'com.android.support:multidex:1.0.3'
 
+    noImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/no')
     biliImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/bili')
     shareJoyImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/shareJoy')
     uoImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/uo')
 
-    komoeImplementation(name: 'okhttp-3.4.2', ext: 'jar')
-    komoeImplementation(name: 'okio-1.9.0', ext: 'jar')
     komoeImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/komoe')
     //google支付sdk
     //komoeImplementation 'com.android.billingclient:billing:3.0.0'
@@ -55,11 +55,17 @@ dependencies {
     komoeImplementation 'com.android.installreferrer:installreferrer:1.0'
 
     //以下是分享相关sdk
-    komoeImplementation ('com.facebook.android:facebook-share:5.15.3'){
-        exclude group: 'com.android.support'
+    komoeImplementation 'com.facebook.android:facebook-share:5.15.3'
+    komoeImplementation 'com.twitter.sdk.android:twitter-core:3.1.1'
+    komoeImplementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
+
+    configurations {
+        all*.exclude group: 'com.android.support'
+        komoeImplementation.exclude group: 'com.squareup.retrofit2'
+        komoeImplementation.exclude group: 'com.google.code.gson'
+        komoeImplementation.exclude group: 'com.squareup.okhttp3'
+        komoeImplementation.exclude group: 'com.squareup.picasso'
     }
-    //komoeImplementation 'com.twitter.sdk.android:twitter-core:3.1.1'
-    //komoeImplementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
 }
 
 def getConfig(flag = "Release") {
