@@ -6,7 +6,7 @@
     <application
         android:name="com.bsgamesdk.android.uo.imp.BSGameApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:isGame="true"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo.Light.DarkActionBar">
