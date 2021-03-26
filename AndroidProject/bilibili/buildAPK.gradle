@@ -54,18 +54,22 @@ android {
         no {
             dimension "default"
             applicationId this.applicationId = "com.bilibili.stella.no"
+            resValue "string", "app_name", "RE0-no"
         }
         bili {
             dimension "default"
             applicationId this.applicationId = "com.bilibili.stella.bili"
+            resValue "string", "app_name", "RE0-bili"
         }
         shareJoy {
             dimension "default"
             applicationId this.applicationId = "com.bilibili.stella.sharejoy"
+            resValue "string", "app_name", "RE0-shareJoy"
         }
         uo {
             dimension "default"
             applicationId this.applicationId = "com.bilibili.stella.uo"
+            resValue "string", "app_name", "RE0-uo"
         }
         komoe {
             dimension "default"
