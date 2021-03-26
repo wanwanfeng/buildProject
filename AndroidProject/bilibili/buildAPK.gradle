@@ -59,7 +59,7 @@ android {
         bili {
             dimension "default"
             applicationId this.applicationId = "com.bilibili.stella.bili"
-            resValue "string", "app_name", "RE0-bili"
+            resValue "string", "app_name", "从零开始的异世界生活 记忆迷宫"
         }
         shareJoy {
             dimension "default"
