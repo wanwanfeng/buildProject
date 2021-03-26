@@ -57,7 +57,7 @@ android {
         }
         bili {
             dimension "default"
-            applicationId  this.applicationId = "com.bilibili.stella.bili"
+            applicationId this.applicationId = "com.bilibili.stella.bili"
         }
         shareJoy {
             dimension "default"
@@ -67,7 +67,7 @@ android {
             dimension "default"
             applicationId this.applicationId = "com.bilibili.stella.uo"
         }
-        komoe{
+        komoe {
             dimension "default"
             applicationId this.applicationId = "com.komoe.re0gp"
             resValue "string", "app_name", "RE：從零開始的異世界生活 Lost in memories"
@@ -77,7 +77,7 @@ android {
             minSdkVersion 21
             targetSdkVersion 29
         }
-        korea{
+        korea {
             dimension "default"
             applicationId this.applicationId = "com.komoegame.rezerokr"
             resValue "string", "app_name", "RE：從零開始的異世界生活 Lost in memories"
@@ -131,6 +131,48 @@ android {
             storeFile file("user.keystore")
             storePassword "JDGhjftn54yhufut"
         }
+
+        noConfig {
+            keyAlias "no"
+            keyPassword "y54jnxzlgptg3et"
+            storeFile file("keystore/no.keystore")
+            storePassword "y54jnxzlgptg3et"
+        }
+
+        biliConfig {
+            keyAlias "bili"
+            keyPassword "e56ttjunvgfcwu"
+            storeFile file("keystore/bili.keystore")
+            storePassword "e56ttjunvgfcwu"
+        }
+
+        shareJoyConfig {
+            keyAlias "shareJoy"
+            keyPassword "htoo.90ouhdr5t"
+            storeFile file("keystore/shareJoy.keystore")
+            storePassword "htoo.90ouhdr5t"
+        }
+
+        uoConfig {
+            keyAlias "uo"
+            keyPassword "e56thr5ryry"
+            storeFile file("keystore/uo.keystore")
+            storePassword "e56thr5ryry"
+        }
+
+        komoeConfig {
+            keyAlias "komoe"
+            keyPassword "dgfdgsgryjruyicn"
+            storeFile file("keystore/komoe.keystore")
+            storePassword "dgfdgsgryjruyicn"
+        }
+
+        koreaConfig {
+            keyAlias "korea"
+            keyPassword "mkuyjr7y56q232"
+            storeFile file("keystore/korea.keystore")
+            storePassword "mkuyjr7y56q232"
+        }
     }
 
     //打包配置
@@ -165,5 +207,12 @@ android {
             variant.getPackageApplication().outputDirectory = new File(project.rootDir.absolutePath + "/build/outputs/apk")
             outputFileName = variant.baseName + ".apk".toLowerCase()
         }
+    }
+
+    def flavors = getProductFlavors()
+    for (int i = 0; i < flavors.size(); i++) {
+        def at = flavors.getAt(i)
+        String name = at.getName().toString()
+        at.setSigningConfig(signingConfigs.getByName(name + "Config"))
     }
 }
