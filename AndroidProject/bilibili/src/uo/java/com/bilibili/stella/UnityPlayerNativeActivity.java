@@ -112,12 +112,10 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
             public void run() {
                 gameSdkProxy.pay(UnityPlayer.currentActivity, orderInfo, new CallbackListener() {
                     public void onSuccess(Bundle arg0) {
-                        String payOutTradeNo = arg0.getString("out_trade_no");
-                        String payBsTradeNo = arg0.getString("bs_out_trade_no");
                         try {
                             JSONObject dat = new JSONObject();
-                            dat.put("out_trade_no", payOutTradeNo);
-                            dat.put("bs_trade_no", payBsTradeNo);
+                            dat.put("out_trade_no", arg0.getString("out_trade_no"));
+                            dat.put("bs_out_trade_no", arg0.getString("bs_out_trade_no"));
                             JSONObject jobj = new JSONObject();
                             unity3dSendMessage("Pay", StatusCode_Success, dat.toString());
                             LogUtils.d("###", "UoPay success ");
@@ -130,8 +128,8 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
                         LogUtils.d("###", "UoPay fail");
                         try {
                             JSONObject dat = new JSONObject();
-                            dat.put("out_trade_no", "");
-                            dat.put("message", arg0.getErrorCode() + arg0.getErrorMessage());
+                            dat.put("code", arg0.getErrorCode());
+                            dat.put("message", arg0.getErrorMessage());
                             unity3dSendMessage("Pay", StatusCode_Fail, dat.toString());
                         } catch (Throwable e) {
                             e.printStackTrace();

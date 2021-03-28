@@ -66,7 +66,10 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
     @Override
     public void onLoginFailed(BSGameSdkError error) {
         try {
-            unity3dSendMessage("Login", StatusCode_Fail, "");
+            JSONObject dat = new JSONObject();
+            dat.put("code", error.getErrorCode());
+            dat.put("message", error.getErrorMessage());
+            unity3dSendMessage("Login", StatusCode_Fail, dat.toString());
             userInfo = null;
         } catch (Exception e) {
             e.printStackTrace();
