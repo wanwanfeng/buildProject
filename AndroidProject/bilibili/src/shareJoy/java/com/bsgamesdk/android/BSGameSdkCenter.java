@@ -83,7 +83,7 @@ public class BSGameSdkCenter {
 
                     @Override
                     public void onFailed() {
-                        BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Init, 10012, "init gamesdk failed");
+                        BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Init, BSGameSdkCallBack.StatusCode_Fail, "init gamesdk failed");
                     }
                 }, new ExitCallbackListener() {
                     @Override
@@ -133,7 +133,7 @@ public class BSGameSdkCenter {
     public static void login() {
         LogUtils.d("BSGameSdkCenter: login");
         if (sharedInstance == null || sharedInstance.gameSdk == null) {
-            BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Login, 300, "init fail or not completed!");
+            BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Login, BSGameSdkCallBack.StatusCode_Fail, "init fail or not completed!");
         } else {
             sharedInstance.gameSdk.login(new BSGameSdkCallBack(BSGameSdkCallBack.CALLBACKTYPE_Login) {
                 @Override
@@ -295,9 +295,10 @@ public class BSGameSdkCenter {
             public void onFailed(String out_trade_no, BSGameSdkError error) {
                 JSONObject json = new JSONObject();
                 try {
+                    json.put("code", error.getErrorCode());
                     json.put("message", error.getErrorMessage());
                     json.put("out_trade_no", out_trade_no);
-                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Pay, error.getErrorCode(), json.toString());
+                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Pay, BSGameSdkCallBack.StatusCode_Fail, json.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -308,9 +309,10 @@ public class BSGameSdkCenter {
             public void onError(String out_trade_no, BSGameSdkError error) {
                 JSONObject json = new JSONObject();
                 try {
+                    json.put("code", error.getErrorCode());
                     json.put("message", error.getErrorMessage());
                     json.put("out_trade_no", out_trade_no);
-                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Pay, error.getErrorCode(), json.toString());
+                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Pay, BSGameSdkCallBack.StatusCode_Fail,json.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -356,10 +358,14 @@ public class BSGameSdkCenter {
             @Override
             public void onSuccess(Bundle bundle) {
                 // 此处为操作成功时执行，返回值通过Bundle传回
-                LogUtils.d("onSuccess");
-                int result = bundle.getInt("result");
-                String target_url = bundle.getString("target_url");
-                BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_GetFreeUrl, result, target_url);
+                try {
+                    JSONObject json = new JSONObject();
+                    json.put("result",  bundle.getInt("result"));
+                    json.put("target_url",  bundle.getString("target_url"));
+                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_GetFreeUrl, BSGameSdkCallBack.StatusCode_Success,json.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

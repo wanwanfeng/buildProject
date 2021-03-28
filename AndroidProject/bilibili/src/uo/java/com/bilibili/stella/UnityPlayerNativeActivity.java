@@ -180,7 +180,7 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
 
     public boolean CheckIsLogin() {
         if (userInfo != null) {
-            SendLoginMessage(10010);
+            SendLoginMessage(StatusCode_Success);
             return true;
         } else {
             return false;

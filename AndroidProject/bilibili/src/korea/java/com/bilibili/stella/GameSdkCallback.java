@@ -26,23 +26,6 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
     public static final String CALLBACKTYPE_AccountInvalid = "AccountInvalid";
     public static final String CALLBACKTYPE_GetFreeUrl = "GetFreeUrl";
 
-    public static final int StatusCode_Success = 10010;
-    public static final int StatusCode_Fail = 10012;
-
-    public static void unity3dSendMessage(String callbackType, int code, Object data) {
-        Log.d(TAG, "send message to Unity3D, callbackType =" + callbackType);
-        try {
-            JSONObject jobj = new JSONObject();
-            jobj.put("callbackType", callbackType);
-            jobj.put("code", code);
-            jobj.put("data", data);
-            UnityPlayer.UnitySendMessage("SdkManager", "OnReviceCallback", jobj.toString());
-        } catch (Throwable e) {
-            e.printStackTrace();
-            Log.e(TAG, e.getMessage(), e);
-        }
-    }
-
     public static class BaseData {
         public String merchant_id;
         public String app_id;
@@ -145,7 +128,7 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
                 return;
             } else {
                 userInfo = user;
-                SendLoginMessage(10011);
+                SendLoginMessage(StatusCode_AccountChange);
             }
         }
     }
@@ -217,7 +200,7 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
             dat.put("uid", userInfo.userID);
             dat.put("access_token", userInfo.access_token);
             dat.put("login_type", userInfo.login_type);
-            unity3dSendMessage("GetUserInfo", 10010, dat.toString());
+            unity3dSendMessage("GetUserInfo", StatusCode_Success, dat.toString());
         } catch (Throwable e) {
             e.printStackTrace();
         }
@@ -230,7 +213,7 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
             JSONObject dat = new JSONObject();
             dat.put("code", code);
             dat.put("message", message);
-            unity3dSendMessage("GetUserInfo", 10011, dat.toString());
+            unity3dSendMessage("GetUserInfo", StatusCode_Fail, dat.toString());
         } catch (Throwable e) {
             e.printStackTrace();
         }

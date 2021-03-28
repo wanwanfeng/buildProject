@@ -16,10 +16,6 @@ import com.unity3d.player.UnityPlayer;
 
 public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivity implements UserListener {
 
-    private static final String TAG = "Unity3DCallback";
-    public static final int StatusCode_Success = 10010;
-    public static final int StatusCode_Fail = 10012;
-
     protected GameSdkProxy gameSdkProxy = null;
     protected User userInfo = null;
     protected boolean status = false;
@@ -27,21 +23,6 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
     public String getChannelId() {
         return Integer.toString(gameSdkProxy.channelid());
     }
-
-    public static void unity3dSendMessage(String callbackType, int code, Object data) {
-        Log.d(TAG, "send message to Unity3D, callbackType =" + callbackType);
-        try {
-            JSONObject jobj = new JSONObject();
-            jobj.put("callbackType", callbackType);
-            jobj.put("code", code);
-            jobj.put("data", data);
-            UnityPlayer.UnitySendMessage("SdkManager", "OnReviceCallback", jobj.toString());
-        } catch (Throwable e) {
-            e.printStackTrace();
-            Log.e(TAG, e.getMessage(), e);
-        }
-    }
-
 
     public void SendLoginMessage(int code) {
         LogUtils.d("###", "public SendLoginMessage getChannelId :" + getChannelId());
@@ -77,7 +58,7 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
                 return;
             } else {
                 userInfo = user;
-                SendLoginMessage(10011);
+                SendLoginMessage(StatusCode_AccountChange);
             }
         }
     }

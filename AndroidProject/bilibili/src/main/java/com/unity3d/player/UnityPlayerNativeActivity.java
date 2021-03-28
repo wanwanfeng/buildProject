@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.util.Log;
 
+import org.json.JSONObject;
+
 import static android.content.ContentValues.TAG;
 
 public class UnityPlayerNativeActivity extends com.sega.sgn.sgnfw.common.unityactivity.SgnfwUnityActivity {
@@ -39,5 +41,23 @@ public class UnityPlayerNativeActivity extends com.sega.sgn.sgnfw.common.unityac
 
     public int getLanguageType() {
         return 3;
+    }
+
+    public static final int StatusCode_Success = 10010;
+    public static final int StatusCode_Fail = 10012;
+    public static final int StatusCode_AccountChange = 10011;
+
+    public static void unity3dSendMessage(String callbackType, int code, Object data) {
+        Log.d(TAG, "send message to Unity3D, callbackType =" + callbackType);
+        try {
+            JSONObject jobj = new JSONObject();
+            jobj.put("callbackType", callbackType);
+            jobj.put("code", code);
+            jobj.put("data", data);
+            UnityPlayer.UnitySendMessage("SdkManager", "OnReviceCallback", jobj.toString());
+        } catch (Throwable e) {
+            e.printStackTrace();
+            Log.e(TAG, e.getMessage(), e);
+        }
     }
 }
