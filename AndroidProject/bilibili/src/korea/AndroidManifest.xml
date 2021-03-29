@@ -47,7 +47,7 @@
         <!--facebook start-->
         <provider
             android:name="com.facebook.FacebookContentProvider"
-            android:authorities="com.facebook.app.FacebookContentProvider448386926364898"
+            android:authorities="com.facebook.app.FacebookContentProvider496861691482128"
             android:exported="true" />
         <meta-data
             tools:replace="android:value"
@@ -66,7 +66,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="fb448386926364898" />
+                <data android:scheme="fb496861691482128" />
             </intent-filter>
         </activity>
         <!--facebook end-->
