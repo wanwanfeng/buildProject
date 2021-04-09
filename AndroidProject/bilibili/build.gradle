@@ -32,6 +32,7 @@ apply from: file("buildAPK.gradle")
 dependencies {
     implementation project(':MainLibProj')
     implementation project(':unity-android-resources')
+    implementation project(':unity-mtp')
 
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs', excludes: [
             'unity-classes.jar'
