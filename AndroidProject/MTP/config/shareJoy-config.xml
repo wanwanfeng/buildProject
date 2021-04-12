@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Config>
+	<!--Server Tools Version, please use default value and modify it after contacting with mtp-->
+	<TPVersion>2.7.1.16399.qos</TPVersion>
+    <!--ToolPath: mtp tools location,default MTPClientConsole/tools or cut this atrribute-->
+    <ToolPath>tools</ToolPath>
+    <!--TPSvrHost: provite mtp server host if you deploy a private svr. Use mtp official host when not set. -->
+    <!--TPSvrHost>your_private_svr_host</TPSvrHost-->
+    <!-- EncSo: so fileName that you want to encrypt, less than 5 files for performance-->
+    <EncSo>libmono.so</EncSo>
+    <EncSo>libil2cpp.so</EncSo>
+    <EncSo>libGameCore.so</EncSo>
+    <!-- EncDll: dll fileName that you wangt to encrypt, less than 5 files for perfirmance-->
+    <EncDll>Assembly-CSharp.dll</EncDll>
+    <!-- Sign: information of keystore when using local sign-->
+    <Sign>
+        <sign-argument name = "keystorePath" value="../bilibili/keystore/shareJoy.keystore"/>
+        <sign-argument name = "keypass" value="htoo.90ouhdr5t"/>
+        <sign-argument name = "storepass" value="htoo.90ouhdr5t"/>
+        <sign-argument name = "alianame" value="shareJoy"/>
+        <sign-argument name = "v1SigningEnabled" value="true"/>
+        <sign-argument name = "v2SigningEnabled" value="false"/>
+        <sign-argument name = "v3SigningEnabled" value="false"/>
+    </Sign>
+    <extparams>{"enable_globalmetadata_enc":true}</extparams>
+    <FileCheck name= "root" action="+">
+        <!-- The following is an example configuration, please edit as needed -->
+        <!--selector name="assets/bin" action="-">
+            <selector name="assets/bin/Data/Managed" action="+">
+                    <selector name="assets/bin/Data/Managed/UnityEngine.dll" action="-"/>
+                    <selector name="assets/bin/Data/Managed/System.dll" action="-"/>
+            </selector>
+            <selector name="assets/bin/Data/Resources" action="+"/>
+        </selector>
+        <selector name="res/layout" action="-">
+            <selector name="res/layout/check_permission_layout.xml" action="+"/>
+        </selector-->
+    </FileCheck>
+</Config>
