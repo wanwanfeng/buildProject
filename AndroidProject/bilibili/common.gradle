@@ -17,9 +17,6 @@ bugly {
 
 task afterbuild {
 
-}
-task afterbuild2 {
-
     doFirst {
         println appName
         println buildTime
@@ -43,14 +40,15 @@ task afterbuild2 {
 
     doLast {
         
-        buglySymbolAndroid()
+        //buglySymbolAndroid()
 
         def isAfterBuild = (System.getenv("afterbuild") ?: "true").toLowerCase()
         println "isAfterBuild:" + isAfterBuild
         if (isAfterBuild.equals("false"))
             return
 
-        NHPProtect()
+        //NHPProtect()
+        Mtp()
     }
 }
 
@@ -88,6 +86,38 @@ def buglySymbolAndroid() {
     println cmdstr
     def result = cmdstr.execute([], dir).text.trim()
     println result
+}
+
+def Mtp() {
+    def dir = file("/Users/MTP/")
+    dir = dir.exists() ? dir : file(project.getProjectDir().path + "/../MTP/")
+    println dir
+
+    fileTree("build/outputs/apk") {
+        include("*.apk")
+        exclude("/encrypted/")
+    }.each { apk ->
+
+        def oldPath = apk.absolutePath
+
+        def newPath = file(apk.parentFile.absolutePath + "/encrypted")
+        println newPath
+        if (newPath.exists() == false) newPath.mkdirs()
+
+        def certPath= dir.absolutePath + "/20115.cert"
+        def configPath = dir.absolutePath + '/config/' + apk.name.split('-')[0] + '-config.xml'
+        println configPath
+
+        def cmdstr = dir.absolutePath +'/MTPClientConsole -d 20115 '+ oldPath +' '+ newPath +' '+ certPath +' -c ' + configPath
+        println cmdstr
+        def result = cmdstr.execute([], dir).text.trim()
+        println result
+        /*if (result.contains("Success! The new apk path is")) {
+            println("mtp sucess !")
+        } else {
+            throw ("mtp failed : check error in logs ! \n" + result)
+        }*/
+    }
 }
 
 preBuild.doFirst {
