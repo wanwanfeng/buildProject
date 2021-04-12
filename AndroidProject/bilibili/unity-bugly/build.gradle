@@ -1,0 +1,46 @@
+apply plugin: 'com.android.library'
+
+buildscript {
+    repositories {
+        google()
+        //jcenter()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+    }
+    dependencies {
+        classpath 'com.tencent.bugly:symtabfileuploader:latest.release'
+    }
+}
+
+bugly {
+    appId = "900019571"
+    appKey = "ydwf3M1VxORDopvf"
+}
+
+dependencies {
+    implementation fileTree(dir: 'bin', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+android {
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            //java.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    compileSdkVersion 28
+    buildToolsVersion "28.0.2"
+
+    defaultConfig {
+        targetSdkVersion 26
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}

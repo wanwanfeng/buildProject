@@ -10,11 +10,6 @@ ext {
     debug = (System.getenv("isdebug") ?: "false").toUpperCase().equals(true)
 }
 
-bugly {
-    appId = "900019571"
-    appKey = "ydwf3M1VxORDopvf"
-}
-
 task afterbuild {
 
     doFirst {

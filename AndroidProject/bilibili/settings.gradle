@@ -1,3 +1,4 @@
 include 'MainLibProj'
 include 'unity-android-resources'
 include 'unity-mtp'
+include 'unity-bugly'

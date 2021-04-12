@@ -21,7 +21,7 @@ allprojects {
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
         maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
         flatDir {
-            dirs 'libs', 'libs/bugly', 'libs/no', 'libs/bili', 'libs/shareJoy', 'libs/uo', 'libs/komoe', 'libs/korea'
+            dirs 'libs', 'libs/no', 'libs/bili', 'libs/shareJoy', 'libs/uo', 'libs/komoe', 'libs/korea'
         }
     }
 }
@@ -33,13 +33,12 @@ dependencies {
     implementation project(':MainLibProj')
     implementation project(':unity-android-resources')
     implementation project(':unity-mtp')
+    implementation project(':unity-bugly')
 
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs', excludes: [
             'unity-classes.jar'
     ])
     implementation(name: 'unity-classes', ext: 'jar')
-
-    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/bugly')
 
 ////---------------------------------------------------------------------------
     noImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/no')
