@@ -38,3 +38,5 @@ iosProject/bilibili/Data
 /AndroidProject/bilibili/src/main/assets
 /AndroidProject/bilibili/src/main/jniLibs
 /AndroidProject/bilibili/unity-mtp/build
+/AndroidProject/bilibili/unity-bugly/build
+/AndroidProject/bilibili/unity-ntp/build
