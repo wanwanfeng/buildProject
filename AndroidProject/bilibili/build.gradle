@@ -26,9 +26,11 @@ allprojects {
     }
 }
 
+apply plugin: 'bugly'
 apply from: file("buildAPK.gradle")
 //apply from: file("buildBundle.gradle")
 
+//main
 dependencies {
     implementation project(':MainLibProj')
     implementation project(':unity-android-resources')
@@ -40,16 +42,25 @@ dependencies {
             'unity-classes.jar'
     ])
     implementation(name: 'unity-classes', ext: 'jar')
-
-////---------------------------------------------------------------------------
+}
+//noImplementation
+dependencies {
     noImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/no')
-////---------------------------------------------------------------------------
+}
+//biliImplementation
+dependencies {
     biliImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/bili')
-////---------------------------------------------------------------------------
+}
+//shareJoyImplementation
+dependencies {
     shareJoyImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/shareJoy')
-////---------------------------------------------------------------------------
+}
+//uoImplementation
+dependencies {
     uoImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/uo')
-////---------------------------------------------------------------------------
+}
+//komoeImplementation
+dependencies {
     komoeImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/komoe')
     //google支付sdk
     //komoeImplementation 'com.android.billingclient:billing:3.0.0'
@@ -62,7 +73,17 @@ dependencies {
     komoeImplementation 'com.facebook.android:facebook-share:5.15.3'
     komoeImplementation 'com.twitter.sdk.android:twitter-core:3.1.1'
     komoeImplementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
-////---------------------------------------------------------------------------
+
+    configurations {
+        all*.exclude group: 'com.android.support'
+        komoeImplementation.exclude group: 'com.squareup.retrofit2'
+        komoeImplementation.exclude group: 'com.google.code.gson'
+        komoeImplementation.exclude group: 'com.squareup.okhttp3'
+        komoeImplementation.exclude group: 'com.squareup.picasso'
+    }
+}
+//koreaImplementation
+dependencies {
     koreaImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/korea')
     //google支付sdk
     //koreaImplementation 'com.android.billingclient:billing:3.0.0'
@@ -76,14 +97,9 @@ dependencies {
     koreaImplementation 'com.twitter.sdk.android:twitter-core:3.1.1'
     koreaImplementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
     //koreaImplementation 'com.kakao.sdk:kakaostory:1.30.2'
-////---------------------------------------------------------------------------
+
     configurations {
         all*.exclude group: 'com.android.support'
-        komoeImplementation.exclude group: 'com.squareup.retrofit2'
-        komoeImplementation.exclude group: 'com.google.code.gson'
-        komoeImplementation.exclude group: 'com.squareup.okhttp3'
-        komoeImplementation.exclude group: 'com.squareup.picasso'
-
         koreaImplementation.exclude group: 'com.squareup.retrofit2'
         koreaImplementation.exclude group: 'com.google.code.gson'
         koreaImplementation.exclude group: 'com.squareup.okhttp3'

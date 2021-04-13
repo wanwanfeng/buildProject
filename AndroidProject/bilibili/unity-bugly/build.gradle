@@ -1,17 +1,5 @@
 apply plugin: 'com.android.library'
 
-buildscript {
-    repositories {
-        google()
-        //jcenter()
-        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
-    }
-    dependencies {
-        classpath 'com.tencent.bugly:symtabfileuploader:latest.release'
-    }
-}
-
 bugly {
     appId = "900019571"
     appKey = "ydwf3M1VxORDopvf"
