@@ -90,18 +90,13 @@ def Mtp() {
 
     fileTree("build/outputs/apk") {
         include("*.apk")
-        exclude("/encrypted/")
+        exclude("/20115/")
     }.each { apk ->
 
         def oldPath = apk.absolutePath
-
-        def newPath = file(apk.parentFile.absolutePath + "/encrypted")
-        println newPath
-        if (newPath.exists() == false) newPath.mkdirs()
-
+        def newPath = apk.parentFile.absolutePath
         def certPath= dir.absolutePath + "/20115.cert"
         def configPath = dir.absolutePath + '/config/' + apk.name.split('-')[0] + '-config.xml'
-        println configPath
 
         def cmdstr = dir.absolutePath +'/MTPClientConsole -d 20115 '+ oldPath +' '+ newPath +' '+ certPath +' -c ' + configPath
         println cmdstr
