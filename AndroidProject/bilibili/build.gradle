@@ -33,8 +33,8 @@ dependencies {
     implementation project(':MainLibProj')
     implementation project(':unity-android-resources')
     implementation project(':unity-mtp')
-    implementation project(':unity-bugly')
-    implementation project(':unity-ntp')
+    //implementation project(':unity-bugly')
+    //implementation project(':unity-ntp')
 
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs', excludes: [
             'unity-classes.jar'
