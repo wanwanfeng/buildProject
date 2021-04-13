@@ -143,44 +143,28 @@ def getConfig(flag = "Release") {
     return res
 }
 
-def getSdkConfig(res = "0") {
-    def content = "package com.unity3d.player;\npublic final class SdkConfig {\n\tpublic static final String  gameConfig = \"${res}\";\n}"
-    def javaFile = file("src/main/java/com/unity3d/player/SdkConfig.java")
-    if (file(javaFile.parent).exists().equals(false)) file(javaFile.parent).mkdirs()
-    javaFile.write(content)
-
-    println res
-
-    return res
-}
-
 def preNoBuild() {
     getConfig("Release")
-    getSdkConfig("0")
     println("=================preNoBuild doFirst=================")
 }
 
 def preBiliBuild() {
     getConfig("Release")
-    getSdkConfig("1")
     println("=================preBiliBuild doFirst=================")
 }
 
 def preShareJoyBuild() {
     getConfig("Release")
-    getSdkConfig("2")
     println("=================preShareJoyBuild doFirst=================")
 }
 
 def preUoBuild() {
     getConfig("Release-UO")
-    getSdkConfig("3")
     println("=================preUoBuild doFirst=================")
 }
 
 def preKomoeBuild() {
     getConfig("Release")
-    getSdkConfig("100")
     println("=================preKomoeBuild doFirst=================")
 }
 
