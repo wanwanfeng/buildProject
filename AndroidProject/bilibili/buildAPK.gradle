@@ -75,7 +75,7 @@ android {
             applicationId this.applicationId = "com.komoe.re0gp"
             resValue "string", "app_name", "RE：從零開始的異世界生活 Lost in memories"
 
-            compileSdkVersion 29
+            compileSdkVersion 30
             buildToolsVersion "29.0.2"
             minSdkVersion 21
             targetSdkVersion 30
@@ -85,7 +85,7 @@ android {
             applicationId this.applicationId = "com.komoegame.rezerokr"
             resValue "string", "app_name", "Re：제로 lost in memories"
 
-            compileSdkVersion 29
+            compileSdkVersion 30
             buildToolsVersion "29.0.2"
             minSdkVersion 21
             targetSdkVersion 30
