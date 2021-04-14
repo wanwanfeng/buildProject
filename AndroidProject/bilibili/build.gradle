@@ -168,6 +168,11 @@ def preKomoeBuild() {
     println("=================preKomoeBuild doFirst=================")
 }
 
+def preKoreaBuild() {
+    getConfig("Release")
+    println("=================preKoreaBuild doFirst=================")
+}
+
 afterEvaluate {
     preNoDebugBuild.doFirst { preNoBuild() }
     preNoReleaseBuild.doFirst { preNoBuild() }
@@ -179,4 +184,6 @@ afterEvaluate {
     preUoReleaseBuild.doFirst { preUoBuild() }
     preKomoeDebugBuild.doFirst { preKomoeBuild() }
     preKomoeReleaseBuild.doFirst { preKomoeBuild() }
+    preKoreaDebugBuild.doFirst { preKoreaBuild() }
+    preKoreaReleaseBuild.doFirst { preKoreaBuild() }
 }
