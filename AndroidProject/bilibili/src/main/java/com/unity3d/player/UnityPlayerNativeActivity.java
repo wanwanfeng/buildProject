@@ -43,6 +43,14 @@ public class UnityPlayerNativeActivity extends com.sega.sgn.sgnfw.common.unityac
         return 3;
     }
 
+    public int getMultiLanguageType() {
+        return 3;
+    }
+
+    public String getUDID() {
+        return "";
+    }
+
     public static final int StatusCode_Success = 10010;
     public static final int StatusCode_Fail = 10012;
     public static final int StatusCode_AccountChange = 10011;

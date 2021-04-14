@@ -109,10 +109,6 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
         });
     }
 
-    public String getUDID() {
-        return GameSDK.getInstance().getUDID();
-    }
-
     // Quit Unity
     @Override
     public void onDestroy() {
@@ -151,5 +147,15 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
     @Override
     public int getLanguageType() {
         return 9;
+    }
+
+    @Override
+    public int getMultiLanguageType() {
+        return 9;
+    }
+
+    @Override
+    public String getUDID() {
+        return GameSDK.getInstance().getUDID();
     }
 }
