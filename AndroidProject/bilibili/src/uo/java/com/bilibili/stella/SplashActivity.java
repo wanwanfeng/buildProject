@@ -7,7 +7,7 @@ import com.bsgamesdk.android.uo.GameSdkProxyCommonImp;
 import com.bsgamesdk.android.uo.imp.GameSdkProxy;
 import com.bsgamesdk.android.uo.splash.BaseSplashActivity;
 
-import android.support.v4.app.ActivityCompat;
+import androidx.core.app.ActivityCompat;
 
 public class SplashActivity extends BaseSplashActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
