@@ -124,7 +124,7 @@
             android:value="fb924708487696583" />
         <meta-data
             android:name="unity.build-id"
-            android:value="b185a95d-5f34-481c-b1f6-f0be4da851a4" />
+            android:value="@string/obbuuid" />
         <meta-data
             android:name="unity.splash-mode"
             android:value="2" />
