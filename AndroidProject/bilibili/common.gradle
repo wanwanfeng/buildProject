@@ -8,9 +8,26 @@ ext {
     appVersionNum = project.findProperty("VERSION_NAME") ?: "2.6.0"
     appVersionCode = Integer.parseInt(project.findProperty("VERSION_CODE") ?: "1")
     debug = (System.getenv("isdebug") ?: "false").toUpperCase().equals(true)
+    obbuuid = getObbId()
 }
 
-task afterbuild {
+def getObbId() {
+    def uuid = "b185a95d-5f34-481c-b1f6-f0be4da851a4"
+    def obb = rootProject.file("demo.main.obb")
+
+    if (obb.exists())
+        uuid = rootProject.zipTree("demo.main.obb").findAll { it.name.split('-').length == 5 && it.name.length() == 36 }.collect { return it.name }[0]
+
+    println obb.absolutePath + '@@' + uuid
+    return uuid
+}
+
+task afterbuildcopyTask(type: Copy) {
+    from 'demo.main.obb'
+    into 'build/outputs/apk'
+}
+
+task afterbuild(dependsOn: afterbuildcopyTask) {
 
     doFirst {
         println appName
