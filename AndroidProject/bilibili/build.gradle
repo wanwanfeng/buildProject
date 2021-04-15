@@ -7,9 +7,10 @@ buildscript {
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath 'com.android.tools.build:gradle:4.0.0'
         classpath 'com.tencent.bugly:symtabfileuploader:latest.release'
-        classpath 'com.google.gms:google-services:4.0.1'
+        classpath 'com.google.gms:google-services:4.3.5'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.2'
     }
 }
 
@@ -26,8 +27,14 @@ allprojects {
     }
 }
 
+
+apply plugin: 'com.android.application'
+
 apply plugin: 'bugly'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 apply from: file("buildAPK.gradle")
+
 //apply from: file("buildBundle.gradle")
 
 //main
@@ -73,6 +80,10 @@ dependencies {
     komoeImplementation 'com.facebook.android:facebook-share:5.15.3'
     komoeImplementation 'com.twitter.sdk.android:twitter-core:3.1.1'
     komoeImplementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
+
+    //komoeImplementation 'com.google.firebase:firebase-messaging:12.0.1'
+    //komoeImplementation 'com.google.firebase:firebase-crashlytics:17.4.1'
+    //komoeImplementation 'com.google.firebase:firebase-analytics:18.0.3'
 
     configurations {
         all*.exclude group: 'com.android.support'
