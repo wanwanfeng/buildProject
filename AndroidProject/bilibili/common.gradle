@@ -1,4 +1,3 @@
-
 ext {
     appName = project.findProperty("APPLICATION_NAME") ?: "RE0"
     buildTime = project.findProperty("BUILD_TIME") ?: "BUILD_TIME"
@@ -22,14 +21,8 @@ def getObbId() {
     return uuid
 }
 
-task afterbuildcopyTask(type: Copy) {
-    from 'demo.main.obb'
-    into 'build/outputs/apk'
-}
-
-task afterbuild(dependsOn: afterbuildcopyTask) {
-
-    doFirst {
+task afterbuild() {
+    doLast {
         println appName
         println buildTime
         println commitId
@@ -48,11 +41,9 @@ task afterbuild(dependsOn: afterbuildcopyTask) {
         println bugly.appVersion
         println bugly.appChannel
         println bugly.outputDir
-    }
 
-    doLast {
-        
         //buglySymbolAndroid()
+        CopyObb()
 
         def isAfterBuild = (System.getenv("afterbuild") ?: "true").toLowerCase()
         println "isAfterBuild:" + isAfterBuild
@@ -60,7 +51,20 @@ task afterbuild(dependsOn: afterbuildcopyTask) {
             return
 
         //NHPProtect()
+
         Mtp()
+    }
+}
+
+def CopyObb() {
+    fileTree(project.getProjectDir()) {
+        include("*.main.obb")
+    }.each { obb ->
+        def infile = file(obb)
+        def outfile = file("build/outputs/apk/" + obb.name)
+        println infile
+        println outfile
+        outfile.setBytes(infile.readBytes())
     }
 }
 
@@ -112,10 +116,10 @@ def Mtp() {
 
         def oldPath = apk.absolutePath
         def newPath = apk.parentFile.absolutePath
-        def certPath= dir.absolutePath + "/20115.cert"
+        def certPath = dir.absolutePath + "/20115.cert"
         def configPath = dir.absolutePath + '/config/' + apk.name.split('-')[0] + '-config.xml'
 
-        def cmdstr = dir.absolutePath +'/MTPClientConsole -d 20115 '+ oldPath +' '+ newPath +' '+ certPath +' -c ' + configPath
+        def cmdstr = dir.absolutePath + '/MTPClientConsole -d 20115 ' + oldPath + ' ' + newPath + ' ' + certPath + ' -c ' + configPath
         println cmdstr
         def result = cmdstr.execute([], dir).text.trim()
         println result
@@ -128,7 +132,7 @@ def Mtp() {
 }
 
 preBuild.doFirst {
-    def arr = ['src/main/assets/Config.json','src/main/assets/SdkConfig.json']
+    def arr = ['src/main/assets/Config.json', 'src/main/assets/SdkConfig.json']
     arr.each {
         def del = file(it)
         println del.absolutePath
