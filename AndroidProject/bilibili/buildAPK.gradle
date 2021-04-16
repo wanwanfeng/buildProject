@@ -104,26 +104,27 @@ android {
 //            java.srcDirs += ['src/common/java']
         }
         no {
-            res.srcDirs += ['res']
+            jniLibs.srcDirs = ['demo/jniLibs']
+            res.srcDirs += ['demo/res']
         }
         bili {
-            jniLibs.srcDirs = ['jniLibs']
+            jniLibs.srcDirs = ['demo/jniLibs']
         }
         shareJoy {
-            jniLibs.srcDirs = ['jniLibs']
-            res.srcDirs += ['res']
+            jniLibs.srcDirs = ['demo/jniLibs']
+            res.srcDirs += ['demo/res']
         }
         uo {
-            jniLibs.srcDirs = ['jniLibs']
-            res.srcDirs += ['res']
+            jniLibs.srcDirs = ['demo/jniLibs']
+            res.srcDirs += ['demo/res']
         }
         komoe {
-            jniLibs.srcDirs = ['jniLibs']
-            res.srcDirs += ['res']
+            jniLibs.srcDirs = ['demo/jniLibs']
+            res.srcDirs += ['demo/res']
         }
         korea {
-            jniLibs.srcDirs = ['jniLibs']
-            res.srcDirs += ['res']
+            jniLibs.srcDirs = ['demo/jniLibs']
+            res.srcDirs += ['demo/res']
         }
     }
 
