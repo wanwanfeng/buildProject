@@ -42,10 +42,6 @@ android {
         multiDexEnabled false
 
         flavorDimensions "default"
-
-        ndk {
-            abiFilters 'armeabi-v7a', 'x86'
-        }
     }
 
     productFlavors {
@@ -53,21 +49,37 @@ android {
             dimension "default"
             applicationId this.applicationId = "com.bilibili.stella.no"
             resValue "string", "app_name", "RE0-no"
+
+            ndk {
+                abiFilters 'armeabi-v7a', 'x86'
+            }
         }
         bili {
             dimension "default"
             applicationId this.applicationId = "com.bilibili.stella.bili"
             resValue "string", "app_name", "从零开始的异世界生活 记忆迷宫"
+
+            ndk {
+                abiFilters 'armeabi-v7a', 'x86'
+            }
         }
         shareJoy {
             dimension "default"
             applicationId this.applicationId = "com.bilibili.stella.sharejoy"
             resValue "string", "app_name", "RE0-shareJoy"
+
+            ndk {
+                abiFilters 'armeabi-v7a', 'x86'
+            }
         }
         uo {
             dimension "default"
             applicationId this.applicationId = "com.bilibili.stella.uo"
             resValue "string", "app_name", "RE0-uo"
+
+            ndk {
+                abiFilters 'armeabi-v7a', 'x86'
+            }
         }
         komoe {
             dimension "default"
