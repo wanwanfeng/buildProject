@@ -107,22 +107,22 @@ android {
             res.srcDirs += ['res']
         }
         bili {
-            jniLibs.srcDirs = ['src/no/jniLibs']
+            jniLibs.srcDirs = ['jniLibs']
         }
         shareJoy {
-            jniLibs.srcDirs = ['src/no/jniLibs']
+            jniLibs.srcDirs = ['jniLibs']
             res.srcDirs += ['res']
         }
         uo {
-            jniLibs.srcDirs = ['src/no/jniLibs']
+            jniLibs.srcDirs = ['jniLibs']
             res.srcDirs += ['res']
         }
         komoe {
-            jniLibs.srcDirs = ['src/no/jniLibs']
+            jniLibs.srcDirs = ['jniLibs']
             res.srcDirs += ['res']
         }
         korea {
-            jniLibs.srcDirs = ['src/no/jniLibs']
+            jniLibs.srcDirs = ['jniLibs']
             res.srcDirs += ['res']
         }
     }
