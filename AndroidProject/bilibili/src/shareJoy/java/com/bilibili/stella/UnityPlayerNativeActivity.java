@@ -1,4 +1,4 @@
-package com.bilibili.stella;
+package com.hello.stella;
 
 import com.bsgamesdk.android.BSGameSdk;
 import com.unity3d.player.*;

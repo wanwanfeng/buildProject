@@ -1,4 +1,4 @@
-package com.bilibili.stella.wxapi;
+package com.hello.stella.wxapi;
 
 import com.bsgamesdk.android.activity.BaseWXEntryActivity;
 

@@ -1,4 +1,4 @@
-package com.bilibili.stella;
+package com.hello.stella;
 
 import com.unity3d.player.*;
 
@@ -93,7 +93,7 @@ public class PermissionActivity extends Activity implements ActivityCompat.OnReq
      * 不再提示权限时的展示对话框
      */
     AlertDialog mPermissionDialog;
-    String mPackName = "com.bilibili.stella";
+    String mPackName = "com.hello.stella";
 
     private void showPermissionDialog() {
         if (mPermissionDialog == null) {

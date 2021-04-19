@@ -1,4 +1,4 @@
-package com.bilibili.stella;
+package com.hello.stella;
 
 import com.gs.android.GameSDK;
 import com.gs.android.base.utils.LogUtils;

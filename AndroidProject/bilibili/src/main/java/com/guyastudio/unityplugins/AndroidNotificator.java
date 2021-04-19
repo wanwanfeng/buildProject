@@ -19,7 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.bilibili.stella.R;
+import com.hello.stella.R;
 import com.unity3d.player.UnityPlayer;
 import java.util.Calendar;
 

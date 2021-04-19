@@ -1,4 +1,4 @@
-package com.bilibili.stella;
+package com.hello.stella;
 
 import android.app.Activity;
 import android.os.Bundle;
