@@ -21,8 +21,17 @@ def getObbId() {
     return uuid
 }
 
+task afterbuildTest() {
+    doFirst {
+        println "afterbuildTest"
+    }
+}
+
 task afterbuild() {
-    doLast {
+
+    dependsOn = [project.findProperty("DEPS") ?: "afterbuildTest"]
+
+    doFirst {
         println appName
         println buildTime
         println commitId
@@ -41,6 +50,8 @@ task afterbuild() {
         println bugly.appVersion
         println bugly.appChannel
         println bugly.outputDir
+    }
+    doLast {
 
         //buglySymbolAndroid()
         CopyObb()
