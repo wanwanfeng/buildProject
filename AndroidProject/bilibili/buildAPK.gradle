@@ -18,6 +18,7 @@ android {
 
     packagingOptions {
         doNotStrip '*/armeabi-v7a/*.so'
+        doNotStrip '*/arm64-v8a/*.so'
         doNotStrip '*/x86/*.so'
 
         exclude 'META-INF/ASL2.0'
