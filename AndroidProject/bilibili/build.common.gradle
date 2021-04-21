@@ -1,0 +1,162 @@
+
+//main
+dependencies {
+    implementation project(':MainLibProj')
+    implementation project(':unity-android-resources')
+    implementation project(':unity-mtp')
+    //implementation project(':unity-bugly')
+    //implementation project(':unity-ntp')
+
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs', excludes: [
+            'unity-classes.jar'
+    ])
+    implementation(name: 'unity-classes', ext: 'jar')
+}
+//noImplementation
+dependencies {
+    noImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/no')
+}
+//biliImplementation
+dependencies {
+    biliImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/bili')
+}
+//shareJoyImplementation
+dependencies {
+    shareJoyImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/shareJoy')
+}
+//uoImplementation
+dependencies {
+    uoImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/uo')
+}
+//komoeImplementation
+dependencies {
+    komoeImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/komoe')
+    //google支付sdk
+    //komoeImplementation 'com.android.billingclient:billing:3.0.0'
+    //google授权登录sdk
+    komoeImplementation 'com.google.android.gms:play-services-auth:12.0.1'
+    //接入appsflyer时需要installreferrer，否则不需要
+    komoeImplementation 'com.android.installreferrer:installreferrer:1.0'
+
+    //以下是分享相关sdk
+    komoeImplementation 'com.facebook.android:facebook-share:5.15.3'
+    komoeImplementation 'com.twitter.sdk.android:twitter-core:3.1.1'
+    komoeImplementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
+
+    //komoeImplementation 'com.google.firebase:firebase-messaging:12.0.1'
+    //komoeImplementation 'com.google.firebase:firebase-crashlytics:17.4.1'
+    //komoeImplementation 'com.google.firebase:firebase-analytics:18.0.3'
+
+    configurations {
+        all*.exclude group: 'com.android.support'
+        komoeImplementation.exclude group: 'com.squareup.retrofit2'
+        komoeImplementation.exclude group: 'com.google.code.gson'
+        komoeImplementation.exclude group: 'com.squareup.okhttp3'
+        komoeImplementation.exclude group: 'com.squareup.picasso'
+    }
+}
+//koreaImplementation
+dependencies {
+    koreaImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/korea')
+    //google支付sdk
+    //koreaImplementation 'com.android.billingclient:billing:3.0.0'
+    //google授权登录sdk
+    koreaImplementation 'com.google.android.gms:play-services-auth:17.0.0'
+    //接入appsflyer时需要installreferrer，否则不需要
+    koreaImplementation 'com.android.installreferrer:installreferrer:1.0'
+
+    //以下是分享相关sdk
+    koreaImplementation 'com.facebook.android:facebook-share:5.15.3'
+    koreaImplementation 'com.twitter.sdk.android:twitter-core:3.1.1'
+    koreaImplementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
+    //koreaImplementation 'com.kakao.sdk:kakaostory:1.30.2'
+
+    configurations {
+        all*.exclude group: 'com.android.support'
+        koreaImplementation.exclude group: 'com.squareup.retrofit2'
+        koreaImplementation.exclude group: 'com.google.code.gson'
+        koreaImplementation.exclude group: 'com.squareup.okhttp3'
+        koreaImplementation.exclude group: 'com.squareup.picasso'
+    }
+}
+
+def getConfig(flag = "Release") {
+    def temp = System.getenv("server");
+    if (temp == "") temp = null;
+
+    def servers = (temp ?: flag).split(',')
+    println "---------select servers---------- : " + servers
+
+    def jsonFile = file(project.getProjectDir().path + "/../../../Config.json").getText()
+    def json = new groovy.json.JsonSlurper().parseText(jsonFile)
+    json = json.findAll { it.Flag in servers }
+
+    //追加信息
+    json.forEach {
+        it.RandomCode = System.getenv("productName".toLowerCase())
+        it.BuildTime = System.getenv("time".toLowerCase())
+        it.ProductName = System.getenv("productName".toLowerCase())
+        it.ApplicationId = System.getenv("applicationId".toLowerCase())
+        it.VersionCode = System.getenv("versionCode".toLowerCase())
+        it.VersionName = System.getenv("versionName".toLowerCase())
+        it.GrayPackage = System.getenv("grayPackage".toLowerCase())
+    }
+
+    def res = groovy.json.JsonOutput.toJson(json)
+    res = java.util.Base64.getEncoder().encodeToString(res.getBytes())
+
+    println flag
+    println res
+
+    def content = "package com.unity3d.player;\npublic final class Config {\n\tpublic static final String  gameConfig = \"${res}\";\n}"
+    def javaFile = file("src/main/java/com/unity3d/player/Config.java")
+    if (file(javaFile.parent).exists().equals(false)) file(javaFile.parent).mkdirs()
+    javaFile.write(content)
+
+    return res
+}
+
+def preNoBuild() {
+    getConfig("Release")
+    println("=================preNoBuild doFirst=================")
+}
+
+def preBiliBuild() {
+    getConfig("Release")
+    println("=================preBiliBuild doFirst=================")
+}
+
+def preShareJoyBuild() {
+    getConfig("Release")
+    println("=================preShareJoyBuild doFirst=================")
+}
+
+def preUoBuild() {
+    getConfig("Release-UO")
+    println("=================preUoBuild doFirst=================")
+}
+
+def preKomoeBuild() {
+    getConfig("Release")
+    println("=================preKomoeBuild doFirst=================")
+}
+
+def preKoreaBuild() {
+    getConfig("Release")
+    println("=================preKoreaBuild doFirst=================")
+}
+
+afterEvaluate {
+    preNoDebugBuild.doFirst { preNoBuild() }
+    preNoReleaseBuild.doFirst { preNoBuild() }
+    preBiliDebugBuild.doFirst { preBiliBuild() }
+    preBiliReleaseBuild.doFirst { preBiliBuild() }
+    preShareJoyDebugBuild.doFirst { preShareJoyBuild() }
+    preShareJoyReleaseBuild.doFirst { preShareJoyBuild() }
+    preUoDebugBuild.doFirst { preUoBuild() }
+    preUoReleaseBuild.doFirst { preUoBuild() }
+    preKomoeDebugBuild.doFirst { preKomoeBuild() }
+    preKomoeReleaseBuild.doFirst { preKomoeBuild() }
+    preKoreaDebugBuild.doFirst { preKoreaBuild() }
+    preKoreaReleaseBuild.doFirst { preKoreaBuild() }
+}

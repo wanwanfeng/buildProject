@@ -9,8 +9,8 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.0'
         classpath 'com.tencent.bugly:symtabfileuploader:latest.release'
-//        classpath 'com.google.gms:google-services:4.3.5'
-//        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.2'
+        classpath 'com.google.gms:google-services:4.3.5'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.2'
     }
 }
 
@@ -31,16 +31,16 @@ allprojects {
 apply plugin: 'com.android.application'
 
 apply plugin: 'bugly'
-//apply plugin: 'com.google.gms.google-services'
-//apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 apply from: file("buildAPK.gradle")
 //apply from: file("buildBundle.gradle")
 
 apply from: file("build.common.gradle")
 
-task afterbuildDefaultTest() {
+task afterbuildKomoeTest() {
     doFirst {
-        println "afterbuildDefaultTest"
+        println "afterbuildKomoeTest"
     }
 }
