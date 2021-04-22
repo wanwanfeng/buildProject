@@ -15,8 +15,8 @@
     <!-- Sign: information of keystore when using local sign-->
     <Sign>
         <sign-argument name = "keystorePath" value="../bilibili/keystore/komoe.keystore"/>
-        <sign-argument name = "keypass" value="dgfdgsgryjruyicn22"/>
-        <sign-argument name = "storepass" value="dgfdgsgryjruyicn33"/>
+        <sign-argument name = "keypass" value="dgfdgsgryjruyicn"/>
+        <sign-argument name = "storepass" value="dgfdgsgryjruyicn"/>
         <sign-argument name = "alianame" value="komoe"/>
         <sign-argument name = "v1SigningEnabled" value="true"/>
         <sign-argument name = "v2SigningEnabled" value="false"/>
