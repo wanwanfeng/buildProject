@@ -84,6 +84,11 @@
 <!--        &lt;!&ndash; Activity設定 ここから &ndash;&gt;-->
 <!--        <activity android:name="com.facebook.unity.AppInviteDialogActivity" />-->
         <!-- Activity設定 ここまで -->
+        <receiver android:name="com.guyastudio.unityplugins.AndroidNotificator">
+            <intent-filter>
+                <action android:name="UNITY_NOTIFICATOR" />
+            </intent-filter>
+        </receiver>
         <meta-data
             android:name="jp.co.sega.sgn.common.enable_debug_log"
             android:value="true" />
