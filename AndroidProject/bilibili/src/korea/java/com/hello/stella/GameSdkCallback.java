@@ -230,13 +230,35 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
     }
 
     @Override
-    public void onUserUpgrade(Bundle bundle) {
+    public void onUserUpgrade(Bundle arg0) {
+        UnityPlayerNativeActivity.User userInfo = new UnityPlayerNativeActivity.User();
+        userInfo.userID = arg0.getString("uid");
+        userInfo.userName = arg0.getString("username");
+        userInfo.access_token = arg0.getString("access_token");
+        userInfo.login_type = arg0.getInt("login_type");
 
+        try {
+            JSONObject dat = new JSONObject();
+            dat.put("username", userInfo.userName);
+            dat.put("nickname", userInfo.userName);
+            dat.put("uid", userInfo.userID);
+            dat.put("access_token", userInfo.access_token);
+            dat.put("login_type", userInfo.login_type);
+            unity3dSendMessage("UserUpgradeWithUserInfo", StatusCode_Success, dat.toString());
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onAccountInvalid() {
-
+        try {
+            JSONObject dat = new JSONObject();
+            dat.put("code", 0);
+            unity3dSendMessage("AccountInvalid", StatusCode_Success, dat.toString());
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -310,6 +332,14 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
 
     @Override
     public void onSwitchAccount() {
-
+        try {
+            JSONObject dat = new JSONObject();
+            dat.put("code", 0);
+            dat.put("message", "message");
+            unity3dSendMessage("SwitchAccount", StatusCode_Success, dat.toString());
+            userInfo = null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

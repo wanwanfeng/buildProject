@@ -109,6 +109,24 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
         });
     }
 
+    public void userCenter(String info) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                GameSDK.getInstance().userCenter();
+            }
+        });
+    }
+
+    public void switchAccount(String info) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                GameSDK.getInstance().switchAccount();
+            }
+        });
+    }
+
     // Quit Unity
     @Override
     public void onDestroy() {
