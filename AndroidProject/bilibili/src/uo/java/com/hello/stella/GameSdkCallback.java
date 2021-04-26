@@ -83,7 +83,9 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
         LogUtils.d("###", "public void onLogout() getChannelId :" + getChannelId());
         try {
             LogUtils.d("###", "public void onLogout(),uid:" + this.userInfo.userID);
-            unity3dSendMessage("Logout", StatusCode_Success, "");
+            JSONObject dat = new JSONObject();
+            dat.put("code", 0);
+            unity3dSendMessage("Logout", StatusCode_Success, dat.toString());
             userInfo = null;
         } catch (Throwable e) {
             e.printStackTrace();
