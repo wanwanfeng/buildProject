@@ -16,47 +16,62 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
         super.onCreate(savedInstanceState);
     }
 
-    public void init(final boolean debug, String merchant_id, String app_id, String server_id, String app_key) {
+    public void init(String info) {
         status = true;
+
+        String[] array = info.split(",");
+
         sharedInstance = new BaseData();
-        sharedInstance.merchant_id = merchant_id;
-        sharedInstance.app_id = app_id;
-        sharedInstance.server_id = server_id;
-        sharedInstance.app_key = app_key;
-        sharedInstance.debug = debug;
+        sharedInstance.debug =  array[0].equalsIgnoreCase("true");
+        sharedInstance.merchant_id =  array[1];
+        sharedInstance.app_id =  array[2];
+        sharedInstance.server_id =  array[3];
+        sharedInstance.app_key =  array[4];
 
         Log.i("init ::::", sharedInstance.toString());
 
-        GameSDK.getInstance().init(UnityPlayer.currentActivity, merchant_id, app_id, server_id, app_key, this);
+        GameSDK.getInstance().init(UnityPlayer.currentActivity, sharedInstance.merchant_id, sharedInstance.app_id, sharedInstance.server_id, sharedInstance.app_key, this);
     }
 
-    public void notifyZone(String role_id, String role_name, int lv, String serverid, String server_name, String createTime) {
+    public void notifyZone(String info) {
+
+        String[] array = info.split(",");
+        final String role_id = array[0];
+        final String role_name =  array[1];
+        final String server_name = array[2];
+        final String serverid =  array[3];
+
         GameSDK.getInstance().notifyZone(server_name, role_id, role_name, serverid, server_name);
     }
 
-    public void createRole(String role_id, String role_name, int lv, String serverid, String servername, String createTime) {
+    public void createRole(String info) {
+        String[] array = info.split(",");
+        final String role_id = array[0];
+        final String role_name = array[1];
+        final String serverid =  array[2];
+        final String servername =  array[3];
+
         GameSDK.getInstance().createRole(role_id, role_name, serverid, servername);
     }
 
-    public void levelUp(String id, String name, int lv, String serverid, String servername, String createTime, String levelUpTime) {
-
+    public void levelUp(String info) {
+        String[] array = info.split(",");
     }
 
-    public void pay(int money, String prodectName, int productCount, String tradeNo, String subject, String extInfo, String notify_url, String order_sign) {
-        orderInfo = new OrderInfo();
-        orderInfo.moneyAmount = money;
-        orderInfo.productName = prodectName;
-        orderInfo.productCount = productCount;
-        orderInfo.tradeNo = tradeNo;
-        orderInfo.subject = subject;
-        orderInfo.extInfo = extInfo;
-        orderInfo.notify_url = notify_url;
-        orderInfo.order_sign = order_sign;
+    public void pay(String info){
+
+        String[] array = info.split(",");
+        final String cp_server_id = array[0];
+        final String cp_server_name = array[1];
+        final String out_trade_no =  array[2];
+        final String product_id =  array[3];
+        final String notify_url =  array[4];
+        final String extension_info =  array[5];
 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                GameSDK.getInstance().pay("cp_server_id", "cp_server_name", orderInfo.tradeNo, orderInfo.productName, orderInfo.notify_url, orderInfo.extInfo);
+                GameSDK.getInstance().pay(cp_server_id, cp_server_name, out_trade_no, product_id, notify_url, extension_info);
             }
         });
     }

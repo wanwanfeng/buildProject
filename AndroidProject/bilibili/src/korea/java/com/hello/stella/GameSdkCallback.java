@@ -62,34 +62,8 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
         }
     }
 
-    public static class OrderInfo {
-        public long moneyAmount;
-        public String productName;
-        public String order_sign;
-        public String notify_url;
-        public int productCount;
-        public String tradeNo;
-        public String subject;
-        public String extInfo;
-
-        @Override
-        public String toString() {
-            return "OrderInfo{" +
-                    "moneyAmount=" + moneyAmount +
-                    ", productName='" + productName + '\'' +
-                    ", order_sign='" + order_sign + '\'' +
-                    ", notify_url='" + notify_url + '\'' +
-                    ", productCount=" + productCount +
-                    ", tradeNo='" + tradeNo + '\'' +
-                    ", subject='" + subject + '\'' +
-                    ", extInfo='" + extInfo + '\'' +
-                    '}';
-        }
-    }
-
     protected static BaseData sharedInstance = null;
 
-    protected OrderInfo orderInfo = null;
     protected User userInfo = null;
     protected boolean status = false;
 
