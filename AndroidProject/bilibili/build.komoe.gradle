@@ -45,7 +45,7 @@ dependencies {
     //google支付sdk
     //komoeImplementation 'com.android.billingclient:billing:3.0.0'
     //google授权登录sdk
-    komoeImplementation 'com.google.android.gms:play-services-auth:17.0.0'
+    komoeImplementation 'com.google.android.gms:play-services-auth:12.0.1'
     //接入appsflyer时需要installreferrer，否则不需要
     komoeImplementation 'com.android.installreferrer:installreferrer:1.0'
 
