@@ -39,6 +39,32 @@ apply from: file("buildAPK.gradle")
 
 apply from: file("build.common.gradle")
 
+
+//koreaImplementation
+dependencies {
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/korea')
+    //google支付sdk
+    //implementation 'com.android.billingclient:billing:3.0.0'
+    //google授权登录sdk
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    //接入appsflyer时需要installreferrer，否则不需要
+    implementation 'com.android.installreferrer:installreferrer:1.0'
+
+    //以下是分享相关sdk
+    implementation 'com.facebook.android:facebook-share:5.15.3'
+    implementation 'com.twitter.sdk.android:twitter-core:3.1.1'
+    implementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
+    //implementation 'com.kakao.sdk:kakaostory:1.30.2'
+
+    configurations {
+        all*.exclude group: 'com.android.support'
+        implementation.exclude group: 'com.squareup.retrofit2'
+        implementation.exclude group: 'com.google.code.gson'
+        implementation.exclude group: 'com.squareup.okhttp3'
+        implementation.exclude group: 'com.squareup.picasso'
+    }
+}
+
 task afterbuildKoreaTest() {
     doFirst {
         println "afterbuildKoreaTest"
