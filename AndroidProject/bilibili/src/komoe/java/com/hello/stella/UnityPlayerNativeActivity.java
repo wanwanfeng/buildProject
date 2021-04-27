@@ -9,6 +9,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.util.HashMap;
+
 public class UnityPlayerNativeActivity extends GameSdkCallback {
 
     @Override
@@ -22,11 +24,11 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
         String[] array = info.split(",");
 
         sharedInstance = new BaseData();
-        sharedInstance.debug =  array[0].equalsIgnoreCase("true");
-        sharedInstance.merchant_id =  array[1];
-        sharedInstance.app_id =  array[2];
-        sharedInstance.server_id =  array[3];
-        sharedInstance.app_key =  array[4];
+        sharedInstance.debug = array[0].equalsIgnoreCase("true");
+        sharedInstance.merchant_id = array[1];
+        sharedInstance.app_id = array[2];
+        sharedInstance.server_id = array[3];
+        sharedInstance.app_key = array[4];
 
         Log.i("init ::::", sharedInstance.toString());
 
@@ -37,9 +39,9 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
 
         String[] array = info.split(",");
         final String role_id = array[0];
-        final String role_name =  array[1];
+        final String role_name = array[1];
         final String server_name = array[2];
-        final String serverid =  array[3];
+        final String serverid = array[3];
 
         GameSDK.getInstance().notifyZone(server_name, role_id, role_name, serverid, server_name);
     }
@@ -48,8 +50,8 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
         String[] array = info.split(",");
         final String role_id = array[0];
         final String role_name = array[1];
-        final String serverid =  array[2];
-        final String servername =  array[3];
+        final String serverid = array[2];
+        final String servername = array[3];
 
         GameSDK.getInstance().createRole(role_id, role_name, serverid, servername);
     }
@@ -58,15 +60,15 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
         String[] array = info.split(",");
     }
 
-    public void pay(String info){
+    public void pay(String info) {
 
         String[] array = info.split(",");
         final String cp_server_id = array[0];
         final String cp_server_name = array[1];
-        final String out_trade_no =  array[2];
-        final String product_id =  array[3];
-        final String notify_url =  array[4];
-        final String extension_info =  array[5];
+        final String out_trade_no = array[2];
+        final String product_id = array[3];
+        final String notify_url = array[4];
+        final String extension_info = array[5];
 
         runOnUiThread(new Runnable() {
             @Override
@@ -190,5 +192,19 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
     @Override
     public String getUDID() {
         return GameSDK.getInstance().getUDID();
+    }
+
+    public void trackEvent(String info) {
+
+        String[] array = info.split(",");
+        final String eventKey = array[0];
+        final String eventValues = array[1];
+        final HashMap<String, Object> params = new HashMap<>();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                GameSDK.getInstance().firebaseTrackEvent(UnityPlayer.currentActivity, eventKey, params);
+            }
+        });
     }
 }

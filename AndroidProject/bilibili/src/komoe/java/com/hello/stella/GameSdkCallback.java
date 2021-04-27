@@ -163,19 +163,21 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
 
     @Override
     public void onGetUserInfoSuccess(Bundle arg0) {
-        UnityPlayerNativeActivity.User userInfo = new UnityPlayerNativeActivity.User();
-        userInfo.userID = arg0.getString("uid");
-        userInfo.userName = arg0.getString("username");
-        userInfo.access_token = arg0.getString("access_token");
-        userInfo.login_type = arg0.getInt("login_type");
+        UnityPlayerNativeActivity.User user = new UnityPlayerNativeActivity.User();
+        user.userID = arg0.getString("uid");
+        user.userName = arg0.getString("username");
+        user.access_token = arg0.getString("access_token");
+        user.login_type = arg0.getInt("login_type");
+
+        userInfo = user;
 
         try {
             JSONObject dat = new JSONObject();
-            dat.put("username", userInfo.userName);
-            dat.put("nickname", userInfo.userName);
-            dat.put("uid", userInfo.userID);
-            dat.put("access_token", userInfo.access_token);
-            dat.put("login_type", userInfo.login_type);
+            dat.put("username", user.userName);
+            dat.put("nickname", user.userName);
+            dat.put("uid", user.userID);
+            dat.put("access_token", user.access_token);
+            dat.put("login_type", user.login_type);
             unity3dSendMessage("GetUserInfo", StatusCode_Success, dat.toString());
         } catch (Throwable e) {
             e.printStackTrace();
@@ -207,19 +209,21 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
 
     @Override
     public void onUserUpgrade(Bundle arg0) {
-        UnityPlayerNativeActivity.User userInfo = new UnityPlayerNativeActivity.User();
-        userInfo.userID = arg0.getString("uid");
-        userInfo.userName = arg0.getString("username");
-        userInfo.access_token = arg0.getString("access_token");
-        userInfo.login_type = arg0.getInt("login_type");
+        UnityPlayerNativeActivity.User user = new UnityPlayerNativeActivity.User();
+        user.userID = arg0.getString("uid");
+        user.userName = arg0.getString("username");
+        user.access_token = arg0.getString("access_token");
+        user.login_type = arg0.getInt("login_type");
+
+        userInfo = user;
 
         try {
             JSONObject dat = new JSONObject();
-            dat.put("username", userInfo.userName);
-            dat.put("nickname", userInfo.userName);
-            dat.put("uid", userInfo.userID);
-            dat.put("access_token", userInfo.access_token);
-            dat.put("login_type", userInfo.login_type);
+            dat.put("username", user.userName);
+            dat.put("nickname", user.userName);
+            dat.put("uid", user.userID);
+            dat.put("access_token", user.access_token);
+            dat.put("login_type", user.login_type);
             unity3dSendMessage("UserUpgradeWithUserInfo", StatusCode_Success, dat.toString());
         } catch (Throwable e) {
             e.printStackTrace();
