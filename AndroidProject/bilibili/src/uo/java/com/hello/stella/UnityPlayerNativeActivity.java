@@ -26,11 +26,11 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
         super.onCreate(savedInstanceState);
         this.gameSdkProxy = GameSdkProxy.sharedInstance();
         this.gameSdkProxy.setUserListener(this);
-        UoInit();
+        init();
         this.gameSdkProxy.onCreate(UnityPlayer.currentActivity, savedInstanceState);
     }
 
-    public void UoInit() {
+    public void init() {
         status = true;
         this.gameSdkProxy.init(UnityPlayer.currentActivity, new CallbackListener() {
             @Override
@@ -48,7 +48,7 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
 
             @Override
             public void onFailed(BSGameSdkError error) {
-                UoInit();
+                init();
             }
         });
     }
@@ -61,52 +61,86 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
         }
         return role;
     }
+    public void notifyZone(String info) {
+        String[] array = info.split(",");
+        String serverid = array[0];
+        String servername = array[1];
+        int lv = Integer.valueOf(array[2]);
+        String id = array[3];
+        String name = array[4];
+        String createTime = array[5];
 
-    private UserExtData.Server getServer(String serverid, String Servername) {
-        UserExtData.Server server = null;
-        if (server == null) {
-            server = new UserExtData.Server(serverid, Servername, "1", "UO一区");
-        }
-        return server;
-    }
+        UserExtData.Server server = new UserExtData.Server(serverid, servername, serverid, servername);
 
-    public void UoChooseServer(String id, String name, int lv, String serverid, String servername, String createTime) {
         String cid = Integer.toString(gameSdkProxy.channelid());
         if (cid.equalsIgnoreCase("1"))
             createTime = createTime + "000";
-        UserExtData data = new UserExtData(UserExtData.Type.EnterServer, getRole(id, name, lv, createTime), getServer(serverid, servername), "vip0", 100);
+        UserExtData data = new UserExtData(
+                UserExtData.Type.EnterServer,
+                getRole(id, name, lv, createTime),
+                server, "vip0",
+                100);
         this.gameSdkProxy.setUserExtData(UnityPlayer.currentActivity, data);
     }
 
-    public void UoCreateRole(String id, String name, int lv, String serverid, String servername, String createTime) {
+    public void createRole(String info) {
+        String[] array = info.split(",");
+        String serverid = array[0];
+        String servername = array[1];
+        int lv = Integer.valueOf(array[2]);
+        String id = array[3];
+        String name = array[4];
+        String createTime = array[5];
+
+        UserExtData.Server server = new UserExtData.Server(serverid, servername, serverid, servername);
         String cid = Integer.toString(gameSdkProxy.channelid());
         if (cid.equalsIgnoreCase("1"))
             createTime = createTime + "000";
-        UserExtData data = new UserExtData(UserExtData.Type.CreateRole, getRole(id, name, 1, createTime), getServer(serverid, servername), "vip0", 100);
+        UserExtData data = new UserExtData(
+                UserExtData.Type.CreateRole,
+                getRole(id, name, 1, createTime),
+                server,
+                "vip0",
+                100);
         this.gameSdkProxy.setUserExtData(UnityPlayer.currentActivity, data);
     }
 
-    public void UoLevelUp(String id, String name, int lv, String serverid, String servername, String createTime, String levelUpTime) {
+    public void levelUp(String info) {
+        String[] array = info.split(",");
+        String serverid = array[0];
+        String servername = array[1];
+        int lv = Integer.valueOf(array[2]);
+        String id = array[3];
+        String name = array[4];
+        String createTime = array[5];
+        String levelUpTime = array[6];
+
+        UserExtData.Server server = new UserExtData.Server(serverid, servername, serverid, servername);
         String cid = Integer.toString(gameSdkProxy.channelid());
         if (cid.equalsIgnoreCase("1"))
             createTime = createTime + "000";
-        UserExtData.Role role = null;
-        role = getRole(id, name, lv, createTime);
+        UserExtData.Role role = getRole(id, name, lv, createTime);
         role.roleLevelupTime = levelUpTime;
-        UserExtData data = new UserExtData(UserExtData.Type.LevelUp, role, getServer(serverid, servername), "vip0", 100);
+        UserExtData data = new UserExtData(
+                UserExtData.Type.LevelUp,
+                role,
+                server,
+                "vip0",
+                100);
         this.gameSdkProxy.setUserExtData(this, data);
     }
 
-    public void UoPay(int money, String prodectName, int productCount, String tradeNo, String subject, String extInfo, String notify_url, String order_sign) {
+    public void pay(String info) {
+        String[] array = info.split(",");
         orderInfo = new OrderInfo();
-        orderInfo.moneyAmount = money;
-        orderInfo.productName = prodectName;
-        orderInfo.productCount = productCount;
-        orderInfo.tradeNo = tradeNo;
-        orderInfo.subject = subject;
-        orderInfo.extInfo = extInfo;
-        orderInfo.notify_url = notify_url;
-        orderInfo.order_sign = order_sign;
+        orderInfo.moneyAmount = Integer.valueOf(array[0]);
+        orderInfo.productName =  array[1];
+        orderInfo.productCount =  Integer.valueOf(array[2]);
+        orderInfo.tradeNo = array[3];
+        orderInfo.subject =array[4];
+        orderInfo.extInfo = array[5];
+        orderInfo.notify_url = array[6];
+        orderInfo.order_sign =array[7];
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -158,7 +192,7 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
                 .setCancelable(false).show();
     }
 
-    public void UoExit() {
+    public void exit() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -176,7 +210,7 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
         });
     }
 
-    public boolean CheckIsLogin() {
+    public boolean checkIsLogin() {
         if (userInfo != null) {
             SendLoginMessage(StatusCode_Success);
             return true;
@@ -185,9 +219,9 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
         }
     }
 
-    public void YYBlogin(final int type) {
+    public void yyblogin(final int type) {
         status = false;
-        if (!CheckIsLogin()) {
+        if (!checkIsLogin()) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -198,9 +232,9 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
         }
     }
 
-    public void UoLogin() {
+    public void login() {
         status = false;
-        if (!CheckIsLogin()) {
+        if (!checkIsLogin()) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -211,7 +245,7 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
         }
     }
 
-    public void UoLogout() {
+    public void logout() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

@@ -99,14 +99,17 @@ public class BSGameSdkCenter {
      * <p>
      * 必须在主线线程初始化，或者在Activity中的OnCreate方法中调用
      */
-    public static void init(final boolean debug, String merchant_id, String app_id, String server_id, String app_key) {
+    public static void init(String info) {
+
+        String[] array = info.split(",");
         sharedInstance = new BSGameSdkCenter();
         sharedInstance.preferences = UnityPlayer.currentActivity.getSharedPreferences("demouser", Context.MODE_PRIVATE);
-        sharedInstance.merchant_id = merchant_id;
-        sharedInstance.app_id = app_id;
-        sharedInstance.server_id = server_id;
-        sharedInstance.app_key = app_key;
-        sharedInstance.debug = debug;
+        sharedInstance.debug = array[0].equalsIgnoreCase("true");
+        sharedInstance.merchant_id = array[1];
+        sharedInstance.app_id = array[2];
+        sharedInstance.server_id = array[3];
+        sharedInstance.app_key = array[4];
+
         if (Looper.myLooper() != null && Looper.myLooper().equals(Looper.getMainLooper())) {
             LogUtils.d("call gamesdk init in main looper");
             sharedInstance.init();
@@ -249,32 +252,45 @@ public class BSGameSdkCenter {
         });
     }
 
-    public static void notifyZone(String serverid, String servername, String roleid, String rolename) {
-        sharedInstance.gameSdk.notifyZone(serverid, servername, roleid, rolename);
+    public static void notifyZone(String info) {
+        String[] array = info.split(",");
+        final String role_id = array[0];
+        final String role_name = array[1];
+        final String server_name = array[2];
+        final String serverid = array[3];
+
+        sharedInstance.gameSdk.notifyZone(serverid, server_name, role_id, role_name);
     }
 
-    public static void createRole(String rolename, String roleid) {
-        sharedInstance.gameSdk.createRole(rolename, roleid);
+    public static void createRole(String info) {
+        String[] array = info.split(",");
+        final String role_id = array[0];
+        final String role_name = array[1];
+
+        sharedInstance.gameSdk.createRole(role_name, role_id);
     }
 
     public static String sign(String data, String secretKey) {
         return MD5.sign(data, secretKey);
     }
 
-    /**
-     * @param uid           用户的唯一标识(整型)
-     * @param username      用户名或者email（唯一）
-     * @param role          充值的角色信息
-     * @param serverId      区服号
-     * @param total_fee     充值金额
-     * @param game_money    游戏币，需要用充值金额*充值比率
-     * @param out_trade_no  充值订单号
-     * @param subject       充值主题
-     * @param body          充值描述
-     * @param extensioninfo 附加信息，会在服务器异步回调中原样传回
-     */
-    public static void pay(long uid, String username, String role, String serverId, int total_fee, int game_money, String out_trade_no, String subject, String body, String extensioninfo, String url, String paykey) {
+    public static void pay(String info) {
         // 支付操作
+
+        String[] array = info.split(",");
+        long uid = Long.valueOf(array[0]);
+        String username = array[1];
+        String role = array[2];
+        String serverId = array[3];
+        int total_fee = Integer.valueOf(array[4]);
+        int game_money = Integer.valueOf(array[5]);
+        String out_trade_no = array[6];
+        String subject = array[7];
+        String body = array[8];
+        String extensioninfo = array[9];
+        String url = array[10];
+        String paykey = array[11];
+
         sharedInstance.gameSdk.pay(uid, username, role, serverId, total_fee, game_money, out_trade_no, subject, body, extensioninfo, url, paykey, new OrderCallbackListener() {
             @Override
             public void onSuccess(String out_trade_no, String bs_trade_no) {
@@ -312,25 +328,13 @@ public class BSGameSdkCenter {
                     json.put("code", error.getErrorCode());
                     json.put("message", error.getErrorMessage());
                     json.put("out_trade_no", out_trade_no);
-                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Pay, BSGameSdkCallBack.StatusCode_Fail,json.toString());
+                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Pay, BSGameSdkCallBack.StatusCode_Fail, json.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 LogUtils.d("onError\nErrorCode : " + error.getErrorCode() + "\nErrorMessage : " + error.getErrorMessage());
             }
         });
-    }
-
-    public static void testPay() {
-        if ("".equals(sharedInstance.preferences.getString("username", ""))) {
-            sharedInstance.makeToast("您还未登录！");
-            return;
-        }
-        String username = sharedInstance.preferences.getString("username", "test");
-        String payUid = sharedInstance.preferences.getString("uid", "88");
-        String role = sharedInstance.preferences.getString("nickname", "默认昵称");
-        int uid = Integer.valueOf(payUid);
-        pay(uid, username, role, sharedInstance.server_id, 1, 100, String.valueOf(System.currentTimeMillis()), "test-subject", "test-body", "test for new parameters", "111", "111");
     }
 
     public static void showToast(String content) {
@@ -346,23 +350,23 @@ public class BSGameSdkCenter {
         mHandler.sendMessage(msg);
     }
 
-    /**
-     * c：游戏Activity实例
-     * sourceUrl: 需要免流的host,也支持完整的url,建议游戏在请求相同域名的多个资源时
-     * game_id：平台分配给游戏的唯一标识
-     * app_key：商户应用的客户端密钥，请勿使用服务器端密钥
-     * listener：CallbackListener的实例
-     */
-    public static void getFreeUrl(String source_url, String app_id, String app_key) {
+    public static void getFreeUrl(String info) {
+
+        String[] array = info.split(",");
+        String source_url = array[0];
+        String app_id = array[1];
+        String app_key = array[2];
+
+
         BSGameSdk.getFreeUrl(UnityPlayer.currentActivity, source_url, app_id, app_key, new BSGameSdkCallBack(BSGameSdkCallBack.CALLBACKTYPE_GetFreeUrl) {
             @Override
             public void onSuccess(Bundle bundle) {
                 // 此处为操作成功时执行，返回值通过Bundle传回
                 try {
                     JSONObject json = new JSONObject();
-                    json.put("result",  bundle.getInt("result"));
-                    json.put("target_url",  bundle.getString("target_url"));
-                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_GetFreeUrl, BSGameSdkCallBack.StatusCode_Success,json.toString());
+                    json.put("result", bundle.getInt("result"));
+                    json.put("target_url", bundle.getString("target_url"));
+                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_GetFreeUrl, BSGameSdkCallBack.StatusCode_Success, json.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
