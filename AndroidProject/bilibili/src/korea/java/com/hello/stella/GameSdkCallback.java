@@ -153,8 +153,8 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
         LogUtils.d("###", "Pay fail");
         try {
             JSONObject dat = new JSONObject();
-            dat.put("out_trade_no", "");
-            dat.put("message", "[" + code + "]" + message);
+            dat.put("code", code);
+            dat.put("message", message);
             unity3dSendMessage("Pay", StatusCode_Fail, dat.toString());
         } catch (Throwable e) {
             e.printStackTrace();
