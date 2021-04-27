@@ -1,0 +1,42 @@
+
+apply plugin: 'bugly'
+
+bugly {
+    appId = "900019571"
+    appKey = "ydwf3M1VxORDopvf"
+}
+
+dependencies {
+    implementation project(':unity-bugly')
+}
+
+afterEvaluate {
+
+    afterbuild.doFirst {
+        println bugly.appId
+        println bugly.appKey
+        println bugly.debug
+        println bugly.appPackage
+        println bugly.appVersion
+        println bugly.appChannel
+        println bugly.outputDir
+    }
+
+    afterbuild.doLast {
+        buglySymbolAndroid()
+    }
+}
+
+def buglySymbolAndroid() {
+    def dir = file("/Users/buglySymbolAndroid/")
+    dir = dir.exists() ? dir : file(project.getProjectDir().path + "/../buglySymbolAndroid/")
+    println dir
+
+    def jniLibspath = file(project.getProjectDir().path + "/src/main/jniLibs/").absolutePath
+
+    //def cmdstr = "java -jar buglySymbolAndroid.jar -i ${jniLibspath} -u -id ${bugly.appId} -key ${bugly.appKey} -package ${applicationId} -version ${appVersionNum}(${appVersionCode})"
+    def cmdstr = "java -jar buglySymbolAndroid.jar -i ${jniLibspath} -u -id ${bugly.appId} -key ${bugly.appKey} -package ${applicationId} -version ${appVersionNum}"
+    println cmdstr
+    def result = cmdstr.execute([], dir).text.trim()
+    println result
+}

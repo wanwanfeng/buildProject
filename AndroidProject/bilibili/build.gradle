@@ -31,12 +31,13 @@ allprojects {
 apply plugin: 'com.android.application'
 
 apply plugin: 'bugly'
+apply from: file("common.bugly.gradle")
+
 //apply plugin: 'com.google.gms.google-services'
 //apply plugin: 'com.google.firebase.crashlytics'
 
 apply from: file("buildAPK.gradle")
 //apply from: file("buildBundle.gradle")
-
 apply from: file("build.common.gradle")
 
 task afterbuildDefaultTest() {

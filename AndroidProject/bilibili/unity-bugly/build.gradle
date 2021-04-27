@@ -1,10 +1,5 @@
 apply plugin: 'com.android.library'
 
-bugly {
-    appId = "900019571"
-    appKey = "ydwf3M1VxORDopvf"
-}
-
 dependencies {
     implementation fileTree(dir: 'bin', include: ['*.jar'])
     implementation fileTree(dir: 'libs', include: ['*.jar'])
