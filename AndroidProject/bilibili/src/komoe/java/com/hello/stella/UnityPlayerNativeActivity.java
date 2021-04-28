@@ -10,6 +10,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import java.util.HashMap;
+import java.util.Iterator;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class UnityPlayerNativeActivity extends GameSdkCallback {
 
@@ -194,17 +198,30 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
         return GameSDK.getInstance().getUDID();
     }
 
+    @Override
     public void trackEvent(String info) {
 
-        String[] array = info.split(",");
+        String[] array = info.split(",", 2);
         final String eventKey = array[0];
         final String eventValues = array[1];
-        final HashMap<String, Object> params = new HashMap<>();
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                GameSDK.getInstance().firebaseTrackEvent(UnityPlayer.currentActivity, eventKey, params);
+
+        try {
+            JSONObject obj = new JSONObject(eventValues);
+
+            final HashMap<String, Object> params = new HashMap<>();
+            params.put("C# error", "");
+
+            for (Iterator<String> it = obj.keys(); it.hasNext(); ) {
+                String name = it.next();
+                params.put(name, obj.getString(name));
             }
-        });
+
+            GameSDK.getInstance().firebaseTrackEvent(UnityPlayer.currentActivity, eventKey, params);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            final HashMap<String, Object> params = new HashMap<>();
+            params.put("java error", e.getMessage());
+            GameSDK.getInstance().firebaseTrackEvent(UnityPlayer.currentActivity, eventKey, params);
+        }
     }
 }

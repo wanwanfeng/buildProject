@@ -68,4 +68,7 @@ public class UnityPlayerNativeActivity extends com.sega.sgn.sgnfw.common.unityac
             Log.e(TAG, e.getMessage(), e);
         }
     }
+
+    public void trackEvent(String info) {
+    }
 }
