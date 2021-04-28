@@ -28,7 +28,6 @@ import java.util.Calendar;
  * 仅在安卓平台有效
  */
 public class AndroidNotificator extends BroadcastReceiver {
-    private static int m_nLastID = 0;
 
     public AndroidNotificator() {
     }
@@ -42,7 +41,7 @@ public class AndroidNotificator extends BroadcastReceiver {
      * @param pIsDailyLoop 是否每日自动推送
      * @throws IllegalArgumentException 错误信息
      */
-    public static void ShowNotification(String pAppName, String pTitle, String pContent, int pDelaySecond, boolean pIsDailyLoop) throws IllegalArgumentException {
+    public static void ShowNotification(String pAppName, String pTitle, String pContent, int pDelaySecond, boolean pIsDailyLoop, int requestCode) throws IllegalArgumentException {
         Log.d("ShowNotification","ShowNotification,"+ pAppName+","+pTitle+","+pContent+","+pDelaySecond+","+pIsDailyLoop);
         if (pDelaySecond < 0) {
             throw new IllegalArgumentException("The param: pDelaySecond < 0");
@@ -53,28 +52,46 @@ public class AndroidNotificator extends BroadcastReceiver {
             intent.putExtra("appname", pAppName);
             intent.putExtra("title", pTitle);
             intent.putExtra("content", pContent);
-            PendingIntent pi = PendingIntent.getBroadcast(curActivity, 0, intent, 0);
+            intent.putExtra("requestCode", String.valueOf(requestCode));
+            PendingIntent pi = PendingIntent.getBroadcast(curActivity, requestCode, intent, 0);
             AlarmManager am = (AlarmManager)curActivity.getSystemService(Context.ALARM_SERVICE);
             Calendar calendar = Calendar.getInstance();
             calendar.add(13, pDelaySecond);
             long alarmTime = calendar.getTimeInMillis();
-            if (pIsDailyLoop) {
-                am.setRepeating(AlarmManager.RTC_WAKEUP, alarmTime, 86400L, pi);
-            } else {
-                am.set(AlarmManager.RTC_WAKEUP, alarmTime, pi);
+
+//            if (pIsDailyLoop) {
+//                am.setRepeating(AlarmManager.RTC_WAKEUP, alarmTime, 86400L, pi);
+//            } else {
+//                am.set(AlarmManager.RTC_WAKEUP, alarmTime, pi);
+//            }
+
+            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M)
+            {
+                am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,alarmTime,pi);
+            }
+            else  if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT)
+            {
+                am.setExact(AlarmManager.RTC_WAKEUP,alarmTime,pi);
+            }
+            else
+            {
+                am.set(AlarmManager.RTC_WAKEUP, alarmTime,pi);
             }
         }
     }
 
-    public static void ClearNotification() {
+    public static void ClearNotification(int id) {
+        Activity act = UnityPlayer.currentActivity;
+        NotificationManager nManager = (NotificationManager) act.getSystemService(Context.NOTIFICATION_SERVICE);
+        Log.d("ClearNotification", "ClearNotification");
+        nManager.cancel(id);
+    }
+
+    public static void ClearAllNotification() {
         Activity act = UnityPlayer.currentActivity;
         NotificationManager nManager = (NotificationManager)act.getSystemService(Context.NOTIFICATION_SERVICE);
-        Log.d("ClearNotification","ClearNotification");
-        for(int i = m_nLastID; i >= 0; --i) {
-            nManager.cancel(i);
-        }
-
-        m_nLastID = 0;
+        Log.d("ClearAllNotification","ClearAllNotification");
+        nManager.cancelAll();
     }
 
     @SuppressWarnings("deprecation")
@@ -118,11 +135,10 @@ public class AndroidNotificator extends BroadcastReceiver {
         builder.setAutoCancel(true);//打开程序后图标消失
         builder.setDefaults(Notification.DEFAULT_ALL); //设置默认的提示音，振动方式，灯光
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(pContext, m_nLastID, new Intent (pContext,unityActivity), 0);
+        int requestCode = Integer.valueOf((String) bundle.get("requestCode"));
+        PendingIntent pendingIntent = PendingIntent.getActivity(pContext, requestCode, new Intent (pContext,unityActivity), 0);
         builder.setContentIntent(pendingIntent);
         Notification notification = builder.build();
-
-        nm.notify(m_nLastID, notification); // 通过通知管理器发送通知
-        m_nLastID++;
+        nm.notify(requestCode, notification); // 通过通知管理器发送通知
     }
 }
