@@ -9,8 +9,8 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.0'
         classpath 'com.tencent.bugly:symtabfileuploader:latest.release'
-        classpath 'com.google.gms:google-services:4.3.5'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.2'
+        classpath 'com.google.gms:google-services:4.3.4'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.2.0'
     }
 }
 
@@ -41,29 +41,30 @@ apply from: file("build.common.gradle")
 
 //koreaImplementation
 dependencies {
-    koreaImplementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/korea')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/korea')
     //google支付sdk
-    //koreaImplementation 'com.android.billingclient:billing:3.0.0'
+    implementation 'com.android.billingclient:billing:3.0.0'
     //google授权登录sdk
-    koreaImplementation 'com.google.android.gms:play-services-auth:12.0.1'
-    //接入appsflyer时需要installreferrer，否则不需要
-    koreaImplementation 'com.android.installreferrer:installreferrer:1.0'
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
 
     //以下是分享相关sdk
-    koreaImplementation 'com.facebook.android:facebook-share:8.1.0'
-    koreaImplementation 'com.twitter.sdk.android:twitter-core:3.1.1'
-    koreaImplementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
-    //koreaImplementation 'com.google.firebase:firebase-messaging:12.0.1'
-    //koreaImplementation 'com.google.firebase:firebase-crashlytics:17.4.1'
-    //koreaImplementation 'com.google.firebase:firebase-analytics:18.0.3'
-    //koreaImplementation 'com.kakao.sdk:kakaostory:1.30.2'
+    implementation 'com.facebook.android:facebook-share:8.1.0'
+    implementation 'com.twitter.sdk.android:twitter-core:3.1.1'
+    implementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
+    //接入appsflyer时需要installreferrer，否则不需要
+    implementation 'com.android.installreferrer:installreferrer:1.0'
+
+    implementation platform('com.google.firebase:firebase-bom:26.0.0')
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
 
     configurations {
         all*.exclude group: 'com.android.support'
-        koreaImplementation.exclude group: 'com.squareup.retrofit2'
-        koreaImplementation.exclude group: 'com.google.code.gson'
-        koreaImplementation.exclude group: 'com.squareup.okhttp3'
-        koreaImplementation.exclude group: 'com.squareup.picasso'
+        komoeImplementation.exclude group: 'com.squareup.retrofit2'
+        komoeImplementation.exclude group: 'com.google.code.gson'
+        komoeImplementation.exclude group: 'com.squareup.okhttp3'
+        komoeImplementation.exclude group: 'com.squareup.picasso'
     }
 }
 
