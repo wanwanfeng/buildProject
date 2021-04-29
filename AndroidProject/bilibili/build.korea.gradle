@@ -48,7 +48,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
 
     //以下是分享相关sdk
-    komoeImplementation 'com.facebook.android:facebook-share:8.1.0'
+    implementation 'com.facebook.android:facebook-share:8.1.0'
     komoeImplementation 'com.twitter.sdk.android:twitter-core:3.1.1'
     komoeImplementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
     //接入appsflyer时需要installreferrer，否则不需要
