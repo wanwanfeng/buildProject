@@ -201,12 +201,9 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
     @Override
     public void trackEvent(String info) {
 
-        String[] array = info.split(",", 2);
-        final String eventKey = array[0];
-        final String eventValues = array[1];
-
         try {
-            JSONObject obj = new JSONObject(eventValues);
+            JSONObject obj = new JSONObject(info);
+            final String eventKey = obj.getString("eventKey");
 
             final HashMap<String, Object> params = new HashMap<>();
             params.put("C# error", "");
@@ -221,7 +218,7 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
             e.printStackTrace();
             final HashMap<String, Object> params = new HashMap<>();
             params.put("java error", e.getMessage());
-            GameSDK.getInstance().firebaseTrackEvent(UnityPlayer.currentActivity, eventKey, params);
+            GameSDK.getInstance().firebaseTrackEvent(UnityPlayer.currentActivity, "java", params);
         }
     }
 }
