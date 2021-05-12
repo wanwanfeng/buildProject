@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--  **Google登录参数:**-->
-    <string name="server_client_id" translatable="false">497092660836-1kai4cu01dl0j3642po73hhcdl6h0mmo.apps.googleusercontent.com</string>
+    <string name="server_client_id" translatable="false">497092660836-eikepma92l3g8te7ofi65mk1dup659lf.apps.googleusercontent.com</string>
     <!--**apple登录参数:**-->
     <string name="apple_login_client_id" translatable="false">com.komoegame.rezerokr.server</string>
     <string name="apple_login_redirect_url" translatable="false">http://www.komoejoy.com/apple_return_url</string>
