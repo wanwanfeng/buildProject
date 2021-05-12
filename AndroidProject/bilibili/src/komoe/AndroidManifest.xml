@@ -39,6 +39,13 @@
             android:name="android.max_aspect"
             android:value="2.1" />
 
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_launcher"/>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="#03DAC5" />
+
         <!--如果需要接入AppsFlyer请添加以下配置-->
         <meta-data android:name="appsflyer_dev_key" android:value="@string/appsflyer_dev_key"/>
 
