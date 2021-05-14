@@ -213,7 +213,12 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
                 params.put(name, obj.getString(name));
             }
 
-            GameSDK.getInstance().firebaseTrackEvent(UnityPlayer.currentActivity, eventKey, params);
+            if (obj.getString("target").equalsIgnoreCase("appsflyer")) {
+                GameSDK.getInstance().appsflyerTrackEvent(UnityPlayer.currentActivity, eventKey, params);
+            } else if (obj.getString("target").equalsIgnoreCase("firebase")) {
+                GameSDK.getInstance().firebaseTrackEvent(UnityPlayer.currentActivity, eventKey, params);
+            } else {
+            }
         } catch (JSONException e) {
             e.printStackTrace();
             final HashMap<String, Object> params = new HashMap<>();
