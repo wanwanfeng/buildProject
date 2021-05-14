@@ -4,7 +4,7 @@
     <string name="server_client_id" translatable="false">497092660836-eikepma92l3g8te7ofi65mk1dup659lf.apps.googleusercontent.com</string>
     <!--**apple登录参数:**-->
     <string name="apple_login_client_id" translatable="false">com.komoegame.rezerokr.server</string>
-    <string name="apple_login_redirect_url" translatable="false">http://www.komoejoy.com/apple_return_url</string>
+    <string name="apple_login_redirect_url" translatable="false">https://www.komoejoy.com/apple_return_url</string>
     <!--**AppsFlyer参数(接入AppsFlyer时需要):**-->
     <string name="appsflyer_dev_key" translatable="false">3XayQNbGMZaJYBmg9LMwGi</string>
     <!--**Facebook分享参数:**-->
