@@ -77,12 +77,6 @@
             </intent-filter>
         </activity>
         <!--facebook end-->
-
-        <receiver android:name="com.guyastudio.unityplugins.AndroidNotificator">
-            <intent-filter>
-                <action android:name="UNITY_NOTIFICATOR" />
-            </intent-filter>
-        </receiver>
     </application>
     <supports-screens
         android:anyDensity="true"

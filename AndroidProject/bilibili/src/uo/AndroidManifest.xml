@@ -78,12 +78,6 @@
         <meta-data
             android:name="XG_V2_ACCESS_KEY"
             android:value="ABD3I7474KFE" />
-        <!-- 【必须】 通知service，此选项有助于提高抵达率 -->
-        <receiver android:name="com.guyastudio.unityplugins.AndroidNotificator">
-            <intent-filter>
-                <action android:name="UNITY_NOTIFICATOR" />
-            </intent-filter>
-        </receiver>
     </application>
     <!--<uses-sdk android:minSdkVersion="14" android:targetSdkVersion="23" />-->
     <!-- Fello -->

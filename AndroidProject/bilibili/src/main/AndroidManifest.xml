@@ -84,11 +84,13 @@
 <!--        &lt;!&ndash; Activity設定 ここから &ndash;&gt;-->
 <!--        <activity android:name="com.facebook.unity.AppInviteDialogActivity" />-->
         <!-- Activity設定 ここまで -->
-        <receiver android:name="com.guyastudio.unityplugins.AndroidNotificator">
+        <receiver android:name="com.unity.androidnotifications.UnityNotificationManager" android:exported="true" />
+        <receiver android:name="com.unity.androidnotifications.UnityNotificationRestartOnBootReceiver" android:enabled="false">
             <intent-filter>
-                <action android:name="UNITY_NOTIFICATOR" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <meta-data android:name="reschedule_notifications_on_restart" android:value="true" />
         <meta-data
             android:name="jp.co.sega.sgn.common.enable_debug_log"
             android:value="true" />
@@ -184,4 +186,5 @@
     <uses-permission
         android:name="android.permission.READ_PHONE_STATE"
         tools:node="remove" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 </manifest>

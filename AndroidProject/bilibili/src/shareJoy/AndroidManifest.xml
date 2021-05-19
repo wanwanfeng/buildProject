@@ -67,12 +67,6 @@
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />
-        <!-- 【必须】 信鸽service -->
-        <receiver android:name="com.guyastudio.unityplugins.AndroidNotificator">
-            <intent-filter>
-                <action android:name="UNITY_NOTIFICATOR" />
-            </intent-filter>
-        </receiver>
         <!-- 【必须】 通知service，此选项有助于提高抵达率 -->
         <receiver
             android:name="com.tencent.android.tpush.XGPushReceiver"
