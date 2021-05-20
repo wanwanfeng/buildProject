@@ -38,7 +38,6 @@ apply from: file("buildAPK.gradle")
 
 apply from: file("build.common.gradle")
 
-
 //koreaImplementation
 dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/korea')
@@ -49,23 +48,15 @@ dependencies {
 
     //以下是分享相关sdk
     implementation 'com.facebook.android:facebook-share:8.1.0'
-    komoeImplementation 'com.twitter.sdk.android:twitter-core:3.1.1'
-    komoeImplementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
+    implementation 'com.twitter.sdk.android:twitter-core:3.1.1'
+    implementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
     //接入appsflyer时需要installreferrer，否则不需要
-    komoeImplementation 'com.android.installreferrer:installreferrer:1.0'
+    implementation 'com.android.installreferrer:installreferrer:1.0'
 
-    komoeImplementation platform('com.google.firebase:firebase-bom:26.0.0')
-    komoeImplementation 'com.google.firebase:firebase-messaging'
-    komoeImplementation 'com.google.firebase:firebase-crashlytics'
-    komoeImplementation 'com.google.firebase:firebase-analytics'
-
-    configurations {
-        all*.exclude group: 'com.android.support'
-        komoeImplementation.exclude group: 'com.squareup.retrofit2'
-        komoeImplementation.exclude group: 'com.google.code.gson'
-        komoeImplementation.exclude group: 'com.squareup.okhttp3'
-        komoeImplementation.exclude group: 'com.squareup.picasso'
-    }
+    implementation platform('com.google.firebase:firebase-bom:26.0.0')
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
 }
 
 task afterbuildKoreaTest() {

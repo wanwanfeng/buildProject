@@ -38,7 +38,6 @@ apply from: file("buildAPK.gradle")
 
 apply from: file("build.common.gradle")
 
-
 //komoeImplementation
 dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/komoe')
@@ -58,14 +57,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
-
-    configurations {
-        all*.exclude group: 'com.android.support'
-        komoeImplementation.exclude group: 'com.squareup.retrofit2'
-        komoeImplementation.exclude group: 'com.google.code.gson'
-        komoeImplementation.exclude group: 'com.squareup.okhttp3'
-        komoeImplementation.exclude group: 'com.squareup.picasso'
-    }
 }
 
 task afterbuildKomoeTest() {
