@@ -41,43 +41,6 @@
           ]
         }
       }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:13422737239:android:a3f56accadac31ca0e7012",
-        "android_client_info": {
-          "package_name": "com.komoegame.rezerokr"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "13422737239-knrka09q36d0a7j92m785amn8s7redd0.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBgMzr20ObI7XsY6MF7CNpmoqPMVMM48l0"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "13422737239-knrka09q36d0a7j92m785amn8s7redd0.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "13422737239-b481su6f7rp5o8uvhgrja9mu11hhhir4.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.komoe.re0ios",
-                "app_store_id": "1558793538"
-              }
-            }
-          ]
-        }
-      }
     }
   ],
   "configuration_version": "1"

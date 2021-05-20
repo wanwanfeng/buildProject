@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "646912715371",
+    "project_id": "rezerokr-8845e",
+    "storage_bucket": "rezerokr-8845e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:646912715371:android:bae7831e9ca35a7f551f2e",
+        "android_client_info": {
+          "package_name": "com.komoegame.rezerokr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "646912715371-ll73ijqshs45rvsk0h7034gfggaaa6e4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCu-nx8UzYjwQSq8rbcGbNWzVC-jxrOUgI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "646912715371-ll73ijqshs45rvsk0h7034gfggaaa6e4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "646912715371-0lf4nkn96mltf1q3vfd8sd8scfnhqfde.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.komoegame.rezerokr",
+                "app_store_id": "1535454183"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
