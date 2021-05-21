@@ -1,5 +1,6 @@
 package com.hello.stella;
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.gs.android.GameSDK;
 import com.gs.android.base.utils.LogUtils;
 import com.unity3d.player.*;
@@ -212,6 +213,7 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
                 String name = it.next();
                 params.put(name, obj.getString(name));
             }
+
             if (obj.getString("target").equalsIgnoreCase("appsflyer")) {
                 GameSDK.getInstance().appsflyerTrackEvent(UnityPlayer.currentActivity, eventKey, params);
             } else if (obj.getString("target").equalsIgnoreCase("firebase")) {
@@ -223,6 +225,15 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
             final HashMap<String, Object> params = new HashMap<>();
             params.put("java error", e.getMessage());
             GameSDK.getInstance().firebaseTrackEvent(UnityPlayer.currentActivity, "java", params);
+        }
+    }
+
+    @Override
+    public void trackLog(String info) {
+        try {
+            FirebaseCrashlytics.getInstance().log(info);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
