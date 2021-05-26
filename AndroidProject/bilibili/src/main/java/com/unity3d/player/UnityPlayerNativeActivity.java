@@ -1,6 +1,5 @@
 package com.unity3d.player;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.util.Log;
 
@@ -16,10 +15,8 @@ public class UnityPlayerNativeActivity extends com.sega.sgn.sgnfw.common.unityac
 //        // 防止屏幕息屏 https://www.jb51.net/article/175373.htm
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 //    }
-
-    @SuppressLint("LongLogTag")
     public void ExitGame() {
-        Log.d("UnityPlayerNativeActivity", "ExitGame");
+        Log.d(TAG, "ExitGame");
         this.finish();
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(0);
@@ -51,6 +48,14 @@ public class UnityPlayerNativeActivity extends com.sega.sgn.sgnfw.common.unityac
         return "";
     }
 
+    public String getMacAddress() {
+        return "";
+    }
+
+    public String getNetWorkInfo() {
+        return "";
+    }
+
     public static final int StatusCode_Success = 10010;
     public static final int StatusCode_Fail = 10012;
     public static final int StatusCode_AccountChange = 10011;
@@ -71,6 +76,7 @@ public class UnityPlayerNativeActivity extends com.sega.sgn.sgnfw.common.unityac
 
     public void trackEvent(String info) {
     }
+
     public void trackLog(String info) {
     }
 }
