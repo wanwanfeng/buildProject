@@ -75,15 +75,33 @@ public class BSGameSdkCenter {
                         sharedInstance.gameSdk.setAccountListener(new AccountCallBackListener() {
                             @Override
                             public void onAccountInvalid() {
-                                BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_AccountInvalid, BSGameSdkCallBack.StatusCode_Success, "account is invalid");
+                                try {
+                                    JSONObject json = new JSONObject();
+                                    json.put("message", "account is invalid");
+                                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_AccountInvalid, BSGameSdkCallBack.StatusCode_Success,  json.toString());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         });
-                        BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Init, BSGameSdkCallBack.StatusCode_Success, "init gamesdk success");
+                        try {
+                            JSONObject json = new JSONObject();
+                            json.put("message", "init gamesdk success");
+                            BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Init, BSGameSdkCallBack.StatusCode_Success, json.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
                     public void onFailed() {
-                        BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Init, BSGameSdkCallBack.StatusCode_Fail, "init gamesdk failed");
+                        try {
+                            JSONObject json = new JSONObject();
+                            json.put("message", "init gamesdk failed");
+                            BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Init, BSGameSdkCallBack.StatusCode_Fail, json.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, new ExitCallbackListener() {
                     @Override
@@ -135,8 +153,16 @@ public class BSGameSdkCenter {
      */
     public static void login() {
         LogUtils.d("BSGameSdkCenter: login");
+        JSONObject json = new JSONObject();
+
         if (sharedInstance == null || sharedInstance.gameSdk == null) {
-            BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Login, BSGameSdkCallBack.StatusCode_Fail, "init fail or not completed!");
+            try {
+                json.put("message", "init fail or not completed!");
+                BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Login, BSGameSdkCallBack.StatusCode_Fail, json.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         } else {
             sharedInstance.gameSdk.login(new BSGameSdkCallBack(BSGameSdkCallBack.CALLBACKTYPE_Login) {
                 @Override
@@ -159,21 +185,16 @@ public class BSGameSdkCenter {
                         json.put("expire_times", expire_times);
                         json.put("refresh_token", refresh_token);
                         json.put("nickname", nickname);
+
+                        sharedInstance.preferences.edit().clear().commit();
+                        sharedInstance.preferences.edit().putString("username", userName).commit();
+                        sharedInstance.preferences.edit().putString("uid", uid).commit();
+                        sharedInstance.preferences.edit().putString("nickname", nickname).commit();
+                        BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Login, BSGameSdkCallBack.StatusCode_Success, json.toString());
+                        sharedInstance.gameSdk.start(UnityPlayer.currentActivity);
                     } catch (JSONException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-                    sharedInstance.preferences.edit().clear().commit();
-                    sharedInstance.preferences.edit().putString("username", userName).commit();
-                    sharedInstance.preferences.edit().putString("uid", uid).commit();
-                    sharedInstance.preferences.edit().putString("nickname", nickname).commit();
-                    /*
-                     * center.makeToast("uid: " + uid + " userName: " + userName +
-                     * " access_token: " + access_token + " expire_times: " +
-                     * expire_times + " refresh_token: " + refresh_token);
-                     */
-                    sharedInstance.gameSdk.start(UnityPlayer.currentActivity);
-                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Login, BSGameSdkCallBack.StatusCode_Success, json.toString());
                 }
             });
         }
@@ -185,8 +206,14 @@ public class BSGameSdkCenter {
             public void onSuccess(Bundle arg0) {
                 // 此处为操作成功时执行，返回值通过Bundle传回
                 LogUtils.d("onSuccess");
-                boolean logined = arg0.getBoolean("logined", false);
-                BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_IsLogin, BSGameSdkCallBack.StatusCode_Success, logined);
+                JSONObject json = new JSONObject();
+                try {
+                    json.put("message",  arg0.getBoolean("logined", false));
+                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_IsLogin, BSGameSdkCallBack.StatusCode_Success, json.toString());
+                    sharedInstance.gameSdk.stop(UnityPlayer.currentActivity);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -197,10 +224,14 @@ public class BSGameSdkCenter {
             public void onSuccess(Bundle arg0) {
                 // 此处为操作成功时执行，返回值通过Bundle传回
                 LogUtils.d("onSuccess");
-                String tips = arg0.getString("tips");
-                sharedInstance.preferences.edit().clear().commit();
-                BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Logout, BSGameSdkCallBack.StatusCode_Success, tips);
-                sharedInstance.gameSdk.stop(UnityPlayer.currentActivity);
+                JSONObject json = new JSONObject();
+                try {
+                    json.put("message", arg0.getString("tips"));
+                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Logout, BSGameSdkCallBack.StatusCode_Success, json.toString());
+                    sharedInstance.gameSdk.stop(UnityPlayer.currentActivity);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -229,11 +260,10 @@ public class BSGameSdkCenter {
                     json.put("lastLoginTime", lastLoginTime);
                     json.put("avatar", avatar);
                     json.put("s_avatar", s_avatar);
+                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_GetUserInfo, BSGameSdkCallBack.StatusCode_Success, json.toString());
                 } catch (JSONException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_GetUserInfo, BSGameSdkCallBack.StatusCode_Success, json.toString());
             }
         });
     }
@@ -246,8 +276,13 @@ public class BSGameSdkCenter {
                 LogUtils.d("onSuccess");
                 // 注册成功后已退出登录，清除保存的信息
                 sharedInstance.preferences.edit().clear().commit();
-                String result = arg0.getString("result");
-                BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Register, BSGameSdkCallBack.StatusCode_Success, result);
+                JSONObject json = new JSONObject();
+                try {
+                    json.put("message", arg0.getString("result"));
+                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Register, BSGameSdkCallBack.StatusCode_Success, json.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
