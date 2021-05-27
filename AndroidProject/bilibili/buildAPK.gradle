@@ -85,7 +85,7 @@ android {
         komoe {
             dimension "default"
             applicationId this.applicationId = "com.komoe.re0gp"
-            resValue "string", "app_name", "RE：從零開始的異世界生活 Lost in memories"
+            resValue "string", "app_name", "Re:0 LIM"
 
             compileSdkVersion 30
             buildToolsVersion "29.0.2"
