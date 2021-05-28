@@ -131,6 +131,28 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
         });
     }
 
+    public void showUserAgreement(String info) {
+        String[] array = info.split(",");
+        final int cpServerArea = Integer.valueOf(array[0]);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                GameSDK.getInstance().showUserAgreement(cpServerArea);
+            }
+        });
+    }
+
+    public void showPrivacyPolicy(String info) {
+        String[] array = info.split(",");
+        final int cpServerArea = Integer.valueOf(array[0]);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                GameSDK.getInstance().showPrivacyPolicy(cpServerArea);
+            }
+        });
+    }
+
     public void userCenter(String info) {
         runOnUiThread(new Runnable() {
             @Override

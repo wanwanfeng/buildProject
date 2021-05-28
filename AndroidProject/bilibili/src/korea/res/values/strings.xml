@@ -14,4 +14,9 @@
     <string name="consumer_secret" translatable="false">6bHlCJsSqOHWuapqZXjTdh28LAuAPk3E7nt4c6iimNzfPLLSQZ</string>
     <!--**kakao分享参数:**-->
     <string name="kakaostory_key" translatable="false">填入分配的kakaostory_key</string>
+
+    <string name="game_sdk_visitor_cache_enable">0</string>
+    <string name="game_sdk_account_revoke_enable">1</string>
+    <string name="game_sdk_game_items_enable">1</string>
+    <string name="game_sdk_user_agreement_enable">0</string>
 </resources>

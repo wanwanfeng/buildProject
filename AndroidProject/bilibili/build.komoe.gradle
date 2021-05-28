@@ -11,6 +11,7 @@ buildscript {
         classpath 'com.tencent.bugly:symtabfileuploader:latest.release'
         classpath 'com.google.gms:google-services:4.3.4'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.2.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32"
     }
 }
 
@@ -33,6 +34,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
+//添加kotlin插件
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
 apply from: file("buildAPK.gradle")
 //apply from: file("buildBundle.gradle")
 
@@ -45,11 +50,17 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 30
+
+        //dex突破65535的限制
+        multiDexEnabled true
     }
 }
 
-//komoeImplementation
+//koreaImplementation
 dependencies {
+    //dex突破65535的限制需要
+    implementation 'com.android.support:multidex:1.0.3'
+
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/komoe')
     //google支付sdk
     implementation 'com.android.billingclient:billing:3.0.0'
