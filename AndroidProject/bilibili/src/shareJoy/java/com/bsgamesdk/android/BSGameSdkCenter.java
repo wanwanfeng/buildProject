@@ -291,10 +291,10 @@ public class BSGameSdkCenter {
         String[] array = info.split(",");
         final String role_id = array[0];
         final String role_name = array[1];
-        final String server_name = array[2];
-        final String serverid = array[3];
+        final String server_id = array[2];
+        final String server_name = array[3];
 
-        sharedInstance.gameSdk.notifyZone(serverid, server_name, role_id, role_name);
+        sharedInstance.gameSdk.notifyZone(server_id, server_name, role_id, role_name);
     }
 
     public static void createRole(String info) {
