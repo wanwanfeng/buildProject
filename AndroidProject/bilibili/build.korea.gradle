@@ -23,7 +23,7 @@ allprojects {
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
         maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
         flatDir {
-            dirs 'libs', 'libs/komoe', 'libs/korea'
+            dirs 'libs', 'libs/komoe', 'libs/korea', 'unity-firebase/libs'
         }
     }
 }
@@ -62,6 +62,7 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
 
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/komoe')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'unity-firebase/libs')
     //google支付sdk
     implementation 'com.android.billingclient:billing:3.0.0'
     //google授权登录sdk
