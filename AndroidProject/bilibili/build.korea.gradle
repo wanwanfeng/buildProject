@@ -22,7 +22,7 @@ allprojects {
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
         maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
         flatDir {
-            dirs 'libs', 'libs/no', 'libs/bili', 'libs/shareJoy', 'libs/uo', 'libs/komoe', 'libs/korea'
+            dirs 'libs', 'libs/komoe', 'libs/korea'
         }
     }
 }
@@ -37,6 +37,16 @@ apply from: file("buildAPK.gradle")
 //apply from: file("buildBundle.gradle")
 
 apply from: file("build.common.gradle")
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "29.0.2"
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 30
+    }
+}
 
 //koreaImplementation
 dependencies {
