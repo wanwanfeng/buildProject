@@ -10,6 +10,8 @@ import com.hello.stella.R;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 import static android.content.ContentValues.TAG;
 
 public class UnityPlayerNativeActivity extends com.sega.sgn.sgnfw.common.unityactivity.SgnfwUnityActivity {
@@ -81,10 +83,10 @@ public class UnityPlayerNativeActivity extends com.sega.sgn.sgnfw.common.unityac
         }
     }
 
-    public void trackEvent(String info) {
+    public void appsflyerTrackEvent(String eventKey, HashMap<String, Object> eventValues) {
     }
 
-    public void trackLog(String info) {
+    public void firebaseTrackEvent(String eventKey, HashMap<String, Object> eventValues) {
     }
 
     public long getFirstInstallTime() {

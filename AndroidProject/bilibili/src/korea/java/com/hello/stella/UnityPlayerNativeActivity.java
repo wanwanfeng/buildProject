@@ -207,40 +207,16 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
     }
 
     @Override
-    public void trackEvent(String info) {
-
-        try {
-            JSONObject obj = new JSONObject(info);
-            final String eventKey = obj.getString("eventKey");
-
-            final HashMap<String, Object> params = new HashMap<>();
-            params.put("C# error", "");
-
-            for (Iterator<String> it = obj.keys(); it.hasNext(); ) {
-                String name = it.next();
-                params.put(name, obj.getString(name));
-            }
-
-            if (obj.getString("target").equalsIgnoreCase("appsflyer")) {
-                GameSDK.getInstance().appsflyerTrackEvent(UnityPlayer.currentActivity, eventKey, params);
-            } else if (obj.getString("target").equalsIgnoreCase("firebase")) {
-                GameSDK.getInstance().firebaseTrackEvent(UnityPlayer.currentActivity, eventKey, params);
-            } else {
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            final HashMap<String, Object> params = new HashMap<>();
-            params.put("java error", e.getMessage());
-            GameSDK.getInstance().firebaseTrackEvent(UnityPlayer.currentActivity, "java", params);
-        }
+    public void appsflyerTrackEvent(String eventKey, HashMap<String, Object> eventValues) {
+        LogUtils.d("###", "appsflyerTrackEvent:" + eventKey.toString());
+        LogUtils.d("###", "appsflyerTrackEvent:" + eventValues.toString());
+        GameSDK.getInstance().appsflyerTrackEvent(UnityPlayer.currentActivity, eventKey, eventValues);
     }
 
     @Override
-    public void trackLog(String info) {
-        try {
-            FirebaseCrashlytics.getInstance().log(info);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void firebaseTrackEvent(String eventKey, HashMap<String, Object> eventValues) {
+        LogUtils.d("###", "firebaseTrackEvent:" + eventKey.toString());
+        LogUtils.d("###", "firebaseTrackEvent:" + eventValues.toString());
+        GameSDK.getInstance().firebaseTrackEvent(UnityPlayer.currentActivity, eventKey, eventValues);
     }
 }
