@@ -5,7 +5,7 @@
     tools:ignore="MissingLeanbackSupport">
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:isGame="true"
         android:label="@string/app_name"
