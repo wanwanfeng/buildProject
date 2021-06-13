@@ -3,7 +3,7 @@ package com.hello.stella;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.gs.android.GSCallback;
+import com.gs.android.base.interfaces.GSCallback;
 import com.gs.android.base.utils.LogUtils;
 import com.unity3d.player.UnityPlayer;
 
@@ -285,12 +285,12 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
     }
 
     @Override
-    public void onGameTermsRefuse() {
+    public void onGameTermsRefuse(int code, String message) {
         LogUtils.d("###", "public void onGameTermsRefuse() :");
         try {
             JSONObject dat = new JSONObject();
-            dat.put("code", 1);
-            dat.put("messagge", "onGameTermsRefuse");
+            dat.put("code", code);
+            dat.put("message", message);
             unity3dSendMessage("ShowGameTerms", StatusCode_Fail, dat.toString());
         } catch (Throwable e) {
             e.printStackTrace();
