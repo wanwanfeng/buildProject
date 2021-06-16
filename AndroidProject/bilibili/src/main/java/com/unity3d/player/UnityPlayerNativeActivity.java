@@ -3,6 +3,8 @@ package com.unity3d.player;
 import android.app.Activity;
 import android.util.Log;
 
+import com.hello.stella.R;
+
 import org.json.JSONObject;
 
 import static android.content.ContentValues.TAG;
@@ -33,15 +35,15 @@ public class UnityPlayerNativeActivity extends com.sega.sgn.sgnfw.common.unityac
     }
 
     public int getSdkType() {
-        return 0;
+        return getResources().getInteger(R.integer.sdk_type);
     }
 
     public int getLanguageType() {
-        return 3;
+        return getResources().getInteger(R.integer.language_type);
     }
 
     public int getMultiLanguageType() {
-        return 3;
+        return getResources().getInteger(R.integer.mullanguage_type);
     }
 
     public String getUDID() {

@@ -50,6 +50,9 @@ android {
             dimension "default"
             applicationId this.applicationId = "com.hello.stella.no"
             resValue "string", "app_name", "RE0-no"
+            resValue "integer", "sdk_type", "0"
+            resValue "integer", "language_type", "3"
+            resValue "integer", "mullanguage_type", "3"
 
             ndk {
                 abiFilters 'armeabi-v7a', 'x86'
@@ -59,6 +62,9 @@ android {
             dimension "default"
             applicationId this.applicationId = "com.hello.stella.bili"
             resValue "string", "app_name", "从零开始的异世界生活 记忆迷宫"
+            resValue "integer", "sdk_type", "1"
+            resValue "integer", "language_type", "2"
+            resValue "integer", "mullanguage_type", "2"
 
             ndk {
                 abiFilters 'armeabi-v7a', 'x86'
@@ -68,6 +74,9 @@ android {
             dimension "default"
             applicationId this.applicationId = "com.hello.stella.sharejoy"
             resValue "string", "app_name", "RE0-shareJoy"
+            resValue "integer", "sdk_type", "2"
+            resValue "integer", "language_type", "2"
+            resValue "integer", "mullanguage_type", "2"
 
             ndk {
                 abiFilters 'armeabi-v7a', 'x86'
@@ -77,6 +86,9 @@ android {
             dimension "default"
             applicationId this.applicationId = "com.hello.stella.uo"
             resValue "string", "app_name", "RE0-uo"
+            resValue "integer", "sdk_type", "3"
+            resValue "integer", "language_type", "2"
+            resValue "integer", "mullanguage_type", "2"
 
             ndk {
                 abiFilters 'armeabi-v7a', 'x86'
@@ -86,6 +98,9 @@ android {
             dimension "default"
             applicationId this.applicationId = "com.komoe.re0gp"
             resValue "string", "app_name", "Re:0 LIM"
+            resValue "integer", "sdk_type", "4"
+            resValue "integer", "language_type", "3"
+            resValue "integer", "mullanguage_type", "3"
 
             ndk {
             	abiFilters 'armeabi-v7a', 'arm64-v8a'
@@ -95,6 +110,9 @@ android {
             dimension "default"
             applicationId this.applicationId = "com.komoegame.rezerokr"
             resValue "string", "app_name", "Re：제로 lost in memories"
+            resValue "integer", "sdk_type", "5"
+            resValue "integer", "language_type", "9"
+            resValue "integer", "mullanguage_type", "9"
 
             ndk {
             	abiFilters 'armeabi-v7a', 'arm64-v8a'
