@@ -316,14 +316,4 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
         super.onConfigurationChanged(newConfig);
         this.gameSdkProxy.onConfigurationChanged(UnityPlayer.currentActivity, newConfig);
     }
-
-    @Override
-    public int getSdkType() {
-        return 3;
-    }
-
-    @Override
-    public int getLanguageType() {
-        return 2;
-    }
 }

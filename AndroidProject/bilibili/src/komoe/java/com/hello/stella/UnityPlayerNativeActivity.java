@@ -180,21 +180,6 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
     }
 
     @Override
-    public int getSdkType() {
-        return 4;
-    }
-
-    @Override
-    public int getLanguageType() {
-        return 3;
-    }
-
-    @Override
-    public int getMultiLanguageType() {
-        return 3;
-    }
-
-    @Override
     public String getUDID() {
         return GameSDK.getInstance().getUDID();
     }
