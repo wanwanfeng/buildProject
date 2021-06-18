@@ -1,6 +1,9 @@
 package com.unity3d.player;
 
 import android.app.Activity;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.hello.stella.R;
@@ -10,13 +13,15 @@ import org.json.JSONObject;
 import static android.content.ContentValues.TAG;
 
 public class UnityPlayerNativeActivity extends com.sega.sgn.sgnfw.common.unityactivity.SgnfwUnityActivity {
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 //        //Android打包部分机型问题，游戏界面在锁屏界面之上的解决方案 https://blog.csdn.net/chenfujun818/article/details/79165172
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 //        // 防止屏幕息屏 https://www.jb51.net/article/175373.htm
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-//    }
+    }
+
     public void ExitGame() {
         Log.d(TAG, "ExitGame");
         this.finish();
@@ -80,5 +85,38 @@ public class UnityPlayerNativeActivity extends com.sega.sgn.sgnfw.common.unityac
     }
 
     public void trackLog(String info) {
+    }
+
+    public long getFirstInstallTime() {
+        try {
+            PackageManager packageManager = getApplicationContext().getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(this.getPackageName(), 0);
+            //应用装时间
+            long firstInstallTime = packageInfo.firstInstallTime;
+            //应用最后一次更新时间
+            long lastUpdateTime = packageInfo.lastUpdateTime;
+            Log.i(TAG, "first install time : " + firstInstallTime + " last update time :" + lastUpdateTime);
+            return firstInstallTime;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public long getLastUpdateTime() {
+        try {
+            PackageManager packageManager = getApplicationContext().getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(this.getPackageName(), 0);
+            //应用装时间
+            long firstInstallTime = packageInfo.firstInstallTime;
+            //应用最后一次更新时间
+            long lastUpdateTime = packageInfo.lastUpdateTime;
+            Log.i(TAG, "first install time : " + firstInstallTime + " last update time :" + lastUpdateTime);
+            return firstInstallTime;
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 }
