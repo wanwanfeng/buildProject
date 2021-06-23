@@ -278,7 +278,20 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
             JSONObject dat = new JSONObject();
             dat.put("code", 0);
             dat.put("enable_nighttime_push", enable_nighttime_push);
-            unity3dSendMessage("ShowGameTerms", StatusCode_Fail, dat.toString());
+            unity3dSendMessage("ShowGameTerms", StatusCode_Success, dat.toString());
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onGameTermsIgnore() {
+        LogUtils.d("###", "public void onGameTermsIgnore() :");
+        try {
+            JSONObject dat = new JSONObject();
+            dat.put("code", 1);
+            dat.put("message", "onGameTermsIgnore");
+            unity3dSendMessage("ShowGameTerms", StatusCode_Success, dat.toString());
         } catch (Throwable e) {
             e.printStackTrace();
         }
@@ -291,19 +304,6 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
             JSONObject dat = new JSONObject();
             dat.put("code", code);
             dat.put("message", message);
-            unity3dSendMessage("ShowGameTerms", StatusCode_Fail, dat.toString());
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onGameTermsIgnore() {
-        LogUtils.d("###", "public void onGameTermsIgnore() :");
-        try {
-            JSONObject dat = new JSONObject();
-            dat.put("code", 2);
-            dat.put("message", "onGameTermsIgnore");
             unity3dSendMessage("ShowGameTerms", StatusCode_Fail, dat.toString());
         } catch (Throwable e) {
             e.printStackTrace();
