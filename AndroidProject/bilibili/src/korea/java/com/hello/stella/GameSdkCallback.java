@@ -277,7 +277,7 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
         try {
             JSONObject dat = new JSONObject();
             dat.put("code", 0);
-            dat.put("enable_nighttime_push", enable_nighttime_push);
+            dat.put("enable_nighttime_push", enable_nighttime_push ? 1 : 0);
             unity3dSendMessage("ShowGameTerms", StatusCode_Success, dat.toString());
         } catch (Throwable e) {
             e.printStackTrace();

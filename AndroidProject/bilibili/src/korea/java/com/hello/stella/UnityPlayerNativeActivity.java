@@ -122,7 +122,7 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
         });
     }
 
-    public void showGameTerms() {
+    public void showGameTerms(String info)  {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
