@@ -68,7 +68,7 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
     protected boolean status = false;
 
     public void SendLoginMessage(int code) {
-        LogUtils.d("###", "public SendLoginMessage");
+        Log.i("###", "public SendLoginMessage");
         try {
             JSONObject dat = new JSONObject();
             dat.put("username", userInfo.userName);
@@ -109,7 +109,7 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
 
     @Override
     public void onLoginFailure(int code, String message) {
-        LogUtils.d("###", "登陆失败：" + code + " error code:" + message);
+        Log.i("###", "登陆失败：" + code + " error code:" + message);
         try {
             JSONObject dat = new JSONObject();
             dat.put("code", code);
@@ -123,9 +123,9 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
 
     @Override
     public void onLogout() {
-        LogUtils.d("###", "public void onLogout() :");
+        Log.i("###", "public void onLogout() :");
         try {
-            LogUtils.d("###", "public void onLogout(),uid:" + this.userInfo.userID);
+            Log.i("###", "public void onLogout(),uid:" + this.userInfo.userID);
             JSONObject dat = new JSONObject();
             dat.put("code", 0);
             unity3dSendMessage("Logout", StatusCode_Success, dat.toString());
@@ -142,7 +142,7 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
             dat.put("out_trade_no", out_trade_no);
             dat.put("order_no", order_no);
             unity3dSendMessage("Pay", StatusCode_Success, dat.toString());
-            LogUtils.d("###", "Pay success ");
+            Log.i("###", "Pay success ");
         } catch (Throwable e) {
             e.printStackTrace();
         }
@@ -150,7 +150,7 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
 
     @Override
     public void onPayFailure(int code, String message) {
-        LogUtils.d("###", "Pay fail");
+        Log.i("###", "Pay fail");
         try {
             JSONObject dat = new JSONObject();
             dat.put("code", code);
@@ -273,7 +273,7 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
 
     @Override
     public void onGameTermsSuccess(boolean enable_nighttime_push) {
-        LogUtils.d("###", "public void onGameTermsSuccess() :");
+        Log.i("###", "public void onGameTermsSuccess() :");
         try {
             JSONObject dat = new JSONObject();
             dat.put("code", 0);
@@ -286,7 +286,7 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
 
     @Override
     public void onGameTermsIgnore() {
-        LogUtils.d("###", "public void onGameTermsIgnore() :");
+        Log.i("###", "public void onGameTermsIgnore() :");
         try {
             JSONObject dat = new JSONObject();
             dat.put("code", 1);
@@ -299,7 +299,7 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
 
     @Override
     public void onGameTermsRefuse(int code, String message) {
-        LogUtils.d("###", "public void onGameTermsRefuse() :");
+        Log.i("###", "public void onGameTermsRefuse() :");
         try {
             JSONObject dat = new JSONObject();
             dat.put("code", code);

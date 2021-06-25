@@ -106,7 +106,7 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    LogUtils.d("###", "UoLogin!!!!!");
+                    Log.i("###", "Login!!!!!");
                     GameSDK.getInstance().login();
                 }
             });
@@ -208,15 +208,15 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
 
     @Override
     public void appsflyerTrackEvent(String eventKey, HashMap<String, Object> eventValues) {
-        LogUtils.d("###", "appsflyerTrackEvent:" + eventKey.toString());
-        LogUtils.d("###", "appsflyerTrackEvent:" + eventValues.toString());
+        Log.i("###", "appsflyerTrackEvent:" + eventKey.toString());
+        Log.i("###", "appsflyerTrackEvent:" + eventValues.toString());
         GameSDK.getInstance().appsflyerTrackEvent(UnityPlayer.currentActivity, eventKey, eventValues);
     }
 
     @Override
     public void firebaseTrackEvent(String eventKey, HashMap<String, Object> eventValues) {
-        LogUtils.d("###", "firebaseTrackEvent:" + eventKey.toString());
-        LogUtils.d("###", "firebaseTrackEvent:" + eventValues.toString());
+        Log.i("###", "firebaseTrackEvent:" + eventKey.toString());
+        Log.i("###", "firebaseTrackEvent:" + eventValues.toString());
         GameSDK.getInstance().firebaseTrackEvent(UnityPlayer.currentActivity, eventKey, eventValues);
     }
 }
