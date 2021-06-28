@@ -6,7 +6,7 @@
     <string name="apple_login_client_id" translatable="false">com.komoegame.rezerokr.server</string>
     <string name="apple_login_redirect_url" translatable="false">https://www.komoejoy.com/apple_return_url</string>
     <!--**AppsFlyer参数(接入AppsFlyer时需要):**-->
-    <string name="appsflyer_dev_key" translatable="false">3XayQNbGMZaJYBmg9LMwGi</string>
+    <string name="appsflyer_dev_key" translatable="false">vxgRhPCVZJtjfbLpyPEkYT</string>
     <!--**Facebook分享参数:**-->
     <string name="facebook_app_id" translatable="false">496861691482128</string>
     <!--**twitter分享参数:**-->
