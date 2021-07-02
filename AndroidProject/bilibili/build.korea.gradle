@@ -61,7 +61,7 @@ dependencies {
     //dex突破65535的限制需要
     implementation 'com.android.support:multidex:1.0.3'
 
-    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/komoe')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/korea')
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'unity-firebase/libs')
     //google支付sdk
     implementation 'com.android.billingclient:billing:3.0.0'
