@@ -1,41 +1,49 @@
 {
   "project_info": {
-    "project_number": "13422737239",
-    "project_id": "re0-tw",
-    "storage_bucket": "re0-tw.appspot.com"
+    "project_number": "241245350203",
+    "project_id": "lost-in-memories-319004",
+    "storage_bucket": "lost-in-memories-319004.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:13422737239:android:74a1d1a846e294a50e7012",
+        "mobilesdk_app_id": "1:241245350203:android:d22c0c5fa8ce21a9426f1e",
         "android_client_info": {
-          "package_name": "com.komoe.re0gp"
+          "package_name": "com.komoe.rezerotggp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "13422737239-knrka09q36d0a7j92m785amn8s7redd0.apps.googleusercontent.com",
+          "client_id": "241245350203-e7omnn55eagge29qng3ja5em4kp6getv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.komoe.rezerotggp",
+            "certificate_hash": "c7f86ade165912e48c3140f06829bce1ab0591b5"
+          }
+        },
+        {
+          "client_id": "241245350203-4ek62mhsrm3425ijc5b1ndi9f7h82g53.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBgMzr20ObI7XsY6MF7CNpmoqPMVMM48l0"
+          "current_key": "AIzaSyBXVPsVWaOdVEL0imyrkNzlMk9uPLzqzOo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "13422737239-knrka09q36d0a7j92m785amn8s7redd0.apps.googleusercontent.com",
+              "client_id": "241245350203-4ek62mhsrm3425ijc5b1ndi9f7h82g53.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "13422737239-b481su6f7rp5o8uvhgrja9mu11hhhir4.apps.googleusercontent.com",
+              "client_id": "241245350203-vsumkjndian9d2jjth1hb28tef8n9vf8.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.komoe.re0ios",
-                "app_store_id": "1558793538"
+                "bundle_id": "com.komoe.rezerotgios",
+                "app_store_id": "1575202875"
               }
             }
           ]

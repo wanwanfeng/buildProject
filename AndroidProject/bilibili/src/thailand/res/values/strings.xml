@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--  **Google登录参数:**-->
-    <string name="server_client_id" translatable="false">234649420447-bmv5nd388rjqjoai6rtrrts9h8sv8p37.apps.googleusercontent.com</string>
+    <string name="server_client_id" translatable="false">241245350203-4ek62mhsrm3425ijc5b1ndi9f7h82g53.apps.googleusercontent.com</string>
     <!--**apple登录参数:**-->
-    <string name="apple_login_client_id" translatable="false">com.komoe.re0ios.server</string>
+    <string name="apple_login_client_id" translatable="false">com.komoe.rezerotgios.server</string>
     <string name="apple_login_redirect_url" translatable="false">https://www.komoejoy.com/apple_return_url</string>
     <!--**AppsFlyer参数(接入AppsFlyer时需要):**-->
     <string name="appsflyer_dev_key" translatable="false">3XayQNbGMZaJYBmg9LMwGi</string>
     <!--**Facebook分享参数:**-->
-    <string name="facebook_app_id" translatable="false">448386926364898</string>
+    <string name="facebook_app_id" translatable="false">481075969653060</string>
     <!--**twitter分享参数:**-->
     <string name="consumer_key" translatable="false">填入分配的consumer_key</string>
     <string name="consumer_secret" translatable="false">填入分配的consumer_secret</string>

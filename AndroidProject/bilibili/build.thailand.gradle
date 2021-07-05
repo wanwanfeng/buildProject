@@ -1,0 +1,88 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        google()
+        //jcenter()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.0.0'
+        classpath 'com.tencent.bugly:symtabfileuploader:latest.release'
+        classpath 'com.google.gms:google-services:4.3.4'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.2.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        //jcenter()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
+        flatDir {
+            dirs 'libs', 'libs/komoe', 'libs/thailand', 'unity-firebase/libs'
+        }
+    }
+}
+
+
+apply plugin: 'com.android.application'
+
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+
+//添加kotlin插件
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+apply from: file("buildAPK.gradle")
+//apply from: file("buildBundle.gradle")
+
+apply from: file("build.common.gradle")
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "29.0.2"
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 30
+
+        //dex突破65535的限制
+        multiDexEnabled true
+    }
+}
+
+//koreaImplementation
+dependencies {
+    //dex突破65535的限制需要
+    implementation 'com.android.support:multidex:1.0.3'
+
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/thailand')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'unity-firebase/libs')
+    //google支付sdk
+    implementation 'com.android.billingclient:billing:3.0.0'
+    //google授权登录sdk
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+
+    //以下是分享相关sdk
+    implementation 'com.facebook.android:facebook-share:8.1.0'
+    implementation 'com.twitter.sdk.android:twitter-core:3.1.1'
+    implementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
+    //接入appsflyer时需要installreferrer，否则不需要
+    implementation 'com.android.installreferrer:installreferrer:1.0'
+
+    implementation platform('com.google.firebase:firebase-bom:26.0.0')
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
+}
+
+task afterbuildKoreaTest() {
+    doFirst {
+        println "afterbuildKoreaTest"
+    }
+}
