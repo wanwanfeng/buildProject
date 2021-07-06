@@ -154,10 +154,15 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
     }
 
     public void userCenter(String info) {
+        String[] array = info.split(",",4);
+        final String userId = array[0];
+        final String userName = array[1];
+        final String serverId = array[2];
+        final String customData = array[3];
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                GameSDK.getInstance().userCenter();
+                GameSDK.getInstance().userCenter(userId, userName, serverId, customData);
             }
         });
     }
@@ -204,6 +209,16 @@ public class UnityPlayerNativeActivity extends GameSdkCallback {
     @Override
     public String getUDID() {
         return GameSDK.getInstance().getUDID();
+    }
+	
+    @Override
+    public int getNightPushEnabled(String info) {
+        return GameSDK.getInstance().getNightPushEnabled() ? 1 : 0;
+    }
+
+    @Override
+    public void setNightPushEnabled(String info) {
+        GameSDK.getInstance().setNightPushEnabled(info.equalsIgnoreCase("1"));
     }
 
     @Override
