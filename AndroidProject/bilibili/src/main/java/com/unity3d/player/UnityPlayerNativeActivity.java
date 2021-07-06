@@ -83,6 +83,14 @@ public class UnityPlayerNativeActivity extends com.sega.sgn.sgnfw.common.unityac
         }
     }
 
+    public int getNightPushEnabled(String info) {
+        return 1;
+    }
+
+    public void setNightPushEnabled(String info) {
+
+    }
+
     public void appsflyerTrackEvent(String eventKey, HashMap<String, Object> eventValues) {
     }
 
