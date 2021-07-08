@@ -10,8 +10,12 @@
     <!--**Facebook分享参数:**-->
     <string name="facebook_app_id" translatable="false">448386926364898</string>
     <!--**twitter分享参数:**-->
-    <string name="consumer_key" translatable="false">填入分配的consumer_key</string>
-    <string name="consumer_secret" translatable="false">填入分配的consumer_secret</string>
+    <string name="consumer_key" translatable="false"></string>
+    <string name="consumer_secret" translatable="false"></string>
+    <!--**aihelp参数:**-->
+    <string name="aihelp_app_key" translatable="false">KOMOEHK_app_1a6deeb427214f408079c6c0d06110b4</string>
+    <string name="aihelp_domain" translatable="false">komoehk.aihelp.net</string>
+    <string name="aihelp_app_id" translatable="false">KomoeHK_platform_4caae6f9-3028-478d-a76c-5c53e5758249</string>
 
     <string name="game_sdk_visitor_cache_enable">0</string>
     <string name="game_sdk_account_revoke_enable">0</string>
