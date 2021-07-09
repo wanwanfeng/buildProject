@@ -47,8 +47,6 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
 
-        <!--kakaostory分享配置-->
-        <meta-data android:name="com.kakao.sdk.AppKey" android:value="@string/kakaostory_key" />
         <!--如果需要接入AppsFlyer请添加以下配置-->
         <meta-data android:name="appsflyer_dev_key" android:value="@string/appsflyer_dev_key"/>
 

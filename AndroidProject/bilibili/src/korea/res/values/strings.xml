@@ -12,8 +12,10 @@
     <!--**twitter分享参数:**-->
     <string name="consumer_key" translatable="false">ETUjuZkVUhj59IwEx79chUm4i</string>
     <string name="consumer_secret" translatable="false">6bHlCJsSqOHWuapqZXjTdh28LAuAPk3E7nt4c6iimNzfPLLSQZ</string>
-    <!--**kakao分享参数:**-->
-    <string name="kakaostory_key" translatable="false">填入分配的kakaostory_key</string>
+
+    <string name="aihelp_app_key" translatable="false">KOMOEHK_app_85a86f937d6c45359068897d0835f8a7</string>
+    <string name="aihelp_domain" translatable="false">komoehk.aihelp.net</string>
+    <string name="aihelp_app_id" translatable="false">KomoeHK_platform_8a07c506-2b82-48e7-9d3c-9dbac1600af2</string>
 
     <string name="game_sdk_visitor_cache_enable">0</string>
     <string name="game_sdk_account_revoke_enable">1</string>
