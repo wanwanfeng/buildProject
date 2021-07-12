@@ -233,6 +233,7 @@ public class GameSdkCallback extends com.unity3d.player.UnityPlayerNativeActivit
     @Override
     public void onAccountInvalid() {
         try {
+            userInfo = null;
             JSONObject dat = new JSONObject();
             dat.put("code", 0);
             unity3dSendMessage("AccountInvalid", StatusCode_Success, dat.toString());
