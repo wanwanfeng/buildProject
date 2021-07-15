@@ -8,6 +8,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.0'
+        classpath 'com.tencent.bugly:symtabfileuploader:latest.release'
     }
 }
 
@@ -26,6 +27,18 @@ allprojects {
 
 apply plugin: 'com.android.application'
 
+apply plugin: 'bugly'
+
+bugly {
+    appId = "900019571"
+    appKey = "ydwf3M1VxORDopvf"
+}
+
+dependencies {
+    implementation project(':unity-bugly')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/uo')
+}
+
 apply from: file("buildAPK.gradle")
 apply from: file("build.common.gradle")
 
@@ -37,4 +50,16 @@ android {
         minSdkVersion 21 //uniwebview最低支持到21
         targetSdkVersion 26
     }
+}
+
+preBuild.doFirst {
+    println "~~~~~~~~~~~~bugly~~~~~~~~~~~~"
+    println bugly.appId
+    println bugly.appKey
+    println bugly.debug
+    println bugly.appPackage
+    println bugly.appVersion
+    println bugly.appChannel
+    println bugly.outputDir
+    println "~~~~~~~~~~~~bugly~~~~~~~~~~~~"
 }

@@ -1,132 +1,203 @@
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
 ext {
     appName = project.findProperty("APPLICATION_NAME") ?: "RE0"
+    randomCode = project.findProperty("RandomCode") ?: "RandomCode"
     buildTime = project.findProperty("BUILD_TIME") ?: "BUILD_TIME"
+    grayPackage = project.findProperty("GrayPackage") ?: "GrayPackage"
     commitId = project.findProperty("COMMIT_ID") ?: "COMMIT_ID"
     gameConfig = project.findProperty("GAME_CONFIG") ?: "GAME_CONFIG"
+
     applicationId = project.findProperty("APPLICATION_ID")
-    appVersionNum = project.findProperty("VERSION_NAME") ?: "2.6.0"
+    appVersionNum = project.findProperty("VERSION_NAME") ?: "1.0.0"
     appVersionCode = Integer.parseInt(project.findProperty("VERSION_CODE") ?: "1")
+
     debug = (System.getenv("isdebug") ?: "false").toUpperCase().equals(true)
-    obbuuid = getObbId()
-}
 
-def getObbId() {
-    def uuid = "b185a95d-5f34-481c-b1f6-f0be4da851a4"
-    def obb = rootProject.file("demo.main.obb")
+    getObbId = {
+        def uuid = "b185a95d-5f34-481c-b1f6-f0be4da851a4"
+        def obb = rootProject.file("demo.main.obb")
 
-    if (obb.exists())
-        uuid = rootProject.zipTree("demo.main.obb").findAll { it.name.split('-').length == 5 && it.name.length() == 36 }.collect { return it.name }[0]
+        if (obb.exists())
+            uuid = rootProject.zipTree("demo.main.obb").findAll { it.name.split('-').length == 5 && it.name.length() == 36 }.collect { return it.name }[0]
 
-    println obb.absolutePath + '@@' + uuid
-    return uuid
-}
-
-task afterbuildTest() {
-    doFirst {
-        println "afterbuildTest"
+        println obb.absolutePath + '@@' + uuid
+        return uuid
     }
-}
-
-task afterbuild() {
-
-    dependsOn = [project.findProperty("DEPS") ?: "afterbuildTest"]
-
-    doFirst {
-        println appName
-        println buildTime
-        println commitId
-        println gameConfig
-        println applicationId
-        println appVersionNum
-        println appVersionCode
-        println debug
-
-        println "---------------------------"
+    copyObb = {
+        fileTree(project.getProjectDir()) {
+            include("*.main.obb")
+        }.each { obb ->
+            def infile = file(obb)
+            def outfile = file("build/outputs/apk/main." + getCurrentVersionCode() + "." + getCurrentApplicationId() + ".obb")
+            println infile
+            println outfile
+            outfile.setBytes(infile.readBytes())
+        }
     }
-    doLast {
-
-        //buglySymbolAndroid()
-        CopyObb()
-
-        def isAfterBuild = (System.getenv("afterbuild") ?: "true").toLowerCase()
-        println "isAfterBuild:" + isAfterBuild
-        if (isAfterBuild.equals("false"))
-            return
-
-        //NHPProtect()
-
-        Mtp()
+    getCurrentFlavor = {
+        Gradle gradle = getGradle()
+        String tskReqStr = gradle.getStartParameter().getTaskRequests().toString()
+        Pattern pattern;
+        if (tskReqStr.contains("assemble"))
+            pattern = Pattern.compile("assemble(\\w+)(Release|Debug)")
+        else
+        if (tskReqStr.contains("bundle"))
+            pattern = Pattern.compile("bundle(\\w+)(Release|Debug)")
+        else
+            pattern = Pattern.compile("generate(\\w+)(Release|Debug)")
+        Matcher matcher = pattern.matcher(tskReqStr)
+        if (matcher.find())
+            return matcher.group(1).toLowerCase()
+        else {
+            println "NO MATCH FOUND"
+            return "";
+        }
     }
-}
-
-def CopyObb() {
-    fileTree(project.getProjectDir()) {
-        include("*.main.obb")
-    }.each { obb ->
-        def infile = file(obb)
-        def outfile = file("build/outputs/apk/" + obb.name)
-        println infile
-        println outfile
-        outfile.setBytes(infile.readBytes())
+    getCurrentFlavorObj = {
+        def currFlavor = getCurrentFlavor()
+        def outStr = null
+        android.productFlavors.all { flavor ->
+            if (flavor.name == currFlavor)
+                outStr = flavor
+        }
+        return outStr
     }
-}
+    getCurrentApplicationId = {
+        def currFlavor = getCurrentFlavor()
+        def outStr = null
+        android.productFlavors.all { flavor ->
+            if (flavor.name == currFlavor)
+                outStr = flavor.applicationId
+        }
+        return outStr ?: android.defaultConfig.applicationId
+    }
+    getCurrentVersionName = {
+        def currFlavor = getCurrentFlavor()
+        def outStr = null
+        android.productFlavors.all { flavor ->
+            if (flavor.name == currFlavor)
+                outStr = flavor.versionName
+        }
+        return outStr ?: android.defaultConfig.versionName
+    }
+    getCurrentVersionCode = {
+        def currFlavor = getCurrentFlavor()
+        def outStr = null
+        android.productFlavors.all { flavor ->
+            if (flavor.name == currFlavor)
+                outStr = flavor.versionCode
+        }
+        return outStr ?: android.defaultConfig.versionCode
+    }
+    NHPProtect = {
+        def dir = file("/Users/NHPProtect/")
+        dir = dir.exists() ? dir : file(project.getProjectDir().path + "/../Apk-Protect-4.3/")
+        println dir
 
-def NHPProtect() {
-    def dir = file("/Users/NHPProtect/")
-    dir = dir.exists() ? dir : file(project.getProjectDir().path + "/../Apk-Protect-4.3/")
-    println dir
+        fileTree("build/outputs/apk") {
+            include("*.apk")
+            exclude("*_encrypted.apk")
+        }.each { file ->
+            //def cmdstr =  "java -jar NHPProtect.jar -yunconfig -antirepack -zipalign -input " + file
+            def cmdstr = "java -jar NHPProtect.jar -yunconfig -apksign -zipalign -input " + file
+            println cmdstr
+            def result = cmdstr.execute([], dir).text.trim()
+            println result
+            if (result.contains("Success! The new apk path is")) {
+                println("NHPProtect sucess !")
+            } else {
+                throw ("NHPProtect failed : check error in logs ! \n" + result)
+            }
+        }
+    }
+    MtpProtect = {
+        def dir = file("/Users/MTP/")
+        dir = dir.exists() ? dir : file(project.getProjectDir().path + "/../MTP/")
+        println dir
 
-    fileTree("build/outputs/apk") {
-        include("*.apk")
-        exclude("*_encrypted.apk")
-    }.each { file ->
-        //def cmdstr =  "java -jar NHPProtect.jar -yunconfig -antirepack -zipalign -input " + file
-        def cmdstr = "java -jar NHPProtect.jar -yunconfig -apksign -zipalign -input " + file
+        fileTree("build/outputs/apk") {
+            include("*.apk")
+            exclude("/20115/")
+        }.each { apk ->
+
+            def oldPath = apk.absolutePath
+            def newPath = apk.parentFile.absolutePath
+            def certPath = dir.absolutePath + "/20115.cert"
+            def configPath = dir.absolutePath + '/config/' + apk.name.split('-')[0] + '-config.xml'
+
+            def cmdstr = dir.absolutePath + '/MTPClientConsole -d 20115 ' + oldPath + ' ' + newPath + ' ' + certPath + ' -c ' + configPath
+            println cmdstr
+            def result = cmdstr.execute([], dir).text.trim()
+            println result
+            /*if (result.contains("Success! The new apk path is")) {
+                println("mtp sucess !")
+            } else {
+                throw ("mtp failed : check error in logs ! \n" + result)
+            }*/
+        }
+    }
+    buglySymbolAndroid = {
+        def dir = file("/Users/buglySymbolAndroid/")
+        dir = dir.exists() ? dir : file(project.getProjectDir().path + "/../buglySymbolAndroid/")
+        println dir
+
+        def jniLibspath = file(project.getProjectDir().path + "/src/main/jniLibs/").absolutePath
+
+        def cmdstr = "java -jar buglySymbolAndroid.jar -i ${jniLibspath} -u -id ${bugly.appId} -key ${bugly.appKey} -package ${getCurrentApplicationId()} -version ${getCurrentVersionName()}(${getCurrentVersionCode()})"
+        cmdstr = "java -jar buglySymbolAndroid.jar -i ${jniLibspath} -u -id ${bugly.appId} -key ${bugly.appKey} -package ${getCurrentApplicationId()} -version ${getCurrentVersionName()}"
         println cmdstr
         def result = cmdstr.execute([], dir).text.trim()
         println result
-        if (result.contains("Success! The new apk path is")) {
-            println("NHPProtect sucess !")
-        } else {
-            throw ("NHPProtect failed : check error in logs ! \n" + result)
+    }
+    deleteConfig={
+        def arr = [
+                'src/main/assets/Config.json',
+                'src/main/assets/SdkConfig.json',
+                'src/main/java/com/unity3d/player/Config.java',
+                'src/main/java/com/unity3d/player/SdkConfig.java',
+        ]
+        arr.each {
+            def del = file(it)
+            println del.absolutePath
+            if (del.exists()) {
+                println "del:" + del.absolutePath
+                del.delete()
+            }
         }
     }
-}
-def Mtp() {
-    def dir = file("/Users/MTP/")
-    dir = dir.exists() ? dir : file(project.getProjectDir().path + "/../MTP/")
-    println dir
+    getServeConfig = {
+        def temp = System.getenv("server");
+        if (temp == "") temp = null;
 
-    fileTree("build/outputs/apk") {
-        include("*.apk")
-        exclude("/20115/")
-    }.each { apk ->
+        def servers = (temp ?: "Release").split(',')
+        println "---------select servers---------- : " + servers
 
-        def oldPath = apk.absolutePath
-        def newPath = apk.parentFile.absolutePath
-        def certPath = dir.absolutePath + "/20115.cert"
-        def configPath = dir.absolutePath + '/config/' + apk.name.split('-')[0] + '-config.xml'
+        def jsonFile = file(project.getProjectDir().path + "/../../../Config.json").getText()
+        def json = new groovy.json.JsonSlurper().parseText(jsonFile)
+        json = json.findAll { it.Flag in servers }
 
-        def cmdstr = dir.absolutePath + '/MTPClientConsole -d 20115 ' + oldPath + ' ' + newPath + ' ' + certPath + ' -c ' + configPath
-        println cmdstr
-        def result = cmdstr.execute([], dir).text.trim()
-        println result
-        /*if (result.contains("Success! The new apk path is")) {
-            println("mtp sucess !")
-        } else {
-            throw ("mtp failed : check error in logs ! \n" + result)
-        }*/
-    }
-}
+        //追加信息
+        json.forEach {
+            it.ApplicationId = getCurrentApplicationId().toString()
+            it.VersionCode = getCurrentVersionCode().toString()
+            it.VersionName = getCurrentVersionName().toString()
 
-preBuild.doFirst {
-    def arr = ['src/main/assets/Config.json', 'src/main/assets/SdkConfig.json']
-    arr.each {
-        def del = file(it)
-        println del.absolutePath
-        if (del.exists()) {
-            println "del:" + del.absolutePath
-            del.delete()
+            it.ProductName = this.appName
+            it.RandomCode = this.randomCode
+            it.BuildTime = this.buildTime
+            it.GrayPackage = this.grayPackage
         }
+
+        def res = groovy.json.JsonOutput.toJson(json)
+        res = java.util.Base64.getEncoder().encodeToString(res.getBytes())
+
+        println res
+
+        def content = "package com.unity3d.player;\npublic final class Config {\n\tpublic static final String  gameConfig = \"${res}\";\n}"
+        def javaFile = file("src/main/java/com/unity3d/player/Config.java")
+        if (file(javaFile.parent).exists().equals(false)) file(javaFile.parent).mkdirs()
+        javaFile.write(content)
     }
 }
