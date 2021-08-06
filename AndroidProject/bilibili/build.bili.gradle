@@ -39,8 +39,7 @@ dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/bili')
 }
 
-apply from: file("buildAPK.gradle")
-apply from: file("build.common.gradle")
+apply from: file("build.gradle")
 
 android {
     compileSdkVersion 26

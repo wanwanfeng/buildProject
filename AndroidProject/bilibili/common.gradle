@@ -201,3 +201,81 @@ ext {
         javaFile.write(content)
     }
 }
+
+preBuild.doFirst {
+    def parameter = gradle.getStartParameter().getTaskNames().toString();
+    println parameter
+    println "~~~~~~~~~~~~"+getCurrentFlavor()+"~~~~~~~~~~~~"
+
+    println appName
+    println buildTime
+    println commitId
+    println gameConfig
+
+    println applicationId
+    println appVersionNum
+    println appVersionCode
+
+    println debug
+
+    println "~~~~~~~~~~~~reset:applicationId->" + (this.applicationId = getCurrentApplicationId())
+    println "~~~~~~~~~~~~reset:versionName->" + (this.appVersionNum = getCurrentVersionName())
+    println "~~~~~~~~~~~~reset:versionCode->" + (this.appVersionCode = getCurrentVersionCode())
+    println "~~~~~~~~~~~~~~~~~~~~~~~~"
+
+    println appName
+    println buildTime
+    println commitId
+    println gameConfig
+
+    println applicationId
+    println appVersionNum
+    println appVersionCode
+
+    println debug
+
+    println "~~~~~~~~~~~~~~~~~~~~~~~~"
+}
+
+preBuild.doLast {
+    deleteConfig()
+    getServeConfig()
+}
+
+gradle.buildStarted {
+    println "~~~~~~~~~~~~buildStarted:" + getCurrentFlavor()
+}
+
+gradle.buildFinished {
+
+    println "~~~~~~~~~~~~buildFinished:" + getCurrentFlavor()
+
+    println "~~~~~~~~~~~~buildFinished:applicationId->" + getCurrentApplicationId()
+    println "~~~~~~~~~~~~buildFinished:versionName->" + getCurrentVersionName()
+    println "~~~~~~~~~~~~buildFinished:versionCode->" + getCurrentVersionCode()
+
+    println "~~~~~~~~~~~~buildFinished:CopyObb->" + copyObb()
+
+    //buglySymbolAndroid()
+
+    def isAfterBuild = (System.getenv("afterbuild") ?: "true").toLowerCase()
+    println "isAfterBuild:" + isAfterBuild
+    if (isAfterBuild.equals("false"))
+        return
+
+    //NHPProtect()
+    //Mtp()
+}
+
+task afterbuildTest() {
+    doFirst {
+        println "afterbuildTest"
+    }
+}
+
+task afterbuild() {
+    dependsOn = [project.findProperty("DEPS") ?: "afterbuildTest"]
+    doFirst {
+        println "afterbuild"
+    }
+}

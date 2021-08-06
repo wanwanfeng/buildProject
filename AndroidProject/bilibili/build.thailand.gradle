@@ -22,7 +22,6 @@ allprojects {
         jcenter() { url 'https://maven.aliyun.com/repository/jcenter' }
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
-        maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
 		
@@ -42,10 +41,7 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
-apply from: file("buildAPK.gradle")
-//apply from: file("buildBundle.gradle")
-
-apply from: file("build.common.gradle")
+apply from: file("build.gradle")
 
 android {
     compileSdkVersion 30
