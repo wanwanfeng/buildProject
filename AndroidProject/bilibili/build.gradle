@@ -325,25 +325,7 @@ android {
     }
 }
 
-android {
-    compileSdkVersion 26
-    buildToolsVersion "29.0.2"
-
-    defaultConfig {
-        minSdkVersion 21 //uniwebview最低支持到21
-        targetSdkVersion 26
-    }
-}
-
 dependencies {
-    implementation project(':MainLibProj')
-    implementation project(':unity-android-resources')
-    implementation project(':unity-mtp')
-    //implementation project(':unity-bugly')
-    //implementation project(':unity-ntp')
-
-    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs', excludes: [
-            'unity-classes.jar'
-    ])
-    implementation(name: 'unity-classes', ext: 'jar')
+    implementation project('unityLibrary')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
 }

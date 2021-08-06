@@ -1,4 +1,5 @@
-rootProject.buildFileName = 'build.gradle'
+rootProject.buildFileName = 'build.thailand.gradle'
+include ':unityLibrary'
 include 'unityLibrary:MainLibProj'
 include 'unityLibrary:unity-android-resources'
 include 'unity-mtp'
