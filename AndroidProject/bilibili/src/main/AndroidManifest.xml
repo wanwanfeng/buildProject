@@ -6,19 +6,16 @@
     tools:ignore="MissingLeanbackSupport">
 
     <!-- パーミッション定義 -->
-    <application>
-
-<!--    </application>-->
-<!--    <application-->
-<!--        android:allowBackup="false"-->
-<!--        android:icon="@mipmap/app_icon"-->
-<!--        android:isGame="true"-->
-<!--        android:label="@string/app_name"-->
-<!--        android:resizeableActivity="false"-->
-<!--        android:roundIcon="@mipmap/app_icon_round"-->
-<!--        android:theme="@style/UnityThemeSelector"-->
-<!--        tools:replace="android:allowBackup,android:icon"-->
-<!--        tools:ignore="MissingTvBanner">-->
+    <application
+        android:allowBackup="false"
+        android:icon="@mipmap/app_icon"
+        android:isGame="true"
+        android:label="@string/app_name"
+        android:resizeableActivity="false"
+        android:roundIcon="@mipmap/app_icon_round"
+        android:theme="@style/UnityThemeSelector"
+        tools:replace="android:allowBackup,android:icon"
+        tools:ignore="MissingTvBanner">
         <!-- フレームワーク使用定義 -->
         <!-- #if SGNFW_DEBUG_LOG -->
         <activity

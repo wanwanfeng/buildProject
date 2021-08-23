@@ -9,9 +9,9 @@
         android:icon="@mipmap/ic_launcher"
         android:isGame="true"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
+        android:theme="@style/UnityThemeSelector"
         tools:ignore="MissingTvBanner"
-        tools:replace="android:allowBackup">
+        tools:replace="android:allowBackup,android:icon,android:theme">
         <activity
             android:name="com.hello.stella.UnityPlayerNativeActivity"
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
