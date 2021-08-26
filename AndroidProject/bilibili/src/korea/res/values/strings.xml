@@ -10,8 +10,8 @@
     <!--**Facebook分享参数:**-->
     <string name="facebook_app_id" translatable="false">496861691482128</string>
     <!--**twitter分享参数:**-->
-    <string name="consumer_key" translatable="false">ETUjuZkVUhj59IwEx79chUm4i</string>
-    <string name="consumer_secret" translatable="false">6bHlCJsSqOHWuapqZXjTdh28LAuAPk3E7nt4c6iimNzfPLLSQZ</string>
+    <string name="consumer_key" translatable="false">fja2GMjp4J3NlseBelMEICmQ1</string>
+    <string name="consumer_secret" translatable="false">G0HBW280o4lQOBjIadNL1swpRduEraM2xjROcmpGarrMzzodsM</string>
 
     <string name="aihelp_app_key" translatable="false">KOMOEHK_app_85a86f937d6c45359068897d0835f8a7</string>
     <string name="aihelp_domain" translatable="false">komoehk.aihelp.net</string>
