@@ -10,6 +10,7 @@ import com.hello.stella.R;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import static android.content.ContentValues.TAG;
@@ -128,5 +129,18 @@ public class UnityPlayerNativeActivity extends com.sega.sgn.sgnfw.common.unityac
             e.printStackTrace();
             return 0;
         }
+    }
+
+    public String getProperty(String propName) {
+        Class<?> classType = null;
+        String buildVersion = null;
+        try {
+            classType = Class.forName("android.os.SystemProperties");
+            Method getMethod = classType.getDeclaredMethod("get", new Class<?>[]{String.class});
+            buildVersion = (String) getMethod.invoke(classType, new Object[]{propName});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return buildVersion;
     }
 }
