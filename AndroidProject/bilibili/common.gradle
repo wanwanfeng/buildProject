@@ -273,6 +273,12 @@ task afterbuildTest() {
     }
 }
 
+task createObb() {
+    doFirst {
+        println "createObb"
+    }
+}
+
 task afterbuild() {
     dependsOn = [project.findProperty("DEPS") ?: "afterbuildTest"]
     doFirst {
