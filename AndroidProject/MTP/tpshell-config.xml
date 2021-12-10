@@ -1,29 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Config>
 	<!--Server Tools Version, please use default value and modify it after contacting with mtp-->
-	<TPVersion>2.7.1.16399.qos</TPVersion>
+	<TPVersion>3.2.2.49491.global</TPVersion>
     <!--ToolPath: mtp tools location,default MTPClientConsole/tools or cut this atrribute-->
     <ToolPath>your_tool_absolute_path</ToolPath>
     <!--TPSvrHost: provite mtp server host if you deploy a private svr. Use mtp official host when not set. -->
     <!--TPSvrHost>your_private_svr_host</TPSvrHost-->
+    <!-- Sign: information of keystore when using local sign-->
+    <Sign>
+        <sign-argument name="keystorePath" value="your_keystore_absolute_path" />
+        <sign-argument name="keypass" value="123456" />
+        <sign-argument name="storepass" value="123456" />
+        <sign-argument name="alianame" value="test" />
+        <!-- This config is obsolete -->
+        <!-- <sign-argument name = "v1SigningEnabled" value="true"/>
+        <sign-argument name = "v2SigningEnabled" value="false"/>
+        <sign-argument name = "v3SigningEnabled" value="false"/> -->
+    </Sign>
     <!-- EncSo: so fileName that you want to encrypt, less than 5 files for performance-->
     <EncSo>libmono.so</EncSo>
+    <!-- Encrypt global-metadata requires configuring libil2cpp.so and enable_globalmetadata_enc to true-->
     <EncSo>libil2cpp.so</EncSo>
     <EncSo>libGameCore.so</EncSo>
     <!-- EncDll: dll fileName that you wangt to encrypt, less than 5 files for perfirmance-->
     <EncDll>Assembly-CSharp.dll</EncDll>
-    <!-- Sign: information of keystore when using local sign-->
-    <Sign>
-        <sign-argument name = "keystorePath" value="your_keystore_absolute_path"/>
-        <sign-argument name = "keypass" value="123456"/>
-        <sign-argument name = "storepass" value="123456"/>
-        <sign-argument name = "alianame" value="test"/>
-        <sign-argument name = "v1SigningEnabled" value="true"/>
-        <sign-argument name = "v2SigningEnabled" value="false"/>
-        <sign-argument name = "v3SigningEnabled" value="false"/>
-    </Sign>
-    <extparams>{"enable_globalmetadata_enc":true}</extparams>
-    <FileCheck name= "root" action="+">
+    <!-- Encrypt global-metadata requires configuring il2cpp.so and enable_globalmetadata_enc-->
+    <FileCheck action="+" name="root">
+        <!-- Default is partial verification, if you want full verification, just comment the following two lines -->
         <!-- The following is an example configuration, please edit as needed -->
         <!--selector name="assets/bin" action="-">
             <selector name="assets/bin/Data/Managed" action="+">
@@ -36,4 +38,14 @@
             <selector name="res/layout/check_permission_layout.xml" action="+"/>
         </selector-->
     </FileCheck>
+    <!-- you can add unityfs_filter in <extparams> to enable assetbundle enc -->
+    <!-- "unityfs_filter":["assets/assetbundle","assets/ab"] -->
+    <extparams>{
+    "enable_globalmetadata_enc" : true,
+    "is_use_application_name" : true,
+    "is_weak_version" : false,
+    "mergelf3_enc_exports":true,
+    "mergelf3_disorder_imports":true
+    }
+    </extparams>
 </Config>
