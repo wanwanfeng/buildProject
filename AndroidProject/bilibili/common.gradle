@@ -1,3 +1,5 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -42,8 +44,7 @@ ext {
         Pattern pattern;
         if (tskReqStr.contains("assemble"))
             pattern = Pattern.compile("assemble(\\w+)(Release|Debug)")
-        else
-        if (tskReqStr.contains("bundle"))
+        else if (tskReqStr.contains("bundle"))
             pattern = Pattern.compile("bundle(\\w+)(Release|Debug)")
         else
             pattern = Pattern.compile("generate(\\w+)(Release|Debug)")
@@ -122,20 +123,32 @@ ext {
             exclude("/20115/")
         }.each { apk ->
 
-            def oldPath = apk.absolutePath
-            def newPath = apk.parentFile.absolutePath
-            def certPath = dir.absolutePath + "/20115.cert"
-            def configPath = dir.absolutePath + '/config/' + apk.name.split('-')[0] + '-config.xml'
+            def dirabsolutePath = dir.absolutePath.replace('\\','/')
 
-            def cmdstr = dir.absolutePath + '/MTPClientConsole -d 20115 ' + oldPath + ' ' + newPath + ' ' + certPath + ' -c ' + configPath
+            def oldPath = apk.absolutePath.replace('\\','/')
+            def newPath = apk.parentFile.absolutePath.replace('\\','/')
+            def certPath = dirabsolutePath + "/20115.cert"
+            def configPath = dirabsolutePath + '/config/' + apk.name.split('-')[0] + '-config.xml'
+
+            def cmdstr = dir.absolutePath
+            if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+                if (file(configPath).exists() == false)
+                    configPath = dirabsolutePath + '/win/tpshell-config.xm'
+                cmdstr = dirabsolutePath + '/win/MTPClientConsole.exe -d 20115 ' + oldPath + ' ' + newPath + ' ' + certPath + ' -c ' + configPath
+            } else if (Os.isFamily(Os.FAMILY_MAC) || Os.isFamily(Os.DARWIN)) {
+                if (file(configPath).exists() == false)
+                    configPath = dirabsolutePath + '/mac/tpshell-config.xm'
+                cmdstr = dir.absolutePath + '/mac/MTPClientConsole -d 20115 ' + oldPath + ' ' + newPath + ' ' + certPath + ' -c ' + configPath
+            }
+
             println cmdstr
             def result = cmdstr.execute([], dir).text.trim()
             println result
             /*if (result.contains("Success! The new apk path is")) {
-                println("mtp sucess !")
-            } else {
-                throw ("mtp failed : check error in logs ! \n" + result)
-            }*/
+                     println("mtp sucess !")
+                 } else {
+                     throw ("mtp failed : check error in logs ! \n" + result)
+                 }*/
         }
     }
     buglySymbolAndroid = {
@@ -151,7 +164,7 @@ ext {
         def result = cmdstr.execute([], dir).text.trim()
         println result
     }
-    deleteConfig={
+    deleteConfig = {
         def arr = [
                 'src/main/assets/Config.json',
                 'src/main/assets/SdkConfig.json',
@@ -205,7 +218,7 @@ ext {
 preBuild.doFirst {
     def parameter = gradle.getStartParameter().getTaskNames().toString();
     println parameter
-    println "~~~~~~~~~~~~"+getCurrentFlavor()+"~~~~~~~~~~~~"
+    println "~~~~~~~~~~~~" + getCurrentFlavor() + "~~~~~~~~~~~~"
 
     println appName
     println buildTime
@@ -283,5 +296,17 @@ task afterbuild() {
     dependsOn = [project.findProperty("DEPS") ?: "afterbuildTest"]
     doFirst {
         println "afterbuild"
+    }
+}
+
+task buildMtpProtect() {
+    doFirst {
+        MtpProtect()
+    }
+}
+
+task buildNHPProtect() {
+    doFirst {
+        NHPProtect()
     }
 }
