@@ -3,7 +3,7 @@
 	<!--Server Tools Version, please use default value and modify it after contacting with mtp-->
 	<TPVersion>2.7.1.16399.qos</TPVersion>
     <!--ToolPath: mtp tools location,default MTPClientConsole/tools or cut this atrribute-->
-    <ToolPath>tools</ToolPath>
+    <!-- <ToolPath>tools</ToolPath> -->
     <!--TPSvrHost: provite mtp server host if you deploy a private svr. Use mtp official host when not set. -->
     <!--TPSvrHost>your_private_svr_host</TPSvrHost-->
     <!-- EncSo: so fileName that you want to encrypt, less than 5 files for performance-->

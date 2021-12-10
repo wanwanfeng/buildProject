@@ -130,14 +130,13 @@ ext {
             def certPath = dirabsolutePath + "/20115.cert"
             def configPath = dirabsolutePath + '/config/' + apk.name.split('-')[0] + '-config.xml'
 
+            if (file(configPath).exists() == false)
+                configPath = dirabsolutePath + '/tpshell-config.xm'
+
             def cmdstr = dir.absolutePath
             if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-                if (file(configPath).exists() == false)
-                    configPath = dirabsolutePath + '/win/tpshell-config.xm'
                 cmdstr = dirabsolutePath + '/win/MTPClientConsole.exe -d 20115 ' + oldPath + ' ' + newPath + ' ' + certPath + ' -c ' + configPath
             } else if (Os.isFamily(Os.FAMILY_MAC) || Os.isFamily(Os.DARWIN)) {
-                if (file(configPath).exists() == false)
-                    configPath = dirabsolutePath + '/mac/tpshell-config.xm'
                 cmdstr = dir.absolutePath + '/mac/MTPClientConsole -d 20115 ' + oldPath + ' ' + newPath + ' ' + certPath + ' -c ' + configPath
             }
 
