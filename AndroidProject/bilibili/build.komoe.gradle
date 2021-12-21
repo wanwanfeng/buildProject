@@ -64,16 +64,16 @@ dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/komoe')
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'unity-firebase/libs')
     //google支付sdk
-    implementation 'com.android.billingclient:billing:3.0.0'
+    implementation 'com.android.billingclient:billing:3.0.3'
     //google授权登录sdk
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
 
     //以下是分享相关sdk
-    implementation 'com.facebook.android:facebook-share:8.1.0'
+    implementation 'com.facebook.android:facebook-share:8.2.0'
     implementation 'com.twitter.sdk.android:twitter-core:3.1.1'
     implementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
     //接入appsflyer时需要installreferrer，否则不需要
-    implementation 'com.android.installreferrer:installreferrer:1.0'
+    implementation 'com.android.installreferrer:installreferrer:2.2'
 
     implementation platform('com.google.firebase:firebase-bom:26.0.0')
     implementation 'com.google.firebase:firebase-messaging'
@@ -81,7 +81,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
 
     //接入aihelp客服模块
-    implementation 'net.aihelp:android-aihelp-aar:2.4.5'
+    implementation 'net.aihelp:android-aihelp-aar:2.7.1'
 
     implementation project(':unity-mtp')
 }
