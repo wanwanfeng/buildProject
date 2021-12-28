@@ -33,7 +33,7 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
     public static final String CALLBACKTYPE_GetFreeUrl = "GetFreeUrl";
 
     public static final int OK = 1;
-    private BSGameSdk gameSdk;
+    protected BSGameSdk gameSdk;
 
     public static class BaseData {
         public String merchant_id;
