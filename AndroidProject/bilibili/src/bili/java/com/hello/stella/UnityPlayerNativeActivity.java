@@ -2,31 +2,29 @@ package com.hello.stella;
 
 import android.os.Bundle;
 
-import com.bsgamesdk.android.BSGameSdk;
 import com.bsgamesdk.android.BSGameSdkCallBack;
-import com.bsgamesdk.android.BSGameSdkCenter;
 import com.unity3d.player.*;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class UnityPlayerNativeActivity extends BSGameSdkCenter
+public class UnityPlayerNativeActivity extends com.bsgamesdk.android.BSGameSdkCenter
 {
     @Override
     public void onResume() {
         super.onResume();
-        BSGameSdk.appOnline(UnityPlayer.currentActivity);
+        gameSdk.appOnline(UnityPlayer.currentActivity);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        BSGameSdk.appOffline(UnityPlayer.currentActivity);
+        gameSdk.appOffline(UnityPlayer.currentActivity);
     }
 
     @Override
     public void onDestroy() {
-        BSGameSdk.appDestroy(UnityPlayer.currentActivity);
+        gameSdk.appDestroy(UnityPlayer.currentActivity);
         super.onDestroy();
     }
 

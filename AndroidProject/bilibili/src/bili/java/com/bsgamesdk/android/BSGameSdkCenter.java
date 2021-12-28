@@ -12,28 +12,38 @@ import android.os.Message;
 import android.widget.Toast;
 
 import com.bsgamesdk.android.callbacklistener.AccountCallBackListener;
-import com.bsgamesdk.android.callbacklistener.ExitCallbackListener;
+import com.gsc.pub.ExitListener;
 import com.bsgamesdk.android.callbacklistener.BSGameSdkError;
 import com.bsgamesdk.android.callbacklistener.InitCallbackListener;
 import com.bsgamesdk.android.callbacklistener.OrderCallbackListener;
 import com.bsgamesdk.android.utils.LogUtils;
 import com.unity3d.player.UnityPlayer;
+import com.gsc.pub.GSCPubCommon;
 
 public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivity
 {
-    public static final String CALLBACKTYPE_IsLogin = "IsLogin";
-    public static final String CALLBACKTYPE_Login = "Login";
-    public static final String CALLBACKTYPE_Logout = "Logout";
+    public static final String CALLBACKTYPE_INIT = "Init";
+    public static final String CALLBACKTYPE_PAY = "Pay";
+    public static final String CALLBACKTYPE_SDKTYPE = "SdkType";
+    public static final String CALLBACKTYPE_CHANNELID = "ChannelId";
+    public static final String CALLBACKTYPE_FINGERPRINT = "Fingerprint";
+    public static final String CALLBACKTYPE_ISLOGIN = "IsLogin";
+    public static final String CALLBACKTYPE_LOGIN = "Login";
+    public static final String CALLBACKTYPE_LOGOUT = "Logout";
+    public static final String CALLBACKTYPE_GETUSERINFO = "GetUserInfo";
+    public static final String CALLBACKTYPE_ACCOUNTPROTECT = "AccountProtect";
+    public static final String CALLBACKTYPE_AGREEMENTWITHLICENCE = "AgreementWithLicence";
+    public static final String CALLBACKTYPE_AGREEMENTWITHPRIVACY = "AgreementWithPrivacy";
+    public static final String CALLBACKTYPE_GEETESTVIEW = "GeetestView";
+    public static final String CALLBACKTYPE_SHARE = "Share";
+    public static final String CALLBACKTYPE_ACCOUNTINVALID = "AccountInvalid";
+    public static final String CALLBACKTYPE_ISREALNAMEAUTH = "IsRealNameAuth";
+    public static final String CALLBACKTYPE_EXIT = "Exit";
+    public static final String CALLBACKTYPE_QUIT = "Quit";
+    
     public static final String CALLBACKTYPE_Register = "Register";
     public static final String CALLBACKTYPE_UserCenter = "UserCenter";
-    public static final String CALLBACKTYPE_GetUserInfo = "GetUserInfo";
-    public static final String CALLBACKTYPE_Pay = "Pay";
-    public static final String CALLBACKTYPE_Init = "Init";
-    public static final String CALLBACKTYPE_AccountInvalid = "AccountInvalid";
     public static final String CALLBACKTYPE_GetFreeUrl = "GetFreeUrl";
-
-    public static final int OK = 1;
-    protected BSGameSdk gameSdk;
 
     public static class BaseData {
         public String merchant_id;
@@ -54,10 +64,12 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
         }
     }
 
+    public static final int OK = 1;
     protected static BaseData sharedInstance = null;
-    // 用于存储用户信息
     private SharedPreferences preferences;
     private Handler mHandler;
+    protected GSCPubCommon gameSdk = GSCPubCommon.getInstance();
+    protected boolean status = false;
 
     private void initHandler() {
         mHandler = new Handler() {
@@ -75,8 +87,7 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
 
     private void init() {
         initHandler();
-        gameSdk = BSGameSdk.initialize(
-                sharedInstance.debug,
+        gameSdk.init(
                 UnityPlayer.currentActivity,
                 sharedInstance.merchant_id,
                 sharedInstance.app_id,
@@ -91,7 +102,7 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
                                 try {
                                     JSONObject json = new JSONObject();
                                     json.put("message", "account is invalid");
-                                    unity3dSendMessage(CALLBACKTYPE_AccountInvalid, StatusCode_Success,  json.toString());
+                                    unity3dSendMessage(CALLBACKTYPE_ACCOUNTINVALID, StatusCode_Success,  json.toString());
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -100,7 +111,7 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
                         try {
                             JSONObject json = new JSONObject();
                             json.put("message", "init gamesdk success");
-                            unity3dSendMessage(CALLBACKTYPE_Init, StatusCode_Success, json.toString());
+                            unity3dSendMessage(CALLBACKTYPE_INIT, StatusCode_Success, json.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -111,12 +122,12 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
                         try {
                             JSONObject json = new JSONObject();
                             json.put("message", "init gamesdk failed");
-                            unity3dSendMessage(CALLBACKTYPE_Init, StatusCode_Fail, json.toString());
+                            unity3dSendMessage(CALLBACKTYPE_INIT, StatusCode_Fail, json.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
-                }, new ExitCallbackListener() {
+                }, new ExitListener() {
                     @Override
                     public void onExit() {
                         //finish();
@@ -168,13 +179,13 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
         if (gameSdk == null) {
             try {
                 json.put("message", "init fail or not completed!");
-                unity3dSendMessage(CALLBACKTYPE_Login, StatusCode_Fail, json.toString());
+                unity3dSendMessage(CALLBACKTYPE_LOGIN, StatusCode_Fail, json.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
         } else {
-            gameSdk.login(new BSGameSdkCallBack(CALLBACKTYPE_Login) {
+            gameSdk.login(new BSGameSdkCallBack(CALLBACKTYPE_LOGIN) {
                 @Override
                 public void onSuccess(Bundle arg0) {
                     // 此处为操作成功时执行，返回值通过Bundle传回
@@ -200,7 +211,7 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
                         preferences.edit().putString("uid", uid).commit();
                         preferences.edit().putString("nickname", nickname).commit();
                         super.unity3dSendMessage(json.toString());
-                        gameSdk.start(UnityPlayer.currentActivity);
+                        gameSdk.startHeart(UnityPlayer.currentActivity);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -210,7 +221,7 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
     }
 
     public void checkLogin() {
-        gameSdk.isLogin(new BSGameSdkCallBack(CALLBACKTYPE_IsLogin) {
+        gameSdk.isLogin(new BSGameSdkCallBack(CALLBACKTYPE_ISLOGIN) {
             @Override
             public void onSuccess(Bundle arg0) {
                 // 此处为操作成功时执行，返回值通过Bundle传回
@@ -219,7 +230,7 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
                 try {
                     json.put("message",  arg0.getBoolean("logined", false));
                     super.unity3dSendMessage(json.toString());
-                    gameSdk.stop(UnityPlayer.currentActivity);
+                    gameSdk.stopHeart(UnityPlayer.currentActivity);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -228,7 +239,7 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
     }
 
     public void logout() {
-        gameSdk.logout(new BSGameSdkCallBack(CALLBACKTYPE_Logout) {
+        gameSdk.logout(new BSGameSdkCallBack(CALLBACKTYPE_LOGOUT) {
             @Override
             public void onSuccess(Bundle arg0) {
                 // 此处为操作成功时执行，返回值通过Bundle传回
@@ -237,7 +248,7 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
                 try {
                     json.put("message", arg0.getString("tips"));
                     super.unity3dSendMessage(json.toString());
-                    gameSdk.stop(UnityPlayer.currentActivity);
+                    gameSdk.stopHeart(UnityPlayer.currentActivity);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -246,7 +257,7 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
     }
 
     public void getUserInfo() {
-        gameSdk.getUserInfo(new BSGameSdkCallBack(CALLBACKTYPE_GetUserInfo) {
+        gameSdk.getUserInfo(new BSGameSdkCallBack(CALLBACKTYPE_GETUSERINFO) {
             @Override
             public void onSuccess(Bundle arg0) {
                 // 此处为操作成功时执行，返回值通过Bundle传回
@@ -269,25 +280,6 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
                     json.put("lastLoginTime", lastLoginTime);
                     json.put("avatar", avatar);
                     json.put("s_avatar", s_avatar);
-                    super.unity3dSendMessage(json.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    public void register() {
-        gameSdk.register(new BSGameSdkCallBack(CALLBACKTYPE_Register) {
-            @Override
-            public void onSuccess(Bundle arg0) {
-                // 此处为操作成功时执行，返回值通过Bundle传回
-                LogUtils.d("onSuccess");
-                // 注册成功后已退出登录，清除保存的信息
-                preferences.edit().clear().commit();
-                JSONObject json = new JSONObject();
-                try {
-                    json.put("message", arg0.getString("result"));
                     super.unity3dSendMessage(json.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -344,7 +336,7 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
                 try {
                     json.put("bs_trade_no", bs_trade_no);
                     json.put("out_trade_no", out_trade_no);
-                    unity3dSendMessage(CALLBACKTYPE_Pay, StatusCode_Success, json.toString());
+                    unity3dSendMessage(CALLBACKTYPE_PAY, StatusCode_Success, json.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -358,7 +350,7 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
                     json.put("code", error.getErrorCode());
                     json.put("message", error.getErrorMessage());
                     json.put("out_trade_no", out_trade_no);
-                    unity3dSendMessage(CALLBACKTYPE_Pay, StatusCode_Fail, json.toString());
+                    unity3dSendMessage(CALLBACKTYPE_PAY, StatusCode_Fail, json.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -372,7 +364,7 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
                     json.put("code", error.getErrorCode());
                     json.put("message", error.getErrorMessage());
                     json.put("out_trade_no", out_trade_no);
-                    unity3dSendMessage(CALLBACKTYPE_Pay, StatusCode_Fail, json.toString());
+                    unity3dSendMessage(CALLBACKTYPE_PAY, StatusCode_Fail, json.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -402,10 +394,9 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
         String app_key = array[2];
 
 
-        BSGameSdk.getFreeUrl(UnityPlayer.currentActivity, source_url, app_id, app_key, new BSGameSdkCallBack(CALLBACKTYPE_GetFreeUrl) {
+        gameSdk.getFreeUrl(UnityPlayer.currentActivity, source_url, app_id, app_key, new BSGameSdkCallBack(CALLBACKTYPE_GetFreeUrl) {
             @Override
             public void onSuccess(Bundle bundle) {
-                // 此处为操作成功时执行，返回值通过Bundle传回
                 try {
                     JSONObject json = new JSONObject();
                     json.put("result", bundle.getInt("result"));
