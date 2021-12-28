@@ -1,9 +1,10 @@
 package com.hello.stella;
 
 import com.bsgamesdk.android.BSGameSdk;
+import com.bsgamesdk.android.BSGameSdkCenter;
 import com.unity3d.player.*;
 
-public class UnityPlayerNativeActivity extends com.unity3d.player.UnityPlayerNativeActivity
+public class UnityPlayerNativeActivity extends BSGameSdkCenter
 {
     @Override
     public void onResume() {

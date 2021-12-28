@@ -3,18 +3,13 @@ package com.bsgamesdk.android;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.widget.Toast;
-import android.telephony.*;
 
 import com.bsgamesdk.android.callbacklistener.AccountCallBackListener;
 import com.bsgamesdk.android.callbacklistener.ExitCallbackListener;
@@ -24,24 +19,42 @@ import com.bsgamesdk.android.callbacklistener.OrderCallbackListener;
 import com.bsgamesdk.android.utils.LogUtils;
 import com.unity3d.player.UnityPlayer;
 
-import java.io.File;
-//剪切板所用
-import android.content.ClipboardManager;
-import android.content.ClipData;
+public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivity
+{
+    public static final String CALLBACKTYPE_IsLogin = "IsLogin";
+    public static final String CALLBACKTYPE_Login = "Login";
+    public static final String CALLBACKTYPE_Logout = "Logout";
+    public static final String CALLBACKTYPE_Register = "Register";
+    public static final String CALLBACKTYPE_UserCenter = "UserCenter";
+    public static final String CALLBACKTYPE_GetUserInfo = "GetUserInfo";
+    public static final String CALLBACKTYPE_Pay = "Pay";
+    public static final String CALLBACKTYPE_Init = "Init";
+    public static final String CALLBACKTYPE_AccountInvalid = "AccountInvalid";
+    public static final String CALLBACKTYPE_GetFreeUrl = "GetFreeUrl";
 
-import static android.content.ContentValues.TAG;
-
-public class BSGameSdkCenter {
-    public static String temp = "temp_sdfsdfsdf";
     public static final int OK = 1;
-    private static BSGameSdkCenter sharedInstance = null;
     private BSGameSdk gameSdk;
-    private String merchant_id;
-    private String app_id;
-    private String server_id;
-    private String app_key;
-    private String user_id;
-    private boolean debug = true;
+
+    public static class BaseData {
+        public String merchant_id;
+        public String app_id;
+        public String server_id;
+        public String app_key;
+        public boolean debug = true;
+
+        @Override
+        public String toString() {
+            return "BaseData{" +
+                    "merchant_id='" + merchant_id + '\'' +
+                    ", app_id='" + app_id + '\'' +
+                    ", server_id='" + server_id + '\'' +
+                    ", app_key='" + app_key + '\'' +
+                    ", debug=" + debug +
+                    '}';
+        }
+    }
+
+    protected static BaseData sharedInstance = null;
     // 用于存储用户信息
     private SharedPreferences preferences;
     private Handler mHandler;
@@ -61,9 +74,9 @@ public class BSGameSdkCenter {
     }
 
     private void init() {
-        sharedInstance.initHandler();
-        sharedInstance.gameSdk = BSGameSdk.initialize(
-                debug,
+        initHandler();
+        gameSdk = BSGameSdk.initialize(
+                sharedInstance.debug,
                 UnityPlayer.currentActivity,
                 sharedInstance.merchant_id,
                 sharedInstance.app_id,
@@ -72,13 +85,13 @@ public class BSGameSdkCenter {
                 new InitCallbackListener() {
                     @Override
                     public void onSuccess() {
-                        sharedInstance.gameSdk.setAccountListener(new AccountCallBackListener() {
+                        gameSdk.setAccountListener(new AccountCallBackListener() {
                             @Override
                             public void onAccountInvalid() {
                                 try {
                                     JSONObject json = new JSONObject();
                                     json.put("message", "account is invalid");
-                                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_AccountInvalid, BSGameSdkCallBack.StatusCode_Success,  json.toString());
+                                    unity3dSendMessage(CALLBACKTYPE_AccountInvalid, StatusCode_Success,  json.toString());
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -87,7 +100,7 @@ public class BSGameSdkCenter {
                         try {
                             JSONObject json = new JSONObject();
                             json.put("message", "init gamesdk success");
-                            BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Init, BSGameSdkCallBack.StatusCode_Success, json.toString());
+                            unity3dSendMessage(CALLBACKTYPE_Init, StatusCode_Success, json.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -98,7 +111,7 @@ public class BSGameSdkCenter {
                         try {
                             JSONObject json = new JSONObject();
                             json.put("message", "init gamesdk failed");
-                            BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Init, BSGameSdkCallBack.StatusCode_Fail, json.toString());
+                            unity3dSendMessage(CALLBACKTYPE_Init, StatusCode_Fail, json.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -117,11 +130,12 @@ public class BSGameSdkCenter {
      * <p>
      * 必须在主线线程初始化，或者在Activity中的OnCreate方法中调用
      */
-    public static void init(String info) {
+    public void init(String info) {
 
         String[] array = info.split(",");
-        sharedInstance = new BSGameSdkCenter();
-        sharedInstance.preferences = UnityPlayer.currentActivity.getSharedPreferences("demouser", Context.MODE_PRIVATE);
+        preferences = UnityPlayer.currentActivity.getSharedPreferences("demouser", Context.MODE_PRIVATE);
+
+        sharedInstance = new BaseData();
         sharedInstance.debug = array[0].equalsIgnoreCase("true");
         sharedInstance.merchant_id = array[1];
         sharedInstance.app_id = array[2];
@@ -130,47 +144,42 @@ public class BSGameSdkCenter {
 
         if (Looper.myLooper() != null && Looper.myLooper().equals(Looper.getMainLooper())) {
             LogUtils.d("call gamesdk init in main looper");
-            sharedInstance.init();
+            init();
         } else {
             LogUtils.d("call gamesdk init in background looper");
             final Handler mainHandler = new Handler(Looper.getMainLooper());
             mainHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    sharedInstance.init();
+                    init();
                     LogUtils.d("init callback delay 10s");
                 }
             });
         }
     }
 
-    public static void InitDC() {
-        sharedInstance.gameSdk.start(UnityPlayer.currentActivity);
-    }
-
     /**
      * 平台的用户登录接口
      */
-    public static void login() {
+    public void login() {
         LogUtils.d("BSGameSdkCenter: login");
         JSONObject json = new JSONObject();
 
-        if (sharedInstance == null || sharedInstance.gameSdk == null) {
+        if (gameSdk == null) {
             try {
                 json.put("message", "init fail or not completed!");
-                BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Login, BSGameSdkCallBack.StatusCode_Fail, json.toString());
+                unity3dSendMessage(CALLBACKTYPE_Login, StatusCode_Fail, json.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
         } else {
-            sharedInstance.gameSdk.login(new BSGameSdkCallBack(BSGameSdkCallBack.CALLBACKTYPE_Login) {
+            gameSdk.login(new BSGameSdkCallBack(CALLBACKTYPE_Login) {
                 @Override
                 public void onSuccess(Bundle arg0) {
                     // 此处为操作成功时执行，返回值通过Bundle传回
                     //LogUtils.d("onSuccess");
                     String uid = arg0.getString("uid");
-                    sharedInstance.user_id = arg0.getString("uid");
                     String userName = arg0.getString("username");
                     String access_token = arg0.getString("access_token");
                     String expire_times = arg0.getString("expire_times");
@@ -186,12 +195,12 @@ public class BSGameSdkCenter {
                         json.put("refresh_token", refresh_token);
                         json.put("nickname", nickname);
 
-                        sharedInstance.preferences.edit().clear().commit();
-                        sharedInstance.preferences.edit().putString("username", userName).commit();
-                        sharedInstance.preferences.edit().putString("uid", uid).commit();
-                        sharedInstance.preferences.edit().putString("nickname", nickname).commit();
-                        BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Login, BSGameSdkCallBack.StatusCode_Success, json.toString());
-                        sharedInstance.gameSdk.start(UnityPlayer.currentActivity);
+                        preferences.edit().clear().commit();
+                        preferences.edit().putString("username", userName).commit();
+                        preferences.edit().putString("uid", uid).commit();
+                        preferences.edit().putString("nickname", nickname).commit();
+                        super.unity3dSendMessage(json.toString());
+                        gameSdk.start(UnityPlayer.currentActivity);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -200,8 +209,8 @@ public class BSGameSdkCenter {
         }
     }
 
-    public static void checkLogin() {
-        sharedInstance.gameSdk.isLogin(new BSGameSdkCallBack(BSGameSdkCallBack.CALLBACKTYPE_IsLogin) {
+    public void checkLogin() {
+        gameSdk.isLogin(new BSGameSdkCallBack(CALLBACKTYPE_IsLogin) {
             @Override
             public void onSuccess(Bundle arg0) {
                 // 此处为操作成功时执行，返回值通过Bundle传回
@@ -209,8 +218,8 @@ public class BSGameSdkCenter {
                 JSONObject json = new JSONObject();
                 try {
                     json.put("message",  arg0.getBoolean("logined", false));
-                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_IsLogin, BSGameSdkCallBack.StatusCode_Success, json.toString());
-                    sharedInstance.gameSdk.stop(UnityPlayer.currentActivity);
+                    super.unity3dSendMessage(json.toString());
+                    gameSdk.stop(UnityPlayer.currentActivity);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -218,8 +227,8 @@ public class BSGameSdkCenter {
         });
     }
 
-    public static void logout() {
-        sharedInstance.gameSdk.logout(new BSGameSdkCallBack(BSGameSdkCallBack.CALLBACKTYPE_Logout) {
+    public void logout() {
+        gameSdk.logout(new BSGameSdkCallBack(CALLBACKTYPE_Logout) {
             @Override
             public void onSuccess(Bundle arg0) {
                 // 此处为操作成功时执行，返回值通过Bundle传回
@@ -227,8 +236,8 @@ public class BSGameSdkCenter {
                 JSONObject json = new JSONObject();
                 try {
                     json.put("message", arg0.getString("tips"));
-                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Logout, BSGameSdkCallBack.StatusCode_Success, json.toString());
-                    sharedInstance.gameSdk.stop(UnityPlayer.currentActivity);
+                    super.unity3dSendMessage(json.toString());
+                    gameSdk.stop(UnityPlayer.currentActivity);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -236,8 +245,8 @@ public class BSGameSdkCenter {
         });
     }
 
-    public static void getUserInfo() {
-        sharedInstance.gameSdk.getUserInfo(new BSGameSdkCallBack(BSGameSdkCallBack.CALLBACKTYPE_GetUserInfo) {
+    public void getUserInfo() {
+        gameSdk.getUserInfo(new BSGameSdkCallBack(CALLBACKTYPE_GetUserInfo) {
             @Override
             public void onSuccess(Bundle arg0) {
                 // 此处为操作成功时执行，返回值通过Bundle传回
@@ -260,7 +269,7 @@ public class BSGameSdkCenter {
                     json.put("lastLoginTime", lastLoginTime);
                     json.put("avatar", avatar);
                     json.put("s_avatar", s_avatar);
-                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_GetUserInfo, BSGameSdkCallBack.StatusCode_Success, json.toString());
+                    super.unity3dSendMessage(json.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -268,18 +277,18 @@ public class BSGameSdkCenter {
         });
     }
 
-    public static void register() {
-        sharedInstance.gameSdk.register(new BSGameSdkCallBack(BSGameSdkCallBack.CALLBACKTYPE_Register) {
+    public void register() {
+        gameSdk.register(new BSGameSdkCallBack(CALLBACKTYPE_Register) {
             @Override
             public void onSuccess(Bundle arg0) {
                 // 此处为操作成功时执行，返回值通过Bundle传回
                 LogUtils.d("onSuccess");
                 // 注册成功后已退出登录，清除保存的信息
-                sharedInstance.preferences.edit().clear().commit();
+                preferences.edit().clear().commit();
                 JSONObject json = new JSONObject();
                 try {
                     json.put("message", arg0.getString("result"));
-                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Register, BSGameSdkCallBack.StatusCode_Success, json.toString());
+                    super.unity3dSendMessage(json.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -287,29 +296,29 @@ public class BSGameSdkCenter {
         });
     }
 
-    public static void notifyZone(String info) {
+    public void notifyZone(String info) {
         String[] array = info.split(",");
         final String role_id = array[0];
         final String role_name = array[1];
         final String server_id = array[2];
         final String server_name = array[3];
 
-        sharedInstance.gameSdk.notifyZone(server_id, server_name, role_id, role_name);
+        gameSdk.notifyZone(server_id, server_name, role_id, role_name);
     }
 
-    public static void createRole(String info) {
+    public void createRole(String info) {
         String[] array = info.split(",");
         final String role_id = array[0];
         final String role_name = array[1];
 
-        sharedInstance.gameSdk.createRole(role_name, role_id);
+        gameSdk.createRole(role_name, role_id);
     }
 
     public static String sign(String data, String secretKey) {
         return MD5.sign(data, secretKey);
     }
 
-    public static void pay(String info) {
+    public void pay(String info) {
         // 支付操作
 
         String[] array = info.split(",");
@@ -326,7 +335,7 @@ public class BSGameSdkCenter {
         String url = array[10];
         String paykey = array[11];
 
-        sharedInstance.gameSdk.pay(uid, username, role, serverId, total_fee, game_money, out_trade_no, subject, body, extensioninfo, url, paykey, new OrderCallbackListener() {
+        gameSdk.pay(uid, username, role, serverId, total_fee, game_money, out_trade_no, subject, body, extensioninfo, url, paykey, new OrderCallbackListener() {
             @Override
             public void onSuccess(String out_trade_no, String bs_trade_no) {
                 // 此处为操作成功时执行，返回值通过Bundle传回
@@ -335,7 +344,7 @@ public class BSGameSdkCenter {
                 try {
                     json.put("bs_trade_no", bs_trade_no);
                     json.put("out_trade_no", out_trade_no);
-                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Pay, BSGameSdkCallBack.StatusCode_Success, json.toString());
+                    unity3dSendMessage(CALLBACKTYPE_Pay, StatusCode_Success, json.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -349,7 +358,7 @@ public class BSGameSdkCenter {
                     json.put("code", error.getErrorCode());
                     json.put("message", error.getErrorMessage());
                     json.put("out_trade_no", out_trade_no);
-                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Pay, BSGameSdkCallBack.StatusCode_Fail, json.toString());
+                    unity3dSendMessage(CALLBACKTYPE_Pay, StatusCode_Fail, json.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -363,7 +372,7 @@ public class BSGameSdkCenter {
                     json.put("code", error.getErrorCode());
                     json.put("message", error.getErrorMessage());
                     json.put("out_trade_no", out_trade_no);
-                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_Pay, BSGameSdkCallBack.StatusCode_Fail, json.toString());
+                    unity3dSendMessage(CALLBACKTYPE_Pay, StatusCode_Fail, json.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -372,10 +381,10 @@ public class BSGameSdkCenter {
         });
     }
 
-    public static void showToast(String content) {
+    public void showToast(String content) {
         if (!sharedInstance.debug)
             return;
-        sharedInstance.makeToast(content);
+        makeToast(content);
     }
 
     private void makeToast(String result) {
@@ -385,7 +394,7 @@ public class BSGameSdkCenter {
         mHandler.sendMessage(msg);
     }
 
-    public static void getFreeUrl(String info) {
+    public void getFreeUrl(String info) {
 
         String[] array = info.split(",");
         String source_url = array[0];
@@ -393,7 +402,7 @@ public class BSGameSdkCenter {
         String app_key = array[2];
 
 
-        BSGameSdk.getFreeUrl(UnityPlayer.currentActivity, source_url, app_id, app_key, new BSGameSdkCallBack(BSGameSdkCallBack.CALLBACKTYPE_GetFreeUrl) {
+        BSGameSdk.getFreeUrl(UnityPlayer.currentActivity, source_url, app_id, app_key, new BSGameSdkCallBack(CALLBACKTYPE_GetFreeUrl) {
             @Override
             public void onSuccess(Bundle bundle) {
                 // 此处为操作成功时执行，返回值通过Bundle传回
@@ -401,7 +410,7 @@ public class BSGameSdkCenter {
                     JSONObject json = new JSONObject();
                     json.put("result", bundle.getInt("result"));
                     json.put("target_url", bundle.getString("target_url"));
-                    BSGameSdkCallBack.callback(BSGameSdkCallBack.CALLBACKTYPE_GetFreeUrl, BSGameSdkCallBack.StatusCode_Success, json.toString());
+                    super.unity3dSendMessage(json.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
