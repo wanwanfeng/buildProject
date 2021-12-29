@@ -18,7 +18,7 @@ allprojects {
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
         flatDir {
-            dirs 'libs', 'libs/no', 'libs/bili', 'libs/shareJoy', 'libs/uo'
+            dirs 'libs', 'libs/no', 'libs/banshu', 'libs/bili', 'libs/shareJoy', 'libs/uo'
         }
     }
 }
@@ -83,6 +83,18 @@ android {
             resValue "integer", "sdk_type", "0"
             resValue "integer", "language_type", "3"
             resValue "integer", "mullanguage_type", "8"
+
+            ndk {
+                abiFilters 'armeabi-v7a', 'x86'
+            }
+        }
+        banshu {
+            dimension "default"
+            applicationId "com.hello.stella.bili"
+            resValue "string", "app_name", "从零开始的异世界生活 记忆迷宫"
+            resValue "integer", "sdk_type", "1"
+            resValue "integer", "language_type", "2"
+            resValue "integer", "mullanguage_type", "4"
 
             ndk {
                 abiFilters 'armeabi-v7a', 'x86'
@@ -170,6 +182,9 @@ android {
             jniLibs.srcDirs = ['demo/jniLibs']
             res.srcDirs += ['demo/res']
         }
+        banshu {
+            jniLibs.srcDirs = ['demo/jniLibs']
+        }
         bili {
             jniLibs.srcDirs = ['demo/jniLibs']
         }
@@ -215,6 +230,13 @@ android {
             keyPassword "y54jnxzlgptg3et"
             storeFile file("keystore/no.keystore")
             storePassword "y54jnxzlgptg3et"
+        }
+
+        banshuConfig {
+            keyAlias "bili"
+            keyPassword "e56ttjunvgfcwu"
+            storeFile file("keystore/bili.keystore")
+            storePassword "e56ttjunvgfcwu"
         }
 
         biliConfig {

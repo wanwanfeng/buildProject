@@ -1,0 +1,64 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        google()
+        //jcenter()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.0.0'
+        classpath 'com.tencent.bugly:symtabfileuploader:latest.release'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        //jcenter()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        flatDir {
+            dirs 'libs', 'libs/no', 'libs/banshu', 'libs/bili', 'libs/shareJoy', 'libs/uo'
+        }
+    }
+}
+
+
+apply plugin: 'com.android.application'
+
+apply plugin: 'bugly'
+
+bugly {
+    appId = "900019571"
+    appKey = "ydwf3M1VxORDopvf"
+}
+
+dependencies {
+    implementation project(':unity-bugly')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/banshu')
+}
+
+apply from: file("build.gradle")
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "29.0.2"
+
+    defaultConfig {
+        minSdkVersion 21 //uniwebview最低支持到21
+        targetSdkVersion 26
+    }
+}
+
+preBuild.doFirst {
+    println "~~~~~~~~~~~~bugly~~~~~~~~~~~~"
+    println bugly.appId
+    println bugly.appKey
+    println bugly.debug
+    println bugly.appPackage
+    println bugly.appVersion
+    println bugly.appChannel
+    println bugly.outputDir
+    println "~~~~~~~~~~~~bugly~~~~~~~~~~~~"
+}
