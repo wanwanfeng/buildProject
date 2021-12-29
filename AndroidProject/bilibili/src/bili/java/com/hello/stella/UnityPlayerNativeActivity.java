@@ -45,13 +45,24 @@ public class UnityPlayerNativeActivity extends com.bsgamesdk.android.BSGameSdkCe
     }
 
     public void showGameTerms(String info)  {
-        JSONObject json = new JSONObject();
-        try {
-            json.put("code", "100");
-            unity3dSendMessage("ShowGameTerms", StatusCode_Success, json.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        String[] array = info.split(",");
+        gameSdk.showAgreementWithLicence(new BSGameSdkCallBack("ShowGameTerms") {
+            @Override
+            public void onSuccess(Bundle arg0) {
+                gameSdk.showAgreementWithPrivacy(new BSGameSdkCallBack("ShowGameTerms") {
+                    @Override
+                    public void onSuccess(Bundle arg0) {
+                        JSONObject json = new JSONObject();
+                        try {
+                            json.put("code", "100");
+                            super.unity3dSendMessage(json.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     public void showUserAgreement(String info) {
