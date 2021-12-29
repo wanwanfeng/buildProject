@@ -273,7 +273,6 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
     }
 
     public void pay(String info) {
-        // 支付操作
 
         String[] array = info.split(",");
         long uid = Long.valueOf(array[0]);
@@ -289,7 +288,7 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
         String url = array[10];
         String paykey = array[11];
 
-        gameSdk.pay(uid, username, role, serverId, total_fee, game_money, out_trade_no, subject, body, extensioninfo, url, paykey, new OrderCallbackListener() {
+        gameSdk.pay(uid, username, role, serverId, total_fee, game_money, out_trade_no, subject, body, extensioninfo, url, paykey, new BSGameSdkCallBack("Pay") {
             @Override
             public void onSuccess(String out_trade_no, String bs_trade_no) {
                 // 此处为操作成功时执行，返回值通过Bundle传回
@@ -298,39 +297,11 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
                 try {
                     json.put("bs_trade_no", bs_trade_no);
                     json.put("out_trade_no", out_trade_no);
-                    unity3dSendMessage("Pay", StatusCode_Success, json.toString());
+                    super.unity3dSendMessage(json.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 LogUtils.d("pay success " + out_trade_no + bs_trade_no);
-            }
-
-            @Override
-            public void onFailed(String out_trade_no, BSGameSdkError error) {
-                JSONObject json = new JSONObject();
-                try {
-                    json.put("code", error.getErrorCode());
-                    json.put("message", error.getErrorMessage());
-                    json.put("out_trade_no", out_trade_no);
-                    unity3dSendMessage("Pay", StatusCode_Fail, json.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                LogUtils.d("onFailed\nErrorCode : " + error.getErrorCode() + "\nErrorMessage : " + error.getErrorMessage());
-            }
-
-            @Override
-            public void onError(String out_trade_no, BSGameSdkError error) {
-                JSONObject json = new JSONObject();
-                try {
-                    json.put("code", error.getErrorCode());
-                    json.put("message", error.getErrorMessage());
-                    json.put("out_trade_no", out_trade_no);
-                    unity3dSendMessage("Pay", StatusCode_Fail, json.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                LogUtils.d("onError\nErrorCode : " + error.getErrorCode() + "\nErrorMessage : " + error.getErrorMessage());
             }
         });
     }
@@ -369,5 +340,109 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
                 }
             }
         });
+    }
+
+
+    public void isRealNameAuth(String info) {
+        gameSdk.isRealNameAuth(new BSGameSdkCallBack("IsRealNameAuth") {
+            @Override
+            public void onSuccess(Bundle arg0) {
+                boolean isRealNameAuth = arg0.getBoolean("isRealNameAuth");
+                JSONObject json = new JSONObject();
+                try {
+                    json.put("isRealNameAuth", isRealNameAuth==true);
+                    super.unity3dSendMessage(json.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void showGameTerms(String info)  {
+        String[] array = info.split(",");
+
+        BSGameSdkCallBack callback = new BSGameSdkCallBack("ShowGameTerms") {
+            @Override
+            public void onSuccess(Bundle arg0) {
+                BSGameSdkCenter.super.showGameTerms(info);
+            }
+        };
+
+        gameSdk.showAgreementWithPrivacy(new BSGameSdkCallBack(callback.callbackType) {
+            @Override
+            public void onSuccess(Bundle arg0) {
+                gameSdk.showAgreementWithLicence(callback);
+            }
+        });
+    }
+
+    public void showUserAgreement(String info) {
+        String[] array = info.split(",");
+        gameSdk.showAgreementWithLicence(new BSGameSdkCallBack("ShowUserAgreement") {
+            @Override
+            public void onSuccess(Bundle arg0) {
+                JSONObject json = new JSONObject();
+                try {
+                    json.put("code", "100");
+                    super.unity3dSendMessage(json.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void showPrivacyPolicy(String info) {
+        String[] array = info.split(",");
+        gameSdk.showAgreementWithPrivacy(new BSGameSdkCallBack("ShowPrivacyPolicy") {
+            @Override
+            public void onSuccess(Bundle arg0) {
+                JSONObject json = new JSONObject();
+                try {
+                    json.put("code", "100");
+                    super.unity3dSendMessage(json.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void userCenter(String info) {
+        super.userCenter(info);
+    }
+
+    public void showGeetestView(String info) {
+
+        gameSdk.showGeetestView(new BSGameSdkCallBack("ShowGeetestView") {
+            @Override
+            public void onSuccess(Bundle arg0) {
+                String captcha_type = arg0.getString("captcha_type");
+                String image_token = arg0.getString("image_token");
+                String captcha_code = arg0.getString("captcha_code");
+                String challenge = arg0.getString("challenge");
+                String validate = arg0.getString("validate");
+                String seccode = arg0.getString("seccode");
+                String gt_user_id = arg0.getString("gt_user_id String");
+                JSONObject json = new JSONObject();
+                try {
+                    json.put("captcha_type", captcha_type);
+                    json.put("image_token", image_token);
+                    json.put("captcha_code", captcha_code);
+                    json.put("challenge", challenge);
+                    json.put("validate", validate);
+                    json.put("seccode", seccode);
+                    json.put("gt_user_id String", gt_user_id);
+                    super.unity3dSendMessage(json.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void switchAccount(String info) {
+        super.switchAccount(info);
     }
 }
