@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.hello.stella.R;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Method;
@@ -71,7 +72,7 @@ public class UnityPlayerNativeActivity extends com.sega.sgn.sgnfw.common.unityac
     public static final int StatusCode_AccountChange = 10011;
 
     public static void unity3dSendMessage(String callbackType, int code, Object data) {
-        Log.d(TAG, "send message to Unity3D, callbackType =" + callbackType);
+        Log.d(TAG, "send message to Unity3D, callbackType = " + callbackType);
         try {
             JSONObject jobj = new JSONObject();
             jobj.put("callbackType", callbackType);
@@ -142,5 +143,79 @@ public class UnityPlayerNativeActivity extends com.sega.sgn.sgnfw.common.unityac
             e.printStackTrace();
         }
         return buildVersion;
+    }
+
+    private void ReturnSuccessJson(String type) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("code", "100");
+            unity3dSendMessage(type, StatusCode_Success, json.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void init(String info) {
+        ReturnSuccessJson("Init");
+    }
+
+    public void login() {
+        ReturnSuccessJson("Login");
+    }
+
+    public void checkLogin() {
+        ReturnSuccessJson("IsLogin");
+    }
+
+    public void getUserInfo() {
+        ReturnSuccessJson("GetUserInfo");
+    }
+
+    public void logout() {
+        ReturnSuccessJson("Logout");
+    }
+
+    public void notifyZone(String info) {
+        ReturnSuccessJson("NotifyZone");
+    }
+
+    public void createRole(String info) {
+        ReturnSuccessJson("CreateRole");
+    }
+
+    public void pay(String info) {
+        ReturnSuccessJson("Pay");
+    }
+
+    public void getFreeUrl(String info) {
+        ReturnSuccessJson("GetFreeUrl");
+    }
+
+    public void isRealNameAuth(String info) {
+        ReturnSuccessJson("IsRealNameAuth");
+    }
+
+    public void showGameTerms(String info) {
+        ReturnSuccessJson("ShowGameTerms");
+    }
+
+    public void showUserAgreement(String info) {
+        ReturnSuccessJson("ShowUserAgreement");
+    }
+
+    public void showPrivacyPolicy(String info) {
+        ReturnSuccessJson("ShowPrivacyPolicy");
+    }
+
+    public void userCenter(String info) {
+        ReturnSuccessJson("UserCenter");
+    }
+
+    public void showGeetestView(String info) {
+        ReturnSuccessJson("ShowGeetestView");
+    }
+
+    public void switchAccount(String info) {
+        ReturnSuccessJson("SwitchAccount");
     }
 }

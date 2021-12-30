@@ -9,16 +9,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.bsgamesdk.android.callbacklistener.AccountCallBackListener;
 import com.gsc.pub.ExitListener;
-import com.bsgamesdk.android.callbacklistener.BSGameSdkError;
 import com.bsgamesdk.android.callbacklistener.InitCallbackListener;
-import com.bsgamesdk.android.callbacklistener.OrderCallbackListener;
 import com.bsgamesdk.android.utils.LogUtils;
 import com.unity3d.player.UnityPlayer;
 import com.gsc.pub.GSCPubCommon;
+
+import static android.content.ContentValues.TAG;
 
 public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivity
 {
@@ -359,7 +360,7 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
         });
     }
 
-    public void showGameTerms(String info)  {
+    public void showGameTerms(String info) {
         String[] array = info.split(",");
 
         BSGameSdkCallBack callback = new BSGameSdkCallBack("ShowGameTerms") {
@@ -372,7 +373,12 @@ public class BSGameSdkCenter extends com.unity3d.player.UnityPlayerNativeActivit
         gameSdk.showAgreementWithPrivacy(new BSGameSdkCallBack(callback.callbackType) {
             @Override
             public void onSuccess(Bundle arg0) {
-                gameSdk.showAgreementWithLicence(callback);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        gameSdk.showAgreementWithLicence(callback);
+                    }
+                });
             }
         });
     }
