@@ -1,15 +1,17 @@
 package com.bsgamesdk.android;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Bundle;
 
 import com.bsgamesdk.android.callbacklistener.BSGameSdkError;
 import com.bsgamesdk.android.callbacklistener.CallbackListener;
+import com.bsgamesdk.android.callbacklistener.OrderCallbackListener;
 import com.bsgamesdk.android.utils.LogUtils;
 import com.unity3d.player.UnityPlayerNativeActivity;
 
-public class BSGameSdkCallBack implements CallbackListener {
+public class BSGameSdkCallBack implements CallbackListener, OrderCallbackListener {
 
     public String callbackType;
 
@@ -52,5 +54,54 @@ public class BSGameSdkCallBack implements CallbackListener {
         } catch (Throwable e) {
             e.printStackTrace();
         }
+    }
+
+    /***
+     * pay
+     * @param out_trade_no
+     * @param bs_trade_no
+     */
+
+    @Override
+    public void onSuccess(String out_trade_no, String bs_trade_no) {
+
+    }
+
+    /***
+     * pay
+     * @param out_trade_no
+     * @param error
+     */
+    @Override
+    public void onFailed(String out_trade_no, BSGameSdkError error) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("code", error.getErrorCode());
+            json.put("message", error.getErrorMessage());
+            json.put("out_trade_no", out_trade_no);
+            UnityPlayerNativeActivity.unity3dSendMessage(callbackType, UnityPlayerNativeActivity.StatusCode_Fail, json.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        LogUtils.d("onFailed\nErrorCode : " + error.getErrorCode() + "\nErrorMessage : " + error.getErrorMessage());
+    }
+
+    /***
+     * pay
+     * @param out_trade_no
+     * @param error
+     */
+    @Override
+    public void onError(String out_trade_no, BSGameSdkError error) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("code", error.getErrorCode());
+            json.put("message", error.getErrorMessage());
+            json.put("out_trade_no", out_trade_no);
+            UnityPlayerNativeActivity.unity3dSendMessage(callbackType, UnityPlayerNativeActivity.StatusCode_Fail, json.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        LogUtils.d("onError\nErrorCode : " + error.getErrorCode() + "\nErrorMessage : " + error.getErrorMessage());
     }
 }
